@@ -1,5 +1,5 @@
 '''
- AM2315 Driver (using Silta bridge)
+ AM2315 Temp/Humidity Sensor Driver (using Silta bridge)
  Based on the Adafruite Arduino driver
  https://github.com/adafruit/Adafruit_AM2315
 '''
