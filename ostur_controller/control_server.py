@@ -18,16 +18,16 @@ def sensors():
 	sensors = ostur.read_sensors()
 	return jsonify(sensors)
 
-@app.route('/humidifier/<state>')
-def humidifier_on(state):
+@app.route('/relay/<relay>/<state>')
+def humidifier_on(relay,state):
 	
 	response = {}
 
 	if state == 'enable':
-		ostur.enable_humidifier(True)
+		ostur.relay_control(relay, True)
 		response['success'] = True
 	elif state == 'disable':
-		ostur.enable_humidifier(False)
+		ostur.relay_control(relay, False)
 		response['success'] = True
 	else:
 		print('unknown state!')

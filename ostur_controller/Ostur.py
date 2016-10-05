@@ -10,22 +10,29 @@ from MCP970x import MCP9701
 import sys
 import time
 
-FRIDGE_PIN = 'PD0'
-HUMIDIFIER_PIN = 'PD1'
-WATER_PUMP_PIN = 'PD2'
+relays = {
+    'fridge': {'pin':'PD0'},
+    'humidifier': {'pin':'PD1'},
+    'water_pump': {'pin':'PD2'}
+}
+
+class InvalidRelayException(Exception):
+    pass
 
 class Ostur:
     def __init__(self, bridge_file):
         self.bridge = stm32f407.bridge(bridge_file)
+
+        self.relays = relays
 
         self.thsensor = AM2315(self.bridge)
 
         self.t1 = MCP9701(self.bridge, 'PA0')
         self.t2 = MCP9701(self.bridge, 'PA1')
 
-        self.bridge.gpiocfg(FRIDGE_PIN, 'output')
-        self.bridge.gpiocfg(HUMIDIFIER_PIN, 'output')
-        self.bridge.gpiocfg(WATER_PUMP_PIN, 'output')
+        self.bridge.gpiocfg(self.relays['fridge']['pin'], 'output')
+        self.bridge.gpiocfg(self.relays['humidifier']['pin'], 'output')
+        self.bridge.gpiocfg(self.relays['water_pump']['pin'], 'output')
 
     def read_sensors(self):
         sensors = {}
@@ -34,7 +41,7 @@ class Ostur:
         temp1 = self.t1.read()
         temp2 = self.t2.read()
 
-        sensors['time'] = int(time.time())
+        sensors['time'] = time.time()
         sensors['humidity'] = humidity0
         sensors['temp0'] = temp0
         sensors['temp1'] = temp1
@@ -42,9 +49,15 @@ class Ostur:
 
         return sensors
 
-    def enable_humidifier(self, state=False):
+    def relay_control(self, relay, state=False):
+        if relay not in self.relays:
+            raise InvalidRelayException('Invalid Relay ' + relay)
+
         if state is True:
-            self.bridge.gpio(HUMIDIFIER_PIN, 1)
+            self.bridge.gpio(self.relays[relay]['pin'], 1)
         else:
-            self.bridge.gpio(HUMIDIFIER_PIN, 0)
+            self.bridge.gpio(self.relays[relay]['pin'], 0)
+
+    def relay_list(self):
+        return sorted(self.relays.keys())
 
