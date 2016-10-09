@@ -61,3 +61,10 @@ class Ostur:
     def relay_list(self):
         return sorted(self.relays.keys())
 
+    def relay_status(self):
+        status = {}
+        for key in sorted(self.relays.keys()):
+            status[key] = self.bridge.gpio(self.relays[key]['pin'])
+
+        return status
+

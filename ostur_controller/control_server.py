@@ -18,6 +18,11 @@ def sensors():
 	sensors = ostur.read_sensors()
 	return jsonify(sensors)
 
+@app.route('/relays')
+def relays():
+	status = ostur.relay_status()
+	return jsonify(status)
+
 @app.route('/relay/<relay>/<state>')
 def humidifier_on(relay,state):
 	
