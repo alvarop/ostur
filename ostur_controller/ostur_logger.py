@@ -15,19 +15,17 @@ def log(control_server, cur, con):
             line = []
 
             # Saving integer data to reduce SQLite db size
-            line.append(str(int(sensors['time'])))
+            line.append(int(sensors['time']))
 
             # Storing units * 10 to keep 1 significant figure
-            line.append(str(int(sensors['humidity'] * 10)))
-            line.append(str(int(sensors['temp0'] * 10)))
-            line.append(str(int(sensors['temp1'] * 10)))
-            line.append(str(int(sensors['temp2'] * 10)))
+            line.append(int(sensors['humidity'] * 10))
+            line.append(int(sensors['temp0'] * 10))
+            line.append(int(sensors['temp1'] * 10))
+            line.append(int(sensors['temp2'] * 10))
 
-            line_str = ','.join(line)
-
-            cur.execute("INSERT INTO samples VALUES(NULL, " + line_str + " )")
+            cur.execute("INSERT INTO samples VALUES(NULL,?,?,?,?,?)", line)
             con.commit()
-            print line_str
+            print line
 
         except ValueError:
             print('# Error decoding JSON')
