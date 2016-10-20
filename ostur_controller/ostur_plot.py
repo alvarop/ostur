@@ -36,7 +36,7 @@ t1 = [x / 10.0 for x in t1]
 fig, ax1 = plt.subplots()
 ax1.plot(timestamp, h1, 'b-')
 ax1.set_xlabel('Time (Hours)')
-ax1.set_ylim([40,100])
+ax1.set_ylim([0,100])
 
 ax1.set_ylabel('% Humidity', color='b')
 for tl in ax1.get_yticklabels():
@@ -45,7 +45,7 @@ for tl in ax1.get_yticklabels():
 ax2 = ax1.twinx()
 ax2.plot(timestamp, t1, 'r-')
 # ax2.set_xlabel('time (s)')
-ax2.set_ylim([15,30])
+ax2.set_ylim([5,25])
 
 ax2.set_ylabel('Temperature (C)', color='r')
 for tl in ax2.get_yticklabels():
