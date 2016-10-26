@@ -5,14 +5,19 @@
 '''
 
 import time
+import tca9548a
+
 AM2315_ADDR = 0xB8
 
 class AM2315:
     def __init__(self, bridge):
         self.bridge = bridge
+        self.mux = tca9548a.TCA9548A(bridge)
 
     def read(self):
         
+        self.mux.set_channel(3)
+
         # Make sure we're running at 100kHz
         self.bridge.i2c_speed(100000)
         
@@ -28,7 +33,8 @@ class AM2315:
         # Get measurement data
         reply = self.bridge.i2c(AM2315_ADDR, 8, [])
 
-        if reply[1] != 4:
+            
+        if not isinstance(reply, list) or (reply[1] != 4):
             raise IOError('Invalid AM2315 response')
 
         # Convert bytes to humidity
