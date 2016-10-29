@@ -5,8 +5,8 @@
 '''
 
 from silta import stm32f407
-from AM2315 import AM2315
-from MCP970x import MCP9701
+from am2315 import AM2315
+from mcp970x import MCP9701
 import sys
 import time
 
