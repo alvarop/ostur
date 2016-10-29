@@ -10,13 +10,14 @@ import tca9548a
 AM2315_ADDR = 0xB8
 
 class AM2315:
-    def __init__(self, bridge):
+    def __init__(self, bridge, mux_channel=3):
         self.bridge = bridge
         self.mux = tca9548a.TCA9548A(bridge)
+        self.mux_channel = mux_channel
 
     def read(self):
         
-        self.mux.set_channel(3)
+        self.mux.set_channel(self.mux_channel)
 
         # Make sure we're running at 100kHz
         self.bridge.i2c_speed(100000)
