@@ -64,8 +64,6 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 	uint8_t reg;
 	uint32_t timeout;
 
-	printf("i2c start\n");
-
 	do {
 		i2cErr = 0;
 
@@ -110,90 +108,76 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 
 				if (tickMs >= timeout) {
 					rval = I2C_ERR;
-					printf("i2c err _ %08X\n", reg);
 					break;
 				}
 
 				if((reg & I2C_ISR_NACKF) || (i2cErr & I2C_ISR_NACKF)) {
 					I2Cx->ICR = I2C_ICR_NACKCF; // Clear ack failure bit
 					rval = I2C_DNACK;
-					printf("i2c err = %08X\n", reg);
 					break;
 				}
 			}
 
 			// Some error occurred
 			if(rval) {
-				printf("i2c err ? %08X\n", reg);
+				break;
+			}
+
+			// Wait for transfer complete bit
+			do {
+				reg = I2Cx->ISR;
+			} while(!(reg & I2C_ISR_TC) && !i2cErr && (tickMs < timeout));
+
+			if (tickMs >= timeout) {
+				rval = I2C_TIMEOUT;
 				break;
 			}
 		}
 
-	// 	if(rLen > 0) {
-	// 		// Generate start condition
-	// 		I2Cx->CR1 |= I2C_CR1_START;
+		if(rLen > 0) {
+			I2Cx->CR2 = (addr & 0xFE); // Add slave address
+			I2Cx->CR2 |= ((rLen & 0xFF) << 16); // Add nbytes
+			I2Cx->CR2 |= I2C_CR2_RD_WRN;
+			I2Cx->CR2 |= I2C_CR2_START;
 
-	// 		// Wait for start condition to be generated
-	// 		while(!(I2Cx->SR1 & I2C_SR1_SB) && (tickMs < timeout)) {
-	// 		}
+			// Wait for address to be sent
+			do {
+				reg = I2Cx->CR2;
+			} while((reg & I2C_CR2_START) && !i2cErr && (tickMs < timeout));
 
-	// 		if (tickMs >= timeout) {
-	// 			rval = I2C_ERR;
-	// 			break;
-	// 		}
+			if (tickMs >= timeout) {
+				rval = I2C_ERR;
+				break;
+			}
 
-	// 		// Write address
-	// 		I2Cx->DR = addr | 1;
+			if((reg & I2C_ISR_NACKF) || (i2cErr & I2C_ISR_NACKF)) {
+				I2Cx->ICR = I2C_ICR_NACKCF; // Clear ack failure bit
+				rval = I2C_ANACK;
+				break;
+			}
 
-	// 		// Wait for address to be sent
-	// 		do {
-	// 			reg = I2Cx->SR1;
-	// 		} while(!(reg & I2C_SR1_ADDR) && !i2cErr && (tickMs < timeout));
+			while(rLen--) {
+				do {
+					reg = I2Cx->ISR;
+				} while(!(reg & (I2C_ISR_RXNE)) && !i2cErr && (tickMs < timeout));
 
-	// 		if (tickMs >= timeout) {
-	// 			rval = I2C_ERR;
-	// 			break;
-	// 		}
+				if (tickMs >= timeout) {
+					rval = I2C_ERR;
+					break;
+				}
 
-	// 		if((reg & I2C_SR1_AF) || (i2cErr & I2C_SR1_AF)) {
-	// 			I2Cx->SR1 &= ~I2C_SR1_AF; // Clear ack failure bit
-	// 			rval = I2C_ANACK;
-	// 			break;
-	// 		}
+				*rBuff++ = I2Cx->RXDR;
+			}
 
-	// 		if(rLen > 1) {
-	// 			I2Cx->CR1 |= I2C_CR1_ACK;
-	// 		} else {
-	// 			I2Cx->CR1 &= ~I2C_CR1_ACK;
-	// 			// I2Cx->CR1 |= I2C_CR1_POS;
-	// 		}
+			// Wait for transfer complete bit
+			do {
+				reg = I2Cx->ISR;
+			} while(!(reg & I2C_ISR_TC) && !i2cErr && (tickMs < timeout));
 
-	// 		reg = I2Cx->SR1;
-	// 		reg = I2Cx->SR2; // Clear ADDR bit
-
-	// 		while(rLen--) {
-	// 			do {
-	// 				reg = I2Cx->SR1;
-	// 			} while(!(reg & (I2C_SR1_RXNE)) && !i2cErr && (tickMs < timeout));
-
-	// 			if (tickMs >= timeout) {
-	// 				rval = I2C_ERR;
-	// 				break;
-	// 			}
-
-	// 			if(reg & I2C_SR1_AF || (i2cErr & I2C_SR1_AF)) {
-	// 				I2Cx->SR1 &= ~I2C_SR1_AF; // Clear ack failure bit
-	// 				rval = I2C_DNACK;
-	// 				break;
-	// 			}
-
-	// 			if(rLen == 1) {
-	// 				I2Cx->CR1 &= ~I2C_CR1_ACK;
-	// 			}
-
-	// 			*rBuff++ = I2Cx->DR;
-	// 		}
-	// 	}
+			if (tickMs >= timeout) {
+				rval = I2C_TIMEOUT;
+			}
+		}
 
 	} while(0);
 

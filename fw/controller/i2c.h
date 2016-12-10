@@ -9,7 +9,7 @@ typedef enum {
 	I2C_ANACK = -1,
 	I2C_DNACK = -2,
 	I2C_TIMEOUT = -3,
-	I2C_ERR
+	I2C_ERR = -9,
 } i2cReturn_t;
 
 void i2cSetup(uint32_t speed);
