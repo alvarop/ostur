@@ -24,7 +24,7 @@ LINKER_SCRIPT = stm32f072vb_flash.ld
 
 CPU = -mcpu=cortex-m0 -mthumb
 
-VERSION = $(shell git describe --dirty | sed 's/releases\///')
+VERSION = $(shell git describe --dirty | sed 's/releases\/fw\/controller\///')
 
 CFLAGS  = $(CPU) -c -std=gnu99 -g -O2 -Wall
 LDFLAGS  = $(CPU) -mlittle-endian -mthumb-interwork -nostartfiles -Wl,--gc-sections,-Map=$(OUTPATH)/$(PROJ_NAME).map,--cref --specs=nano.specs
