@@ -18,4 +18,16 @@
 #define UART1_RX_PORT GPIOA
 #define UART1_RX_PIN 10
 
+#define SDA_PORT GPIOB
+#define SDA_PIN 7
+
+#define SCL_PORT GPIOB
+#define SCL_PIN 6
+
+#define TCA_nRST_PORT GPIOB
+#define TCA_nRST_PIN 8
+
+#define TCA_A2_PORT GPIOB
+#define TCA_A2_PIN 9
+
 #endif // __BOARD__

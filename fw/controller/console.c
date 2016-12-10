@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include "i2c.h"
 #include "fifo.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
@@ -21,12 +22,14 @@ static uint8_t argc;
 static char* argv[255];
 
 static void helpFn(uint8_t argc, char *argv[]);
+static void i2cCmd(uint8_t argc, char *argv[]);
 static void snCmd(uint8_t argc, char *argv[]);
 static void versionCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
 
 static command_t commands[] = {
+	{"i2c", i2cCmd, "i2c"},
 	{"sn", snCmd, "sn"},
 	{"version", versionCmd, "version"},
 	// Add new commands here!
@@ -54,6 +57,55 @@ static void helpFn(uint8_t argc, char *argv[]) {
 			command++;
 		}
 	}
+}
+
+#define I2C_ADDR_OFFSET		(1)
+#define I2C_RLEN_OFFSET		(2)
+#define I2C_WBUFF_OFFSET	(3)
+static void i2cCmd(uint8_t argc, char *argv[]) {
+	uint8_t wBuff[128];
+	uint8_t rBuff[128];
+	int32_t rval;
+
+	do {
+		if(argc < 3) {
+			printf("ERR: I2C Not enough arguments\n");
+			break;
+		}
+
+		uint8_t addr = strtoul(argv[I2C_ADDR_OFFSET], NULL, 16);
+		uint8_t rLen = strtoul(argv[I2C_RLEN_OFFSET], NULL, 10);
+		uint8_t wLen = argc - I2C_WBUFF_OFFSET;
+
+		if(wLen > sizeof(wBuff)) {
+			printf("ERR: I2C Not enough space in wBuff\n");
+			break;
+		}
+
+		if(rLen > sizeof(rBuff)) {
+			printf("ERR: I2C Not enough space in rBuff\n");
+			break;
+		}
+
+		if(wLen > 0) {
+			for(uint32_t byte = 0; byte < wLen; byte++) {
+				wBuff[byte] = strtoul(argv[I2C_WBUFF_OFFSET + byte], NULL, 16);
+			}
+		}
+
+		rval = i2c(I2C1, addr, wLen, wBuff, rLen, rBuff);
+
+		if(rval) {
+			printf("ERR %ld\n", rval);
+		} else {
+			printf("OK ");
+			for(uint32_t byte = 0; byte < rLen; byte++) {
+				printf("%02X ", rBuff[byte]);
+			}
+			printf("\n");
+		}
+
+	} while (0);
 }
 
 static void snCmd(uint8_t argc, char *argv[]) {

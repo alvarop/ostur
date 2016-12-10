@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdint.h>
 #include "board.h"
+#include "i2c.h"
 #include "uart.h"
 #include "console.h"
 #include "stm32f0xx.h"
@@ -43,7 +44,27 @@ void init() {
 			GPIO_OType_PP,
 			GPIO_PuPd_NOPULL});
 
+	GPIO_Init(TCA_nRST_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << TCA_nRST_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+
+	GPIO_Init(TCA_A2_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << TCA_A2_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+
+	GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+	GPIO_ResetBits(TCA_A2_PORT, (1 << TCA_A2_PIN));
+
 	uartInit(115200);
+	i2cSetup(100000);
 }
 
 int main(void) {
