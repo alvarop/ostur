@@ -1,0 +1,7 @@
+Fix GPIO3-7 -> GPIO 4-7 label
+Fix capacitor values
+Fix 32.768kHz resonator footprint/schematic
+Add jumper for 5V/3V from UART1 connector
+Fix silkscreen on pump/mist/etc to be visible
+Add silkscreen to mark SDA/SCL
+Add silkscreen to mark uart/swd/etc ground and power
