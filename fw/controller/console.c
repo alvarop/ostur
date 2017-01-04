@@ -6,6 +6,9 @@
 #include "fifo.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
+#include "tca9584a.h"
+#include "sht31.h"
+#include "timer.h"
 
 typedef struct {
 	char *commandStr;
@@ -23,6 +26,7 @@ static char* argv[255];
 
 static void helpFn(uint8_t argc, char *argv[]);
 static void i2cCmd(uint8_t argc, char *argv[]);
+static void shtCmd(uint8_t argc, char *argv[]);
 static void snCmd(uint8_t argc, char *argv[]);
 static void versionCmd(uint8_t argc, char *argv[]);
 
@@ -30,6 +34,7 @@ static const char versionStr[] = FW_VERSION;
 
 static command_t commands[] = {
 	{"i2c", i2cCmd, "i2c"},
+	{"sht", shtCmd, "sht31 stuff"},
 	{"sn", snCmd, "sn"},
 	{"version", versionCmd, "version"},
 	// Add new commands here!
@@ -106,6 +111,60 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 		}
 
 	} while (0);
+}
+
+static void shtCmd(uint8_t argc, char *argv[]) {
+	int32_t rval;
+
+	do {
+		if(argc < 3) {
+			printf("ERR: sht <init|read> <channel>\n");
+			break;
+		}
+
+		uint8_t ch = strtoul(argv[2], NULL, 10);
+		rval = tca9584a_set_channel(TCA9548A_ADDR, ch);
+
+		if(rval != 0) {
+			printf("ERR: SHT could not set channel\n");
+			break;
+		}
+
+		if(strcmp("init", argv[1]) == 0) {
+			int16_t status = 0;
+			rval = sht31_reset(SHT31_ADDR);
+			if(rval != 0) {
+				printf("ERR: SHT could not reset\n");
+				break;
+			}
+
+			sleep_ms(500);
+
+			rval = sht31_status(SHT31_ADDR, &status);
+			if(rval != 0) {
+				printf("ERR: SHT could not read status\n");
+				break;
+			}
+
+			if((status & 0x10) == 0) {
+				printf("ERR: SHT invalid status\n");
+				break;
+			}
+
+			printf("OK\n");
+		} else if (strcmp("read", argv[1]) == 0) {
+			int16_t temperature = 0;
+			int16_t humidity = 0;
+			rval = sht31_read(SHT31_ADDR, &temperature, &humidity);
+			if(rval != 0) {
+				printf("ERR: SHT could not read temp/humidity\n");
+				break;
+			}
+			printf("OK %d.%02d ", temperature/100, (temperature-(temperature/100) * 100));
+			printf("%d.%02d\n", humidity/100, (humidity-(humidity/100) * 100));
+		}
+
+	} while(0);
 }
 
 static void snCmd(uint8_t argc, char *argv[]) {
