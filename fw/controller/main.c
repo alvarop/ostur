@@ -6,11 +6,9 @@
 #include "console.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
+#include "timer.h"
 
 #define BLINK_DELAY_MS	(500)
-
-
-volatile uint32_t tickMs = 0;
 
 void init() {
 	// ---------- SysTick timer -------- //
@@ -68,16 +66,16 @@ void init() {
 }
 
 int main(void) {
-	uint32_t nextBlink;
+	uint32_t blink_timer_start;
 	uint32_t blinkState = 0;
 
 	init();
 
-	nextBlink = tickMs + BLINK_DELAY_MS;
+	blink_timer_start = get_tick_ms();
 	for(;;) {
 
-		if(tickMs > nextBlink) {
-			nextBlink = tickMs + BLINK_DELAY_MS;
+		if((get_tick_ms() - blink_timer_start) > BLINK_DELAY_MS) {
+			blink_timer_start = get_tick_ms();
 			if(blinkState) {
 				GPIO_SetBits(LED0_PORT, (1 << LED0_PIN));
 			} else {
@@ -92,9 +90,4 @@ int main(void) {
 	}
 
 	return 0;
-}
-
-void SysTick_Handler(void)
-{
-	tickMs++;
 }
