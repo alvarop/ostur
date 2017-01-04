@@ -1,6 +1,6 @@
 # Sources
 
-SRCS = main.c fifo.c i2c.c uart.c console.c startup_stm32f0xx.c
+SRCS = main.c fifo.c i2c.c uart.c console.c startup_stm32f0xx.c tca9584a.c timer.c sht31.c
 SRCS += system_stm32f0xx.c stm32f0xx_it.c
 S_SRCS =
 
