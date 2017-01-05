@@ -186,5 +186,10 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 
 	I2C_ITConfig(I2C1, I2C_IT_ERRI, DISABLE);
 
+	// Flush the transmit data register if needed (in case of NACK, etc.)
+	if((I2C1->ISR & I2C_ISR_TXE) == 0) {
+		I2C1->ISR |= I2C_ISR_TXE;
+	}
+
 	return rval;
 }
