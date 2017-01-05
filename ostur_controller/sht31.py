@@ -33,8 +33,8 @@ class SHT31:
 
         rval = self.bridge.i2c(SHT31_ADDR, 2, CMD['RD_STATUS'])
         if isinstance(rval, list):
-            # Make sure this is the default value (0x02)
-            if rval[0] != 0x80:
+            # Make sure reset was detected (0x01)
+            if rval[1] != 0x10:
                 return None
         else:
             raise IOError('Error reading from SHT31 ({})'.format(rval))
@@ -60,5 +60,5 @@ class SHT31:
             humidity = 100 * rhcode/65535.0
         else:
             raise IOError('Error reading from SHT31 ({})'.format(rval))
-        
+
         return round(humidity, 1), round(temp, 1)
