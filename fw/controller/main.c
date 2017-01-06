@@ -7,6 +7,7 @@
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
 #include "timer.h"
+#include "config.h"
 
 #define BLINK_DELAY_MS	(500)
 
@@ -63,6 +64,7 @@ void init() {
 
 	uartInit(115200);
 	i2cSetup(100000);
+	config_init();
 }
 
 int main(void) {
