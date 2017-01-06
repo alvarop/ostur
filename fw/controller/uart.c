@@ -5,7 +5,7 @@
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
 
-#define FIFO_BUFF_SIZE  (512)
+#define FIFO_BUFF_SIZE  (2048)
 
 fifo_t txFifo;
 fifo_t rxFifo;
