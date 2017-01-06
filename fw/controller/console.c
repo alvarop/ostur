@@ -188,7 +188,6 @@ void consoleProcess() {
 		for(int32_t index = 0; index < inBytes; index++){
 			if((fifoPeek(&rxFifo, index) == '\n') || (fifoPeek(&rxFifo, index) == '\r')) {
 				newLine = index + 1;
-				GPIO_SetBits(GPIOB, GPIO_Pin_2);
 				break;
 			}
 		}

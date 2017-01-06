@@ -58,7 +58,6 @@ int uartPutchar(USART_TypeDef *uart, fifo_t *fifo, char c) {
 	if(uart->ISR & USART_ISR_TXE) {
 		uart->TDR = c;
 		USART_ITConfig(uart, USART_IT_TXE, ENABLE);
-		GPIO_SetBits(GPIOB, GPIO_Pin_1);
 
 	} else {
 		fifoPush(fifo, c);
@@ -104,7 +103,6 @@ void USART1_IRQHandler(void) {
 
 		} else {
 			USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
-			GPIO_ResetBits(GPIOB, GPIO_Pin_1);
 
 		}
 	}
@@ -112,7 +110,6 @@ void USART1_IRQHandler(void) {
 	if(irq & USART_ISR_RXNE) {
 		// Add received char to buff
 		fifoPush(&rxFifo, USART1->RDR);
-		GPIO_SetBits(GPIOB, GPIO_Pin_2);
 	}
 
 	USART1->ICR = irq;
