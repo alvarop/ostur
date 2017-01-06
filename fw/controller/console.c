@@ -9,6 +9,7 @@
 #include "tca9584a.h"
 #include "sht31.h"
 #include "timer.h"
+#include "controller.h"
 
 typedef struct {
 	char *commandStr;
@@ -28,6 +29,7 @@ static void helpFn(uint8_t argc, char *argv[]);
 static void i2cCmd(uint8_t argc, char *argv[]);
 static void shtCmd(uint8_t argc, char *argv[]);
 static void snCmd(uint8_t argc, char *argv[]);
+static void controllerCmd(uint8_t argc, char *argv[]);
 static void versionCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
@@ -36,6 +38,7 @@ static command_t commands[] = {
 	{"i2c", i2cCmd, "i2c"},
 	{"sht", shtCmd, "sht31 stuff"},
 	{"sn", snCmd, "sn"},
+	{"controller", controllerCmd, "controller <start|stop>"},
 	{"version", versionCmd, "version"},
 	// Add new commands here!
 	{"help", helpFn, "Print this!"},
@@ -145,6 +148,22 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 			}
 			printf("OK %d.%02d ", temperature/100, (temperature-(temperature/100) * 100));
 			printf("%d.%02d\n", humidity/100, (humidity-(humidity/100) * 100));
+		}
+
+	} while(0);
+}
+
+static void controllerCmd(uint8_t argc, char *argv[]) {
+	do {
+		if(argc < 2) {
+			printf("ERR: sht <start|stop>\n");
+			break;
+		}
+
+		if(strcmp("start", argv[1]) == 0) {
+			controller_enable(true);
+		} else if (strcmp("stop", argv[1]) == 0) {
+			controller_enable(false);
 		}
 
 	} while(0);

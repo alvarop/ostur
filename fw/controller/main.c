@@ -8,6 +8,7 @@
 #include "stm32f0xx_conf.h"
 #include "timer.h"
 #include "config.h"
+#include "controller.h"
 
 #define BLINK_DELAY_MS	(500)
 
@@ -65,6 +66,7 @@ void init() {
 	uartInit(115200);
 	i2cSetup(100000);
 	config_init();
+	controller_init();
 }
 
 int main(void) {
@@ -86,6 +88,7 @@ int main(void) {
 			blinkState ^= 1;
 		}
 
+		controller_process();
 		consoleProcess();
 
 		__WFI();
