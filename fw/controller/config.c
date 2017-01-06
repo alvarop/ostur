@@ -24,13 +24,13 @@ int32_t config_init() {
 			.humid_set = 7500,
 			.sensor = {
 				{0x88, 0},
+				{0x88, 1},
+				{0x88, 2},
 				{0x00, 0},
 				{0x00, 0},
-				{0x00, 0},
-				{0x00, 0},
-				{0x00, 0},
-				{0x00, 0},
-				{0x00, 0},
+				{0x88, 5},
+				{0x88, 6},
+				{0x88, 7},
 				{0x00, 0},
 				{0x00, 0},
 				{0x00, 0},
@@ -53,6 +53,7 @@ int32_t config_init() {
 }
 
 config_t *config_get() {
+	// TODO - add magic/crc check and return NULL if invalid
 	return config;
 }
 
@@ -86,7 +87,7 @@ int32_t config_print() {
 	printf("humid_set: %d\n", config->humid_set);
 
 	printf("Sensors:\n");
-	for(uint8_t sensor_id = 0; sensor_id < MAX_SENSORS; sensor_id++) {
+	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 		th_sensor_t *sensor = &config->sensor[sensor_id];
 		printf("  sensor %d - addr: %02X bus: %d\n",
 			sensor_id, sensor->addr, sensor->bus);

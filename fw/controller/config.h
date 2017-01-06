@@ -8,7 +8,7 @@ typedef struct {
 	uint8_t bus;
 } __attribute__((packed)) th_sensor_t;
 
-#define MAX_SENSORS (16)
+#define CONFIG_MAX_SENSORS (16)
 
 // WARNING: when changing struct, Cortex-m0 doesn't do unaligned access!!
 typedef struct {
@@ -16,7 +16,7 @@ typedef struct {
 	uint32_t period_ms;					// Sampling period in ms
 	int16_t temp_set;					// Temperature setting
 	int16_t humid_set;					// Humidity setting
-	th_sensor_t sensor[MAX_SENSORS];	// T/H Sensors
+	th_sensor_t sensor[CONFIG_MAX_SENSORS];	// T/H Sensors
 	uint16_t crc16;						// CRC of configuration
 } __attribute__((packed)) config_t;
 
