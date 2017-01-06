@@ -68,16 +68,16 @@ void init() {
 }
 
 int main(void) {
-	uint32_t blink_timer_start;
+	ms_timer_t blink_timer;
 	uint32_t blinkState = 0;
 
 	init();
 
-	blink_timer_start = get_tick_ms();
+	timer_set(&blink_timer, BLINK_DELAY_MS);
 	for(;;) {
 
-		if((get_tick_ms() - blink_timer_start) > BLINK_DELAY_MS) {
-			blink_timer_start = get_tick_ms();
+		if(timer_expired(&blink_timer)) {
+			timer_set(&blink_timer, BLINK_DELAY_MS);
 			if(blinkState) {
 				GPIO_SetBits(LED0_PORT, (1 << LED0_PIN));
 			} else {

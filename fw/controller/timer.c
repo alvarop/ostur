@@ -14,6 +14,26 @@ uint32_t get_tick_ms() {
 	return tickMs;
 }
 
+void timer_set(ms_timer_t *timer, uint32_t delay) {
+	timer->start_time = get_tick_ms();
+	timer->delay = delay;
+}
+
+void timer_clear(ms_timer_t *timer) {
+	timer->delay = 0;
+}
+
+bool timer_expired(ms_timer_t *timer) {
+	if(timer->delay != 0) {
+		if((get_tick_ms() - timer->start_time) >= timer->delay) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 void SysTick_Handler(void)
 {
 	tickMs++;
