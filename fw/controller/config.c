@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include "config.h"
+#include "stm32f0xx_flash.h"
 
 #define CONFIG_ADDR 	(0x0801F800)
 #define CONFIG_MAX_SIZE	(0x800)
@@ -56,9 +57,24 @@ config_t *config_get() {
 }
 
 int32_t config_write(config_t *new_config) {
+	uint16_t *buff = (uint16_t *)new_config;
+
+	// TODO - compute new CRC
+
+	printf("Writing new configuration...\n");
+
+	FLASH_Unlock();
+	FLASH_ErasePage(CONFIG_ADDR);
+
+	// We can only write two bytes at a time
+	for(uint32_t halfword = 0; halfword < sizeof(config_t)/2; halfword++) {
+		FLASH_ProgramHalfWord(CONFIG_ADDR + halfword * 2, buff[halfword]);
+	}
+
+	FLASH_Lock();
 
 
-	config_print(new_config);
+	config_print(config);
 	return 0;
 }
 
