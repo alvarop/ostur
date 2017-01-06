@@ -27,6 +27,35 @@
 #define RESET_H 0x30
 #define RESET_L 0xA2
 
+int32_t sht31_init(uint8_t addr) {
+	int32_t rval = 0;
+	int16_t status = 0;
+
+	do {
+		rval = sht31_reset(SHT31_ADDR);
+		if(rval != 0) {
+			printf("ERR: SHT could not reset\n");
+			break;
+		}
+
+		sleep_ms(500);
+
+		rval = sht31_status(SHT31_ADDR, &status);
+		if(rval != 0) {
+			printf("ERR: SHT could not read status\n");
+			break;
+		}
+
+		if((status & 0x10) == 0) {
+			printf("ERR: SHT invalid status\n");
+			rval = SHT31_ERR;
+			break;
+		}
+	} while (0);
+
+	return rval;
+}
+
 int32_t sht31_status(uint8_t addr, int16_t *status) {
 	int32_t rval = 0;
 	uint8_t rBuff[2];
@@ -90,4 +119,3 @@ int32_t sht31_read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
 
 	return rval;
 }
-

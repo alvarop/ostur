@@ -131,27 +131,10 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 		}
 
 		if(strcmp("init", argv[1]) == 0) {
-			int16_t status = 0;
-			rval = sht31_reset(SHT31_ADDR);
-			if(rval != 0) {
-				printf("ERR: SHT could not reset\n");
-				break;
+			rval = sht31_init(SHT31_ADDR);
+			if(rval == 0) {
+				printf("OK\n");
 			}
-
-			sleep_ms(500);
-
-			rval = sht31_status(SHT31_ADDR, &status);
-			if(rval != 0) {
-				printf("ERR: SHT could not read status\n");
-				break;
-			}
-
-			if((status & 0x10) == 0) {
-				printf("ERR: SHT invalid status\n");
-				break;
-			}
-
-			printf("OK\n");
 		} else if (strcmp("read", argv[1]) == 0) {
 			int16_t temperature = 0;
 			int16_t humidity = 0;
