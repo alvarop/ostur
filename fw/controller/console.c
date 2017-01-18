@@ -21,7 +21,7 @@ extern fifo_t rxFifo;
 
 static uint8_t *uid = (uint8_t *)(0x1FFFF7AC);
 
-static char cmdBuff[64];
+static char cmdBuff[1024];
 static uint8_t argc;
 static char* argv[255];
 
