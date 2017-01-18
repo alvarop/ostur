@@ -32,15 +32,16 @@ int32_t sht31_init(uint8_t addr) {
 	int16_t status = 0;
 
 	do {
-		rval = sht31_reset(SHT31_ADDR);
+		rval = sht31_reset(addr);
 		if(rval != 0) {
 			printf("ERR: SHT could not reset\n");
 			break;
 		}
 
-		sleep_ms(500);
+		// Device requires 500us. 2ms is the smallest we can do with sleep_ms
+		sleep_ms(2);
 
-		rval = sht31_status(SHT31_ADDR, &status);
+		rval = sht31_status(addr, &status);
 		if(rval != 0) {
 			printf("ERR: SHT could not read status\n");
 			break;

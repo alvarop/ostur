@@ -4,6 +4,7 @@
 #include <stdint.h>
 
 #define SHT31_ADDR (0x44 << 1)
+#define SHT31_ALT_ADDR (0x45 << 1)
 
 #define SHT31_I2Cx I2C1
 

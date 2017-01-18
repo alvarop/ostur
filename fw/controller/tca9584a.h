@@ -5,6 +5,8 @@
 
 #define TCA9548A_ADDR (0x70 << 1)
 
+#define TCA9548A_CHANNELS (8)
+
 #define TCA9548A_ERR_CHANNEL (-16)
 
 #define TCA9548A_I2Cx I2C1
