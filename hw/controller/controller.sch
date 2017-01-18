@@ -52,9 +52,9 @@ F 0 "U1" H 2150 2950 60  0000 R CNN
 F 1 "stm32f072x" H 2150 2850 60  0000 R CNN
 F 2 "footprints:LQFP48" H 2000 2700 60  0001 C CNN
 F 3 "" H 2000 2700 60  0000 C CNN
-F 4 "STM32F072CBT6" H 2000 2700 60  0001 C CNN "mpn"
+F 4 "STM32F072CBT6" H 2000 2700 60  0001 C CNN "MPN"
 	1    2000 2700
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 1800 2900 0    60   ~ 0
 nRST
@@ -66,9 +66,9 @@ F 0 "C5" H 1710 1320 50  0000 L CNN
 F 1 "100nF" H 1710 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 1700 1250 50  0001 C CNN
 F 3 "" H 1700 1250 50  0000 C CNN
-F 4 "CL21B104MBCNNNC" H 1700 1250 60  0001 C CNN "mpn"
+F 4 "CL21B104MBCNNNC" H 1700 1250 60  0001 C CNN "MPN"
 	1    1700 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C6
@@ -78,8 +78,9 @@ F 0 "C6" H 2010 1320 50  0000 L CNN
 F 1 "100nF" H 2010 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 2000 1250 50  0001 C CNN
 F 3 "" H 2000 1250 50  0000 C CNN
+F 4 "CL21B104MBCNNNC" H 2000 1250 60  0001 C CNN "MPN"
 	1    2000 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C7
@@ -89,8 +90,9 @@ F 0 "C7" H 2310 1320 50  0000 L CNN
 F 1 "4.7uF" H 2310 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 2300 1250 50  0001 C CNN
 F 3 "" H 2300 1250 50  0000 C CNN
+F 4 "CL21A475KQFNNNG" H 2300 1250 60  0001 C CNN "MPN"
 	1    2300 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C8
@@ -100,8 +102,9 @@ F 0 "C8" H 2610 1320 50  0000 L CNN
 F 1 "1uF" H 2610 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 2600 1250 50  0001 C CNN
 F 3 "" H 2600 1250 50  0000 C CNN
+F 4 "CL21F105ZAFNNNG" H 2600 1250 60  0001 C CNN "MPN"
 	1    2600 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C4
@@ -111,8 +114,9 @@ F 0 "C4" H 1460 1320 50  0000 L CNN
 F 1 "10nF" H 1460 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 1450 1250 50  0001 C CNN
 F 3 "" H 1450 1250 50  0000 C CNN
+F 4 "CL21B103KBANNNC" H 1450 1250 60  0001 C CNN "MPN"
 	1    1450 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR01
@@ -123,7 +127,7 @@ F 1 "GND" H 2000 1350 50  0000 C CNN
 F 2 "" H 2000 1500 50  0000 C CNN
 F 3 "" H 2000 1500 50  0000 C CNN
 	1    2000 1500
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L VDD #PWR02
@@ -134,7 +138,7 @@ F 1 "VDD" H 2000 1150 50  0000 C CNN
 F 2 "" H 2000 1000 50  0000 C CNN
 F 3 "" H 2000 1000 50  0000 C CNN
 	1    2000 1000
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L VDD #PWR03
@@ -145,7 +149,7 @@ F 1 "VDD" H 3200 1950 50  0000 C CNN
 F 2 "" H 3200 1800 50  0000 C CNN
 F 3 "" H 3200 1800 50  0000 C CNN
 	1    3200 1800
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR04
@@ -156,7 +160,7 @@ F 1 "GND" H 3200 5200 50  0000 C CNN
 F 2 "" H 3200 5350 50  0000 C CNN
 F 3 "" H 3200 5350 50  0000 C CNN
 	1    3200 5350
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 1800 4600 2    60   ~ 0
 boot0
@@ -168,9 +172,9 @@ F 0 "SW1" H 1850 6460 50  0000 C CNN
 F 1 "RST" H 1700 6270 50  0000 C CNN
 F 2 "footprints:PTS645SM43SMTR92" H 1700 6350 50  0001 C CNN
 F 3 "" H 1700 6350 50  0000 C CNN
-F 4 "PTS645SM43SMTR92" H 1700 6350 60  0001 C CNN "mpn"
+F 4 "PTS645SM43SMTR92" H 1700 6350 60  0001 C CNN "MPN"
 	1    1700 6350
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L SW_PUSH SW2
@@ -180,8 +184,9 @@ F 0 "SW2" H 1850 6860 50  0000 C CNN
 F 1 "BOOT" H 1700 6670 50  0000 C CNN
 F 2 "footprints:PTS645SM43SMTR92" H 1700 6750 50  0001 C CNN
 F 3 "" H 1700 6750 50  0000 C CNN
+F 4 "PTS645SM43SMTR92" H 1700 6750 60  0001 C CNN "MPN"
 	1    1700 6750
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 2400 6350 2    60   ~ 0
 nRST
@@ -195,8 +200,9 @@ F 0 "R2" V 2180 6950 50  0000 C CNN
 F 1 "10k" V 2100 6950 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 2030 6950 50  0001 C CNN
 F 3 "" H 2100 6950 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 2100 6950 60  0001 C CNN "MPN"
 	1    2100 6950
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 $Comp
 L GND #PWR05
@@ -207,7 +213,7 @@ F 1 "GND" H 2100 7050 50  0000 C CNN
 F 2 "" H 2100 7200 50  0000 C CNN
 F 3 "" H 2100 7200 50  0000 C CNN
 	1    2100 7200
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR06
@@ -218,7 +224,7 @@ F 1 "GND" H 1300 6300 50  0000 C CNN
 F 2 "" H 1300 6450 50  0000 C CNN
 F 3 "" H 1300 6450 50  0000 C CNN
 	1    1300 6450
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L VDD #PWR07
@@ -229,7 +235,7 @@ F 1 "VDD" H 1050 6800 50  0000 C CNN
 F 2 "" H 1050 6650 50  0000 C CNN
 F 3 "" H 1050 6650 50  0000 C CNN
 	1    1050 6650
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 5000 3000 2    60   ~ 0
 SDA
@@ -276,7 +282,7 @@ F 1 "VDD" H 7700 2300 50  0000 C CNN
 F 2 "" H 7700 2150 50  0000 C CNN
 F 3 "" H 7700 2150 50  0000 C CNN
 	1    7700 2150
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR09
@@ -287,7 +293,7 @@ F 1 "GND" H 7700 3300 50  0000 C CNN
 F 2 "" H 7700 3450 50  0000 C CNN
 F 3 "" H 7700 3450 50  0000 C CNN
 	1    7700 3450
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6500 2750 2    60   ~ 0
 TCA_nRST
@@ -308,7 +314,7 @@ F 1 "GND" H 6550 2400 50  0000 C CNN
 F 2 "" H 6550 2550 50  0000 C CNN
 F 3 "" H 6550 2550 50  0000 C CNN
 	1    6550 2550
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 Text Label 8750 2750 2    60   ~ 0
 SDA2
@@ -326,8 +332,9 @@ F 0 "C9" H 2910 1320 50  0000 L CNN
 F 1 "4.7uF" H 2910 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 2900 1250 50  0001 C CNN
 F 3 "" H 2900 1250 50  0000 C CNN
+F 4 "CL21A475KQFNNNG" H 2900 1250 60  0001 C CNN "MPN"
 	1    2900 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C1
@@ -337,9 +344,9 @@ F 0 "C1" H 1210 1320 50  0000 L CNN
 F 1 "100nF" H 1210 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 1200 1250 50  0001 C CNN
 F 3 "" H 1200 1250 50  0000 C CNN
-F 4 "CL21B103KBANNNC" H 1200 1250 60  0001 C CNN "mpn"
+F 4 "CL21B104MBCNNNC" H 1200 1250 60  0001 C CNN "MPN"
 	1    1200 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 5000 4000 2    60   ~ 0
 UART3_TX
@@ -378,7 +385,7 @@ F 1 "I2C0" V 9500 4400 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 9400 4400 50  0001 C CNN
 F 3 "" H 9400 4400 50  0000 C CNN
 	1    9400 4400
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8900 4250 0    60   ~ 0
 VDD
@@ -397,7 +404,7 @@ F 1 "I2C1" V 9500 4950 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 9400 4950 50  0001 C CNN
 F 3 "" H 9400 4950 50  0000 C CNN
 	1    9400 4950
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8900 4800 0    60   ~ 0
 VDD
@@ -416,7 +423,7 @@ F 1 "I2C2" V 9500 5500 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 9400 5500 50  0001 C CNN
 F 3 "" H 9400 5500 50  0000 C CNN
 	1    9400 5500
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8900 5350 0    60   ~ 0
 VDD_ALT
@@ -435,7 +442,7 @@ F 1 "I2C3" V 9500 6050 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 9400 6050 50  0001 C CNN
 F 3 "" H 9400 6050 50  0000 C CNN
 	1    9400 6050
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8900 5900 0    60   ~ 0
 VDD_ALT
@@ -453,8 +460,9 @@ F 0 "D3" H 3600 7250 50  0000 C CNN
 F 1 "LED2" H 3600 7050 50  0000 C CNN
 F 2 "LEDs:LED_0805" H 3600 7150 50  0001 C CNN
 F 3 "" H 3600 7150 50  0000 C CNN
+F 4 "LG R971-KN-1" H 3600 7150 60  0001 C CNN "MPN"
 	1    3600 7150
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 $Comp
 L LED D2
@@ -464,8 +472,9 @@ F 0 "D2" H 3600 6950 50  0000 C CNN
 F 1 "LED1" H 3600 6750 50  0000 C CNN
 F 2 "LEDs:LED_0805" H 3600 6850 50  0001 C CNN
 F 3 "" H 3600 6850 50  0000 C CNN
+F 4 "LG R971-KN-1" H 3600 6850 60  0001 C CNN "MPN"
 	1    3600 6850
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 $Comp
 L LED D1
@@ -475,8 +484,9 @@ F 0 "D1" H 3600 6650 50  0000 C CNN
 F 1 "LED0" H 3600 6450 50  0000 C CNN
 F 2 "LEDs:LED_0805" H 3600 6550 50  0001 C CNN
 F 3 "" H 3600 6550 50  0000 C CNN
+F 4 "LG R971-KN-1" H 3600 6550 60  0001 C CNN "MPN"
 	1    3600 6550
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 $Comp
 L R R5
@@ -486,8 +496,9 @@ F 0 "R5" V 3230 7150 50  0000 C CNN
 F 1 "680" V 3150 7150 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 3080 7150 50  0001 C CNN
 F 3 "" H 3150 7150 50  0000 C CNN
+F 4 "RC0805JR-07680RL" V 3150 7150 60  0001 C CNN "MPN"
 	1    3150 7150
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L R R4
@@ -497,8 +508,9 @@ F 0 "R4" V 3230 6850 50  0000 C CNN
 F 1 "680" V 3150 6850 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 3080 6850 50  0001 C CNN
 F 3 "" H 3150 6850 50  0000 C CNN
+F 4 "RC0805JR-07680RL" V 3150 6850 60  0001 C CNN "MPN"
 	1    3150 6850
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L R R3
@@ -508,9 +520,9 @@ F 0 "R3" V 3230 6550 50  0000 C CNN
 F 1 "680" V 3150 6550 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 3080 6550 50  0001 C CNN
 F 3 "" H 3150 6550 50  0000 C CNN
-F 4 "RC0805JR-07680RL" V 3150 6550 60  0001 C CNN "mpn"
+F 4 "RC0805JR-07680RL" V 3150 6550 60  0001 C CNN "MPN"
 	1    3150 6550
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L GND #PWR011
@@ -521,7 +533,7 @@ F 1 "GND" H 4250 6750 50  0000 C CNN
 F 2 "" H 4250 6900 50  0000 C CNN
 F 3 "" H 4250 6900 50  0000 C CNN
 	1    4250 6900
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 2750 6550 0    60   ~ 0
 LED0
@@ -538,7 +550,7 @@ F 1 "SPI" V 8700 6050 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 8600 6050 50  0001 C CNN
 F 3 "" H 8600 6050 50  0000 C CNN
 	1    8600 6050
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L CONN_01X06 P12
@@ -549,7 +561,7 @@ F 1 "UART0" V 8700 5400 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x06" H 8600 5400 50  0001 C CNN
 F 3 "" H 8600 5400 50  0000 C CNN
 	1    8600 5400
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8000 5150 0    60   ~ 0
 GND
@@ -571,8 +583,9 @@ F 0 "Y2" H 5000 4700 50  0000 C CNN
 F 1 "32768Hz" H 5000 4500 50  0000 C CNN
 F 2 "footprints:FC-135" H 5000 4600 50  0001 C CNN
 F 3 "" H 5000 4600 50  0000 C CNN
+F 4 "FC-135 32.7680KA-A0" H 5000 4600 60  0001 C CNN "MPN"
 	1    5000 4600
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L C_Small C13
@@ -582,8 +595,9 @@ F 0 "C13" H 5310 4870 50  0000 L CNN
 F 1 "12pF" H 5310 4720 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0603" H 5300 4800 50  0001 C CNN
 F 3 "" H 5300 4800 50  0000 C CNN
+F 4 "CL10C120JB8NNNC" H 5300 4800 60  0001 C CNN "MPN"
 	1    5300 4800
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L C_Small C12
@@ -593,8 +607,9 @@ F 0 "C12" H 5310 4470 50  0000 L CNN
 F 1 "12pF" H 5310 4320 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0603" H 5300 4400 50  0001 C CNN
 F 3 "" H 5300 4400 50  0000 C CNN
+F 4 "CL10C120JB8NNNC" H 5300 4400 60  0001 C CNN "MPN"
 	1    5300 4400
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L GND #PWR012
@@ -605,7 +620,7 @@ F 1 "GND" H 5550 4650 50  0000 C CNN
 F 2 "" H 5550 4800 50  0000 C CNN
 F 3 "" H 5550 4800 50  0000 C CNN
 	1    5550 4800
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L GND #PWR013
@@ -616,7 +631,7 @@ F 1 "GND" H 5550 4250 50  0000 C CNN
 F 2 "" H 5550 4400 50  0000 C CNN
 F 3 "" H 5550 4400 50  0000 C CNN
 	1    5550 4400
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 8000 5900 0    60   ~ 0
 MOSI
@@ -635,7 +650,7 @@ F 1 "VDD_SEL" V 8700 4800 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 8600 4800 50  0001 C CNN
 F 3 "" H 8600 4800 50  0000 C CNN
 	1    8600 4800
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 8000 4800 0    60   ~ 0
 VDD_ALT
@@ -652,7 +667,7 @@ F 1 "GPIO" V 7800 6050 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 7700 6050 50  0001 C CNN
 F 3 "" H 7700 6050 50  0000 C CNN
 	1    7700 6050
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L CONN_01X04 P6
@@ -663,7 +678,7 @@ F 1 "GND" V 6800 5500 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 6700 5500 50  0001 C CNN
 F 3 "" H 6700 5500 50  0000 C CNN
 	1    6700 5500
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 5350 0    60   ~ 0
 GND
@@ -690,7 +705,7 @@ F 1 "GPIO" V 7800 5500 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 7700 5500 50  0001 C CNN
 F 3 "" H 7700 5500 50  0000 C CNN
 	1    7700 5500
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 7050 5350 0    60   ~ 0
 GPIO0
@@ -709,7 +724,7 @@ F 1 "VDD" V 6800 6050 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 6700 6050 50  0001 C CNN
 F 3 "" H 6700 6050 50  0000 C CNN
 	1    6700 6050
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 5900 0    60   ~ 0
 VDD
@@ -728,7 +743,7 @@ F 1 "FRIDGE" V 6700 3900 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6600 3900 50  0001 C CNN
 F 3 "" H 6600 3900 50  0000 C CNN
 	1    6600 3900
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 3950 0    60   ~ 0
 GND
@@ -743,7 +758,7 @@ F 1 "FAN" V 6700 4250 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6600 4250 50  0001 C CNN
 F 3 "" H 6600 4250 50  0000 C CNN
 	1    6600 4250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 4300 0    60   ~ 0
 GND
@@ -758,7 +773,7 @@ F 1 "PUMP" V 6700 4600 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6600 4600 50  0001 C CNN
 F 3 "" H 6600 4600 50  0000 C CNN
 	1    6600 4600
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 4650 0    60   ~ 0
 GND
@@ -773,7 +788,7 @@ F 1 "MIST" V 6700 4950 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6600 4950 50  0001 C CNN
 F 3 "" H 6600 4950 50  0000 C CNN
 	1    6600 4950
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 6050 5000 0    60   ~ 0
 GND
@@ -787,9 +802,9 @@ F 0 "P1" H 6525 6725 50  0000 C CNN
 F 1 "USB_OTG" H 6200 7050 50  0000 C CNN
 F 2 "footprints:USB_MICRO_B" V 6150 6750 50  0001 C CNN
 F 3 "" V 6150 6750 50  0000 C CNN
-F 4 "10118192-0001LF" H 6200 6850 60  0001 C CNN "mpn"
+F 4 "10118192-0001LF" H 6200 6850 60  0001 C CNN "MPN"
 	1    6200 6850
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L GND #PWR014
@@ -800,7 +815,7 @@ F 1 "GND" H 5750 7000 50  0000 C CNN
 F 2 "" H 5750 7150 50  0000 C CNN
 F 3 "" H 5750 7150 50  0000 C CNN
 	1    5750 7150
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR015
@@ -811,7 +826,7 @@ F 1 "GND" H 6300 7100 50  0000 C CNN
 F 2 "" H 6300 7250 50  0000 C CNN
 F 3 "" H 6300 7250 50  0000 C CNN
 	1    6300 7250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L +5V #PWR016
@@ -822,7 +837,7 @@ F 1 "+5V" H 5350 6690 50  0000 C CNN
 F 2 "" H 5350 6550 50  0000 C CNN
 F 3 "" H 5350 6550 50  0000 C CNN
 	1    5350 6550
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 5400 6650 0    60   ~ 0
 VDD_5
@@ -834,9 +849,9 @@ F 0 "R7" V 5530 6750 50  0000 C CNN
 F 1 "22" V 5450 6750 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 5380 6750 50  0001 C CNN
 F 3 "" H 5450 6750 50  0000 C CNN
-F 4 "RC0805JR-0722RL" V 5450 6750 60  0001 C CNN "mpn"
+F 4 "RC0805JR-0722RL" V 5450 6750 60  0001 C CNN "MPN"
 	1    5450 6750
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L R R8
@@ -846,8 +861,9 @@ F 0 "R8" V 5530 6950 50  0000 C CNN
 F 1 "22" V 5450 6950 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 5380 6950 50  0001 C CNN
 F 3 "" H 5450 6950 50  0000 C CNN
+F 4 "RC0805JR-0722RL" V 5450 6950 60  0001 C CNN "MPN"
 	1    5450 6950
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $Comp
 L R R6
@@ -857,9 +873,9 @@ F 0 "R6" V 5180 7200 50  0000 C CNN
 F 1 "1.5k" V 5100 7200 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 5030 7200 50  0001 C CNN
 F 3 "" H 5100 7200 50  0000 C CNN
-F 4 "RC0805JR-071K5L" V 5100 7200 60  0001 C CNN "mpn"
+F 4 "RC0805JR-071K5L" V 5100 7200 60  0001 C CNN "MPN"
 	1    5100 7200
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 Text Label 4850 6750 0    60   ~ 0
 USB_DM
@@ -875,9 +891,9 @@ F 0 "U2" H 4200 1400 50  0000 C CNN
 F 1 "LDO" H 4200 1350 50  0000 C CNN
 F 2 "footprints:SOT-223" H 4200 1250 50  0001 C CNN
 F 3 "" H 4200 1150 50  0000 C CNN
-F 4 "LD1117S33CTR" H 4200 1150 60  0001 C CNN "mpn"
+F 4 "LD1117S33CTR" H 4200 1150 60  0001 C CNN "MPN"
 	1    4200 1150
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C10
@@ -887,8 +903,9 @@ F 0 "C10" H 3560 1320 50  0000 L CNN
 F 1 "100nF" H 3560 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 3550 1250 50  0001 C CNN
 F 3 "" H 3550 1250 50  0000 C CNN
+F 4 "CL21B104MBCNNNC" H 3550 1250 60  0001 C CNN "MPN"
 	1    3550 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L C_Small C11
@@ -898,8 +915,9 @@ F 0 "C11" H 4860 1320 50  0000 L CNN
 F 1 "10uF" H 4860 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 4850 1250 50  0001 C CNN
 F 3 "" H 4850 1250 50  0000 C CNN
+F 4 "CL21B103KBANNNC" H 4850 1250 60  0001 C CNN "MPN"
 	1    4850 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR017
@@ -910,7 +928,7 @@ F 1 "GND" H 4200 1250 50  0000 C CNN
 F 2 "" H 4200 1400 50  0000 C CNN
 F 3 "" H 4200 1400 50  0000 C CNN
 	1    4200 1400
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L VDD #PWR018
@@ -920,8 +938,8 @@ F 0 "#PWR018" H 4850 800 50  0001 C CNN
 F 1 "VDD" H 4850 1100 50  0000 C CNN
 F 2 "" H 4850 950 50  0000 C CNN
 F 3 "" H 4850 950 50  0000 C CNN
-	1    4850 950 
-	1    0    0    -1  
+	1    4850 950
+	1    0    0    -1
 $EndComp
 $Comp
 L +5V #PWR019
@@ -931,8 +949,8 @@ F 0 "#PWR019" H 3550 800 50  0001 C CNN
 F 1 "+5V" H 3550 1090 50  0000 C CNN
 F 2 "" H 3550 950 50  0000 C CNN
 F 3 "" H 3550 950 50  0000 C CNN
-	1    3550 950 
-	1    0    0    -1  
+	1    3550 950
+	1    0    0    -1
 $EndComp
 $Comp
 L VDD #PWR020
@@ -943,7 +961,7 @@ F 1 "VDD" H 7000 4050 50  0000 C CNN
 F 2 "" H 7000 3900 50  0000 C CNN
 F 3 "" H 7000 3900 50  0000 C CNN
 	1    7000 3900
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L GND #PWR021
@@ -954,7 +972,7 @@ F 1 "GND" H 7000 3950 50  0000 C CNN
 F 2 "" H 7000 4100 50  0000 C CNN
 F 3 "" H 7000 4100 50  0000 C CNN
 	1    7000 4100
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 NoConn ~ 5900 6950
 $Comp
@@ -966,7 +984,7 @@ F 1 "UART3" V 7800 5000 50  0000 C CNN
 F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 7700 5000 50  0001 C CNN
 F 3 "" H 7700 5000 50  0000 C CNN
 	1    7700 5000
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Text Label 7050 5050 0    60   ~ 0
 UART3_TX
@@ -980,8 +998,9 @@ F 0 "R11" V 10080 1200 50  0000 C CNN
 F 1 "10k" V 10000 1200 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 1200 50  0001 C CNN
 F 3 "" H 10000 1200 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 1200 60  0001 C CNN "MPN"
 	1    10000 1200
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L R R12
@@ -991,8 +1010,9 @@ F 0 "R12" V 10080 1350 50  0000 C CNN
 F 1 "10k" V 10000 1350 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 1350 50  0001 C CNN
 F 3 "" H 10000 1350 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 1350 60  0001 C CNN "MPN"
 	1    10000 1350
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 10400 1200 2    60   ~ 0
 SDA0
@@ -1006,9 +1026,9 @@ F 0 "R9" V 10080 850 50  0000 C CNN
 F 1 "10k" V 10000 850 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 850 50  0001 C CNN
 F 3 "" H 10000 850 50  0000 C CNN
-F 4 "311-10KARCT-ND" V 10000 850 60  0001 C CNN "mpn"
-	1    10000 850 
-	0    -1   -1   0   
+F 4 "311-10KARCT-ND" V 10000 850 60  0001 C CNN "MPN"
+	1    10000 850
+	0    -1   -1   0
 $EndComp
 $Comp
 L R R10
@@ -1018,8 +1038,9 @@ F 0 "R10" V 10080 1000 50  0000 C CNN
 F 1 "10k" V 10000 1000 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 1000 50  0001 C CNN
 F 3 "" H 10000 1000 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 1000 60  0001 C CNN "MPN"
 	1    10000 1000
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 10400 850  2    60   ~ 0
 SDA
@@ -1033,8 +1054,9 @@ F 0 "R13" V 10080 1550 50  0000 C CNN
 F 1 "10k" V 10000 1550 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 1550 50  0001 C CNN
 F 3 "" H 10000 1550 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 1550 60  0001 C CNN "MPN"
 	1    10000 1550
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L R R14
@@ -1044,8 +1066,9 @@ F 0 "R14" V 10080 1700 50  0000 C CNN
 F 1 "10k" V 10000 1700 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 1700 50  0001 C CNN
 F 3 "" H 10000 1700 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 1700 60  0001 C CNN "MPN"
 	1    10000 1700
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 10400 1550 2    60   ~ 0
 SDA1
@@ -1059,8 +1082,9 @@ F 0 "R21" V 10080 2000 50  0000 C CNN
 F 1 "10k" V 10000 2000 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 2000 50  0001 C CNN
 F 3 "" H 10000 2000 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 2000 60  0001 C CNN "MPN"
 	1    10000 2000
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L R R22
@@ -1070,8 +1094,9 @@ F 0 "R22" V 10080 2150 50  0000 C CNN
 F 1 "10k" V 10000 2150 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 2150 50  0001 C CNN
 F 3 "" H 10000 2150 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 2150 60  0001 C CNN "MPN"
 	1    10000 2150
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 10400 2000 2    60   ~ 0
 SDA2
@@ -1085,8 +1110,9 @@ F 0 "R23" V 10080 2350 50  0000 C CNN
 F 1 "10k" V 10000 2350 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 2350 50  0001 C CNN
 F 3 "" H 10000 2350 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 2350 60  0001 C CNN "MPN"
 	1    10000 2350
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 $Comp
 L R R24
@@ -1096,8 +1122,9 @@ F 0 "R24" V 10080 2500 50  0000 C CNN
 F 1 "10k" V 10000 2500 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 9930 2500 50  0001 C CNN
 F 3 "" H 10000 2500 50  0000 C CNN
+F 4 "311-10KARCT-ND" V 10000 2500 60  0001 C CNN "MPN"
 	1    10000 2500
-	0    -1   -1   0   
+	0    -1   -1   0
 $EndComp
 Text Label 10400 2350 2    60   ~ 0
 SDA3
@@ -1436,7 +1463,7 @@ Wire Wire Line
 Wire Wire Line
 	9850 850  9850 1700
 Wire Wire Line
-	10150 850  10400 850 
+	10150 850  10400 850
 Wire Wire Line
 	10150 1000 10400 1000
 Wire Wire Line
@@ -1477,7 +1504,7 @@ F 1 "VDD" H 9650 1600 50  0000 C CNN
 F 2 "" H 9650 1450 50  0000 C CNN
 F 3 "" H 9650 1450 50  0000 C CNN
 	1    9650 1450
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 $Comp
 L PWR_FLAG #FLG023
@@ -1488,7 +1515,7 @@ F 1 "PWR_FLAG" H 3000 5430 50  0000 C CNN
 F 2 "" H 3000 5250 50  0000 C CNN
 F 3 "" H 3000 5250 50  0000 C CNN
 	1    3000 5250
-	-1   0    0    1   
+	-1   0    0    1
 $EndComp
 Wire Wire Line
 	3000 5250 3000 5200
@@ -1501,8 +1528,9 @@ F 0 "C2" H 3210 1320 50  0000 L CNN
 F 1 "10nF" H 3210 1170 50  0000 L CNN
 F 2 "Capacitors_SMD:C_0805" H 3200 1250 50  0001 C CNN
 F 3 "" H 3200 1250 50  0000 C CNN
+F 4 "CL21B103KBANNNC" H 3200 1250 60  0001 C CNN "MPN"
 	1    3200 1250
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Connection ~ 2900 1150
 Connection ~ 2900 1350
@@ -1516,8 +1544,9 @@ F 0 "J1" H 7700 3850 60  0000 C CNN
 F 1 "ARM-SWD" H 7700 4450 60  0000 C CNN
 F 2 "footprints:ARM_SWD_SMD" H 7400 4000 60  0001 C CNN
 F 3 "" H 7400 4000 60  0000 C CNN
+F 4 "20021121-00010C4LF" H 7700 4150 60  0001 C CNN "MPN"
 	1    7700 4150
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Wire Wire Line
 	7100 3950 7000 3950
@@ -1553,8 +1582,9 @@ F 0 "U3" H 7250 2650 60  0000 R CNN
 F 1 "tca9546a" H 7250 2550 60  0000 R CNN
 F 2 "Housings_SSOP:TSSOP-16_4.4x5mm_Pitch0.65mm" H 7100 2400 60  0001 C CNN
 F 3 "" H 7100 2400 60  0000 C CNN
+F 4 "TCA9546APWR" H 7100 2400 60  0001 C CNN "MPN"
 	1    7100 2400
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Wire Wire Line
 	8300 2850 8750 2850
@@ -1582,8 +1612,9 @@ F 0 "R1" V 3630 1850 50  0000 C CNN
 F 1 "0" V 3550 1850 50  0000 C CNN
 F 2 "Resistors_SMD:R_0805" V 3480 1850 50  0001 C CNN
 F 3 "" H 3550 1850 50  0000 C CNN
+F 4 "MCR10ERTJ000" V 3550 1850 60  0001 C CNN "MPN"
 	1    3550 1850
-	1    0    0    -1  
+	1    0    0    -1
 $EndComp
 Wire Wire Line
 	3400 2000 3550 2000
@@ -1603,6 +1634,6 @@ F 1 "PWR_FLAG" H 3550 2180 50  0000 C CNN
 F 2 "" H 3550 2000 50  0000 C CNN
 F 3 "" H 3550 2000 50  0000 C CNN
 	1    3550 2000
-	0    1    1    0   
+	0    1    1    0
 $EndComp
 $EndSCHEMATC
