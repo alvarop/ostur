@@ -5,10 +5,23 @@
 #include "config.h"
 #include "sht31.h"
 #include "tca9584a.h"
+#include "board.h"
+#include "stm32f0xx_conf.h"
+
+typedef struct {
+	int16_t temperature;
+	int16_t humidity;
+} __attribute__((packed)) th_value_t;
+
+// NOTE: MUST be a power of 2
+#define CONTROLLER_BUFF_SAMPLES (16)
 
 static bool running = false;
 static config_t *config;
 static ms_timer_t controller_timer;
+static th_value_t primary_buff[CONTROLLER_BUFF_SAMPLES];
+static th_value_t outside_buff[CONTROLLER_BUFF_SAMPLES];
+static uint16_t buff_index;
 
 int32_t controller_init() {
 	int32_t rval;
@@ -32,14 +45,52 @@ int32_t controller_init() {
 	}
 	printf("\n");
 
+	for(uint16_t sample = 0; sample < CONTROLLER_BUFF_SAMPLES; sample++){
+		primary_buff[sample].temperature = 0;
+		primary_buff[sample].humidity = INT16_MAX;
+		outside_buff[sample].temperature = 0;
+		outside_buff[sample].humidity = INT16_MAX;
+	}
+
 	config_print(config_get());
 
 	return rval;
 }
 
+void controller_control(th_value_t *values) {
+	int32_t primary_t_avg = 0;
+	int32_t outside_t_avg = 0;
+
+	// Update value buffer with latest data
+	primary_buff[buff_index].temperature = values[config->primary_sensor].temperature;
+	primary_buff[buff_index].humidity = values[config->primary_sensor].humidity;
+	outside_buff[buff_index].temperature = values[config->outside_sensor].temperature;
+	outside_buff[buff_index].humidity = values[config->outside_sensor].humidity;
+
+	buff_index = (buff_index + 1) & (CONTROLLER_BUFF_SAMPLES - 1);
+
+	// Average temperatures
+	for(uint16_t sample = 0; sample < CONTROLLER_BUFF_SAMPLES; sample++){
+		primary_t_avg += primary_buff[sample].temperature;
+		outside_t_avg += outside_buff[sample].temperature;
+	}
+
+	primary_t_avg /= CONTROLLER_BUFF_SAMPLES;
+	outside_t_avg /= CONTROLLER_BUFF_SAMPLES;
+
+	if((primary_t_avg > config->temp_set) &&
+		(config->temp_set < outside_t_avg)) {
+		GPIO_SetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
+		GPIO_SetBits(LED2_PORT, (1 << LED2_PIN));
+	} else {
+		GPIO_ResetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
+		GPIO_ResetBits(LED2_PORT, (1 << LED2_PIN));
+	}
+}
+
 void controller_process() {
 	int32_t rval;
-	int16_t values[CONFIG_MAX_SENSORS][2];
+	th_value_t values[CONFIG_MAX_SENSORS];
 	uint32_t timestamp;
 
 	if(!running) {
@@ -47,7 +98,8 @@ void controller_process() {
 	}
 
 	if(timer_expired(&controller_timer)) {
-		// TODO - average and control fridge
+		GPIO_SetBits(LED1_PORT, (1 << LED1_PIN));
+
 		timer_set(&controller_timer, config->period_ms);
 		timestamp = get_tick_ms();
 
@@ -61,8 +113,8 @@ void controller_process() {
 				}
 
 				rval = sht31_read(SHT31_ADDR,
-									&values[sensor_id][0],
-									&values[sensor_id][1]);
+									&values[sensor_id].temperature,
+									&values[sensor_id].humidity);
 				if(rval != 0) {
 					printf("ERR: SHT could not read temp/humidity (%ld)\n", rval);
 					break;
@@ -70,18 +122,22 @@ void controller_process() {
 			}
 		}
 
+		controller_control(values);
+
 		printf("%ld,", timestamp);
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
 			if(sensor->addr != 0) {
-				int16_t temperature = values[sensor_id][0];
-				int16_t humidity = values[sensor_id][1];
+				int16_t temperature = values[sensor_id].temperature;
+				int16_t humidity = values[sensor_id].humidity;
 				printf("%d.%02d,", temperature/100, (temperature-(temperature/100) * 100));
 				printf("%d.%02d,", humidity/100, (humidity-(humidity/100) * 100));
 			}
 		}
 		printf("\n");
+
+		GPIO_ResetBits(LED1_PORT, (1 << LED1_PIN));
 	}
 }
 
