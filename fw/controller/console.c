@@ -38,7 +38,7 @@ static command_t commands[] = {
 	{"i2c", i2cCmd, "i2c"},
 	{"sht", shtCmd, "sht31 stuff"},
 	{"sn", snCmd, "sn"},
-	{"controller", controllerCmd, "controller <start|stop>"},
+	{"controller", controllerCmd, "controller <start|stop|autoconfig>"},
 	{"version", versionCmd, "version"},
 	// Add new commands here!
 	{"help", helpFn, "Print this!"},
@@ -156,7 +156,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 static void controllerCmd(uint8_t argc, char *argv[]) {
 	do {
 		if(argc < 2) {
-			printf("ERR: sht <start|stop>\n");
+			printf("ERR: sht <start|stop|autoconfig>\n");
 			break;
 		}
 
@@ -164,6 +164,10 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
 			controller_enable(true);
 		} else if (strcmp("stop", argv[1]) == 0) {
 			controller_enable(false);
+		} if (strcmp("autoconfig", argv[1]) == 0) {
+			controller_autoconfig();
+		} else {
+			printf("ERR: sht <start|stop|autoconfig>\n");
 		}
 
 	} while(0);

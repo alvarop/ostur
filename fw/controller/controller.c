@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "controller.h"
 #include "timer.h"
 #include "config.h"
@@ -92,6 +93,50 @@ int32_t controller_enable(bool enabled) {
 	}
 
 	running = enabled;
+
+	return 0;
+}
+
+int32_t controller_autoconfig() {
+	int32_t rval;
+	uint8_t addresses[] = {SHT31_ADDR, SHT31_ALT_ADDR};
+	uint8_t sensor_id = 0;
+	config_t *current_config = config_get();
+	config_t new_config;
+
+	// Clone current config
+	memcpy(&new_config, current_config, sizeof(config_t));
+
+	// Clear current sensors
+	memset(&new_config.sensor, 0, sizeof(th_sensor_t) * CONFIG_MAX_SENSORS);
+
+	for(uint8_t bus = 0; bus < TCA9548A_CHANNELS; bus++) {
+		for(uint8_t addr = 0; addr < sizeof(addresses)/sizeof(uint8_t); addr++) {
+
+			if(sensor_id > CONFIG_MAX_SENSORS) {
+				printf("ERR: maximum number of devices reached\n");
+				break;
+			}
+
+			rval = tca9584a_set_channel(TCA9548A_ADDR, bus);
+			if(rval != 0) {
+				printf("ERR: could not set i2c bus (%ld)\n", rval);
+				break;
+			}
+
+			rval = sht31_init(addresses[addr]);
+			if (rval == 0) {
+				printf("OK found sensor with addr %02X on bus %d\n", addresses[addr], bus);
+				new_config.sensor[sensor_id].addr = addresses[addr];
+				new_config.sensor[sensor_id].bus = bus;
+				sensor_id++;
+			}
+		}
+	}
+
+	if(config_write(&new_config)) {
+		printf("OK config updated\n");
+	}
 
 	return 0;
 }

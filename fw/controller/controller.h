@@ -7,5 +7,6 @@
 int32_t controller_init();
 void controller_process();
 int32_t controller_enable(bool enabled);
+int32_t controller_autoconfig();
 
 #endif
