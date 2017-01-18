@@ -22,15 +22,17 @@ int32_t config_init() {
 			.period_ms = 5000,
 			.temp_set = 1500,
 			.humid_set = 7500,
+			.primary_sensor = 0,
+			.outside_sensor = 1,
 			.sensor = {
 				{0x88, 0},
 				{0x88, 1},
 				{0x88, 2},
-				{0x00, 0},
-				{0x00, 0},
 				{0x88, 5},
 				{0x88, 6},
 				{0x88, 7},
+				{0x00, 0},
+				{0x00, 0},
 				{0x00, 0},
 				{0x00, 0},
 				{0x00, 0},
@@ -84,6 +86,8 @@ int32_t config_print(config_t *config_to_print) {
 	printf("period_ms: %ld\n", config_to_print->period_ms);
 	printf("temp_set: %d\n", config_to_print->temp_set);
 	printf("humid_set: %d\n", config_to_print->humid_set);
+	printf("primary_sensor: %d\n", config_to_print->primary_sensor);
+	printf("outside_sensor: %d\n", config_to_print->outside_sensor);
 
 	printf("Sensors:\n");
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {

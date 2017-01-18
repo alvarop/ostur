@@ -17,6 +17,8 @@ typedef struct {
 	int16_t temp_set;					// Temperature setting
 	int16_t humid_set;					// Humidity setting
 	th_sensor_t sensor[CONFIG_MAX_SENSORS];	// T/H Sensors
+	uint8_t primary_sensor;				// Primary sensor for TH control
+	uint8_t outside_sensor;				// Outside sensor for reference
 	uint16_t crc16;						// CRC of configuration
 } __attribute__((packed)) config_t;
 
