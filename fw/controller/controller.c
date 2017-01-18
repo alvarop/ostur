@@ -39,34 +39,44 @@ int32_t controller_init() {
 
 void controller_process() {
 	int32_t rval;
+	int16_t values[CONFIG_MAX_SENSORS][2];
+	uint32_t timestamp;
+
 	if(!running) {
 		return;
 	}
 
 	if(timer_expired(&controller_timer)) {
-		// TODO - measure all before printing
 		// TODO - average and control fridge
 		timer_set(&controller_timer, config->period_ms);
-
-		printf("%ld,", get_tick_ms());
+		timestamp = get_tick_ms();
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
 			if(sensor->addr != 0) {
-				int16_t temperature = 0;
-				int16_t humidity = 0;
-
 				rval = tca9584a_set_channel(TCA9548A_ADDR, sensor->bus);
 				if(rval != 0) {
 					printf("ERR: could not set i2c bus (%ld)\n", rval);
 					break;
 				}
 
-				rval = sht31_read(SHT31_ADDR, &temperature, &humidity);
+				rval = sht31_read(SHT31_ADDR,
+									&values[sensor_id][0],
+									&values[sensor_id][1]);
 				if(rval != 0) {
 					printf("ERR: SHT could not read temp/humidity (%ld)\n", rval);
 					break;
 				}
+			}
+		}
+
+		printf("%ld,", timestamp);
+
+		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
+			th_sensor_t *sensor = &config->sensor[sensor_id];
+			if(sensor->addr != 0) {
+				int16_t temperature = values[sensor_id][0];
+				int16_t humidity = values[sensor_id][1];
 				printf("%d.%02d,", temperature/100, (temperature-(temperature/100) * 100));
 				printf("%d.%02d,", humidity/100, (humidity-(humidity/100) * 100));
 			}

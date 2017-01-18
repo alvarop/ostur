@@ -156,7 +156,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 static void controllerCmd(uint8_t argc, char *argv[]) {
 	do {
 		if(argc < 2) {
-			printf("ERR: sht <start|stop|autoconfig>\n");
+			printf("ERR: controller <start|stop|autoconfig>\n");
 			break;
 		}
 
@@ -164,10 +164,10 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
 			controller_enable(true);
 		} else if (strcmp("stop", argv[1]) == 0) {
 			controller_enable(false);
-		} if (strcmp("autoconfig", argv[1]) == 0) {
+		} else if (strcmp("autoconfig", argv[1]) == 0) {
 			controller_autoconfig();
 		} else {
-			printf("ERR: sht <start|stop|autoconfig>\n");
+			printf("ERR: controller <start|stop|autoconfig>\n");
 		}
 
 	} while(0);
