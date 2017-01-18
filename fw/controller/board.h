@@ -30,4 +30,16 @@
 #define TCA_A2_PORT GPIOB
 #define TCA_A2_PIN 9
 
+#define MIST_PORT GPIOB
+#define MIST_PIN 15
+
+#define PUMP_PORT GPIOB
+#define PUMP_PIN 14
+
+#define FAN_PORT GPIOB
+#define FAN_PIN 13
+
+#define FRIDGE_PORT GPIOB
+#define FRIDGE_PIN 12
+
 #endif // __BOARD__

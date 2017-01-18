@@ -60,6 +60,42 @@ void init() {
 			GPIO_OType_PP,
 			GPIO_PuPd_NOPULL});
 
+	GPIO_Init(FAN_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << FAN_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+	GPIO_ResetBits(FAN_PORT, (1 << FAN_PIN));
+
+	GPIO_Init(FRIDGE_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << FRIDGE_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+	GPIO_ResetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
+
+	GPIO_Init(PUMP_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << PUMP_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+	GPIO_ResetBits(PUMP_PORT, (1 << PUMP_PIN));
+
+	GPIO_Init(MIST_PORT,
+		&(GPIO_InitTypeDef){
+			(1 << MIST_PIN),
+			GPIO_Mode_OUT,
+			GPIO_Speed_2MHz,
+			GPIO_OType_PP,
+			GPIO_PuPd_NOPULL});
+	GPIO_ResetBits(MIST_PORT, (1 << MIST_PIN));
+
 	GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
 	GPIO_ResetBits(TCA_A2_PORT, (1 << TCA_A2_PIN));
 
