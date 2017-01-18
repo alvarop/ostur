@@ -74,26 +74,25 @@ int32_t config_write(config_t *new_config) {
 
 	FLASH_Lock();
 
-
 	config_print(config);
 	return 0;
 }
 
-int32_t config_print() {
+int32_t config_print(config_t *config_to_print) {
 	printf("OK Device Configuration:\n");
-	printf("magic: %08lX\n", config->magic);
-	printf("period_ms: %ld\n", config->period_ms);
-	printf("temp_set: %d\n", config->temp_set);
-	printf("humid_set: %d\n", config->humid_set);
+	printf("magic: %08lX\n", config_to_print->magic);
+	printf("period_ms: %ld\n", config_to_print->period_ms);
+	printf("temp_set: %d\n", config_to_print->temp_set);
+	printf("humid_set: %d\n", config_to_print->humid_set);
 
 	printf("Sensors:\n");
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
-		th_sensor_t *sensor = &config->sensor[sensor_id];
+		th_sensor_t *sensor = &config_to_print->sensor[sensor_id];
 		printf("  sensor %d - addr: %02X bus: %d\n",
 			sensor_id, sensor->addr, sensor->bus);
 	}
 
-	printf("crc16: %04X\n", config->crc16);
+	printf("crc16: %04X\n", config_to_print->crc16);
 
 	return 0;
 }

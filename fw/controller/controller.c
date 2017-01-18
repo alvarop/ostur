@@ -31,7 +31,7 @@ int32_t controller_init() {
 	}
 	printf("\n");
 
-	config_print();
+	config_print(config_get());
 
 	return rval;
 }
