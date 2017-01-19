@@ -6,7 +6,7 @@ S_SRCS =
 
 # Project name
 
-PROJ_NAME = stm32f0xx-gcc-barebones
+PROJ_NAME = controller
 OUTPATH = build
 
 OUTPATH := $(abspath $(OUTPATH))

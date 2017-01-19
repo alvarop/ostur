@@ -100,6 +100,9 @@ void init() {
 	GPIO_ResetBits(TCA_A2_PORT, (1 << TCA_A2_PIN));
 
 	uartInit(115200);
+
+	printf("Ostur Controller %s\n", FW_VERSION);
+
 	i2cSetup(100000);
 	config_init();
 	controller_init();
