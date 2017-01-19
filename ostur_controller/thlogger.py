@@ -4,7 +4,7 @@
 import sys
 import time
 import sqlite3
-from silta import stm32f407
+from silta import ostur_controller
 from am2315 import AM2315
 from mcp970x import MCP9701
 from si7021 import SI7021
@@ -15,11 +15,11 @@ def log(cur, con, th_sensors):
     while True:
         try:
             line = []
-            
+
             line.append(int(time.time()))
             for name,sensor in th_sensors:
                 h, t = sensor.read()
-            
+
                 # Saving integer data to reduce SQLite db size
                 # Storing units * 10 to keep 1 significant figure
                 line.append(int(h * 10))
@@ -39,13 +39,18 @@ def log(cur, con, th_sensors):
 
         time.sleep(1)
 
-bridge = stm32f407.bridge(sys.argv[1])
+bridge = ostur_controller.bridge(sys.argv[1], 115200)
 
 th_sensors = [
-    ('si7021', SI7021(bridge)),
-    ('htu21d', HTU21D(bridge)),
-    ('sht31', SHT31(bridge)),
-    ('am2315', AM2315(bridge)),
+    # ('si7021', SI7021(bridge, mux_channel=0)),
+    ('sht31_0', SHT31(bridge, mux_channel=0)),
+    ('sht31_1', SHT31(bridge, mux_channel=1)),
+    ('sht31_2', SHT31(bridge, mux_channel=2)),
+    ('sht31_5', SHT31(bridge, mux_channel=5)),
+    ('sht31_6', SHT31(bridge, mux_channel=6)),
+    ('sht31_7', SHT31(bridge, mux_channel=7)),
+    # ('htu21d', HTU21D(bridge)),
+    # ('am2315', AM2315(bridge)),
 ]
 
 # Create new sqlite db for every run (maybe later do day-by-day?)
