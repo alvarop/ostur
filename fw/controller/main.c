@@ -9,6 +9,7 @@
 #include "timer.h"
 #include "config.h"
 #include "controller.h"
+#include "debug.h"
 
 #define BLINK_DELAY_MS	(500)
 
@@ -101,7 +102,7 @@ void init() {
 
 	uartInit(115200);
 
-	printf("Ostur Controller %s\n", FW_VERSION);
+	dprint(INFO, "Ostur Controller %s\n", FW_VERSION);
 
 	i2cSetup(100000);
 	config_init();

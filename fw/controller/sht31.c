@@ -3,6 +3,7 @@
 #include "i2c.h"
 #include "timer.h"
 #include "stm32f0xx.h"
+#include "debug.h"
 
 #define RD_TH_HIGH_HOLD_H 0x2c
 #define RD_TH_HIGH_HOLD_L 0x06
@@ -34,7 +35,7 @@ int32_t sht31_init(uint8_t addr) {
 	do {
 		rval = sht31_reset(addr);
 		if(rval != 0) {
-			printf("ERR: SHT could not reset\n");
+			dprint(ERR, "SHT could not reset\n");
 			break;
 		}
 
@@ -43,12 +44,12 @@ int32_t sht31_init(uint8_t addr) {
 
 		rval = sht31_status(addr, &status);
 		if(rval != 0) {
-			printf("ERR: SHT could not read status\n");
+			dprint(ERR, "SHT could not read status\n");
 			break;
 		}
 
 		if((status & 0x10) == 0) {
-			printf("ERR: SHT invalid status\n");
+			dprint(ERR, "SHT invalid status\n");
 			rval = SHT31_ERR;
 			break;
 		}

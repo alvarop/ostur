@@ -10,6 +10,7 @@
 #include "sht31.h"
 #include "timer.h"
 #include "controller.h"
+#include "debug.h"
 
 typedef struct {
 	char *commandStr;
@@ -53,13 +54,13 @@ static void helpFn(uint8_t argc, char *argv[]) {
 
 	if(argc < 2) {
 		while(command->commandStr != NULL) {
-			printf("%s - %s\n", command->commandStr, command->helpStr);
+			dprint(INFO, "%s - %s\n", command->commandStr, command->helpStr);
 			command++;
 		}
 	} else {
 		while(command->commandStr != NULL) {
 			if(strcmp(command->commandStr, argv[1]) == 0) {
-				printf("%s - %s\n", command->commandStr, command->helpStr);
+				dprint(INFO, "%s - %s\n", command->commandStr, command->helpStr);
 				break;
 			}
 			command++;
@@ -77,7 +78,7 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 
 	do {
 		if(argc < 3) {
-			printf("ERR: I2C Not enough arguments\n");
+			dprint(ERR, "I2C Not enough arguments\n");
 			break;
 		}
 
@@ -86,12 +87,12 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 		uint8_t wLen = argc - I2C_WBUFF_OFFSET;
 
 		if(wLen > sizeof(wBuff)) {
-			printf("ERR: I2C Not enough space in wBuff\n");
+			dprint(ERR, "I2C Not enough space in wBuff\n");
 			break;
 		}
 
 		if(rLen > sizeof(rBuff)) {
-			printf("ERR: I2C Not enough space in rBuff\n");
+			dprint(ERR, "I2C Not enough space in rBuff\n");
 			break;
 		}
 
@@ -104,13 +105,13 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 		rval = i2c(I2C1, addr, wLen, wBuff, rLen, rBuff);
 
 		if(rval) {
-			printf("ERR %ld\n", rval);
+			dprint(ERR, "%ld\n", rval);
 		} else {
-			printf("OK ");
+			dprint(OK, "");
 			for(uint32_t byte = 0; byte < rLen; byte++) {
-				printf("%02X ", rBuff[byte]);
+				dprint(OK_CONT, "%02X ", rBuff[byte]);
 			}
-			printf("\n");
+			dprint(OK_CONT, "\n");
 		}
 
 	} while (0);
@@ -121,7 +122,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 
 	do {
 		if(argc < 3) {
-			printf("ERR: sht <init|read> <channel>\n");
+			dprint(ERR, "sht <init|read> <channel>\n");
 			break;
 		}
 
@@ -129,25 +130,25 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 		rval = tca9584a_set_channel(TCA9548A_ADDR, ch);
 
 		if(rval != 0) {
-			printf("ERR: SHT could not set channel\n");
+			dprint(ERR, "SHT could not set channel\n");
 			break;
 		}
 
 		if(strcmp("init", argv[1]) == 0) {
 			rval = sht31_init(SHT31_ADDR);
 			if(rval == 0) {
-				printf("OK\n");
+				dprint(OK, "\n");
 			}
 		} else if (strcmp("read", argv[1]) == 0) {
 			int16_t temperature = 0;
 			int16_t humidity = 0;
 			rval = sht31_read(SHT31_ADDR, &temperature, &humidity);
 			if(rval != 0) {
-				printf("ERR: SHT could not read temp/humidity\n");
+				dprint(ERR, "SHT could not read temp/humidity\n");
 				break;
 			}
-			printf("OK %d.%02d ", temperature/100, (temperature-(temperature/100) * 100));
-			printf("%d.%02d\n", humidity/100, (humidity-(humidity/100) * 100));
+			dprint(OK, " %d.%02d ", temperature/100, (temperature-(temperature/100) * 100));
+			dprint(OK_CONT, "%d.%02d\n", humidity/100, (humidity-(humidity/100) * 100));
 		}
 
 	} while(0);
@@ -156,7 +157,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 static void controllerCmd(uint8_t argc, char *argv[]) {
 	do {
 		if(argc < 2) {
-			printf("ERR: controller <start|stop|autoconfig>\n");
+			dprint(ERR, "controller <start|stop|autoconfig>\n");
 			break;
 		}
 
@@ -167,24 +168,24 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
 		} else if (strcmp("autoconfig", argv[1]) == 0) {
 			controller_autoconfig();
 		} else {
-			printf("ERR: controller <start|stop|autoconfig>\n");
+			dprint(ERR, "controller <start|stop|autoconfig>\n");
 		}
 
 	} while(0);
 }
 
 static void snCmd(uint8_t argc, char *argv[]) {
-	printf("OK ");
+	dprint(OK, "");
 
 	// Print 96-bit serial number
 	for(uint8_t byte = 0; byte < 12; byte++) {
-		printf("%02X ", uid[byte]);
+		dprint(OK_CONT, "%02X ", uid[byte]);
 	}
-	printf("\n");
+	dprint(OK_CONT, "\n");
 }
 
 static void versionCmd(uint8_t argc, char *argv[]) {
-	printf("OK %s\n", versionStr);
+	dprint(OK, "%s\n", versionStr);
 }
 
 void consoleProcess() {
@@ -237,7 +238,7 @@ void consoleProcess() {
 				}
 
 				if(command->commandStr == NULL) {
-					printf("ERR Unknown command '%s'\n", argv[0]);
+					dprint(ERR, "Unknown command '%s'\n", argv[0]);
 				}
 			}
 		}

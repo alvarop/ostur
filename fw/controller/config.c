@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "config.h"
 #include "stm32f0xx_flash.h"
+#include "debug.h"
 
 #define CONFIG_ADDR 	(0x0801F800)
 #define CONFIG_MAX_SIZE	(0x800)
@@ -12,7 +13,7 @@ int32_t config_init() {
 	// TODO: Use CRC
 
 	if(sizeof(config_t) > CONFIG_MAX_SIZE) {
-		printf("PANIC! config is too large\n");
+		dprint(ERR, "PANIC! config is too large\n");
 		while(1);
 	}
 
@@ -44,11 +45,11 @@ int32_t config_init() {
 			},
 			.crc16 = 0x0000
 		};
-		printf("ERR Config not available.\n Writing defaults\n");
+		dprint(ERR, "Config not available.\n Writing defaults\n");
 
 		config_write(&default_config);
 	} else {
-		printf("Configuration loaded\n");
+		dprint(INFO, "Configuration loaded\n");
 	}
 
 	return 0;
@@ -64,7 +65,7 @@ int32_t config_write(config_t *new_config) {
 
 	// TODO - compute new CRC
 
-	printf("Writing new configuration...\n");
+	dprint(INFO, "Writing new configuration...\n");
 
 	FLASH_Unlock();
 	FLASH_ErasePage(CONFIG_ADDR);
@@ -81,22 +82,22 @@ int32_t config_write(config_t *new_config) {
 }
 
 int32_t config_print(config_t *config_to_print) {
-	printf("OK Device Configuration:\n");
-	printf("magic: %08lX\n", config_to_print->magic);
-	printf("period_ms: %ld\n", config_to_print->period_ms);
-	printf("temp_set: %d\n", config_to_print->temp_set);
-	printf("humid_set: %d\n", config_to_print->humid_set);
-	printf("primary_sensor: %d\n", config_to_print->primary_sensor);
-	printf("outside_sensor: %d\n", config_to_print->outside_sensor);
+	dprint(INFO, "Device Configuration:\n");
+	dprint(INFO, "magic: %08lX\n", config_to_print->magic);
+	dprint(INFO, "period_ms: %ld\n", config_to_print->period_ms);
+	dprint(INFO, "temp_set: %d\n", config_to_print->temp_set);
+	dprint(INFO, "humid_set: %d\n", config_to_print->humid_set);
+	dprint(INFO, "primary_sensor: %d\n", config_to_print->primary_sensor);
+	dprint(INFO, "outside_sensor: %d\n", config_to_print->outside_sensor);
 
-	printf("Sensors:\n");
+	dprint(INFO, "Sensors:\n");
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 		th_sensor_t *sensor = &config_to_print->sensor[sensor_id];
-		printf("  sensor %d - addr: %02X bus: %d\n",
+		dprint(INFO, "  sensor %d - addr: %02X bus: %d\n",
 			sensor_id, sensor->addr, sensor->bus);
 	}
 
-	printf("crc16: %04X\n", config_to_print->crc16);
+	dprint(INFO, "crc16: %04X\n", config_to_print->crc16);
 
 	return 0;
 }

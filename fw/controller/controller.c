@@ -7,6 +7,7 @@
 #include "tca9584a.h"
 #include "board.h"
 #include "stm32f0xx_conf.h"
+#include "debug.h"
 
 typedef struct {
 	int16_t temperature;
@@ -26,24 +27,23 @@ static uint16_t buff_index;
 int32_t controller_init() {
 	int32_t rval;
 	config = config_get();
-	printf("%s\n", __func__);
+	dprint(DEBUG, "%s\n", __func__);
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 		th_sensor_t *sensor = &config->sensor[sensor_id];
 		if(sensor->addr != 0) {
 			rval = tca9584a_set_channel(TCA9548A_ADDR, sensor->bus);
 			if(rval != 0) {
-				printf("ERR: could not set i2c bus (%ld)\n", rval);
+				dprint(ERR, "could not set i2c bus (%ld)\n", rval);
 				break;
 			}
 
 			sht31_init(sensor->addr);
 			if(rval != 0) {
-				printf("ERR: SHT could not initialize (%ld)\n", rval);
+				dprint(ERR, "SHT could not initialize (%ld)\n", rval);
 				break;
 			}
 		}
 	}
-	printf("\n");
 
 	for(uint16_t sample = 0; sample < CONTROLLER_BUFF_SAMPLES; sample++){
 		primary_buff[sample].temperature = 0;
@@ -108,7 +108,7 @@ void controller_process() {
 			if(sensor->addr != 0) {
 				rval = tca9584a_set_channel(TCA9548A_ADDR, sensor->bus);
 				if(rval != 0) {
-					printf("ERR: could not set i2c bus (%ld)\n", rval);
+					dprint(ERR, "could not set i2c bus (%ld)\n", rval);
 					break;
 				}
 
@@ -116,7 +116,7 @@ void controller_process() {
 									&values[sensor_id].temperature,
 									&values[sensor_id].humidity);
 				if(rval != 0) {
-					printf("ERR: SHT could not read temp/humidity (%ld)\n", rval);
+					dprint(ERR, "SHT could not read temp/humidity (%ld)\n", rval);
 					break;
 				}
 			}
@@ -124,18 +124,22 @@ void controller_process() {
 
 		controller_control(values);
 
-		printf("%ld,", timestamp);
+		dprint(DATA, "%ld,", timestamp);
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
 			if(sensor->addr != 0) {
 				int16_t temperature = values[sensor_id].temperature;
 				int16_t humidity = values[sensor_id].humidity;
-				printf("%d.%02d,", temperature/100, (temperature-(temperature/100) * 100));
-				printf("%d.%02d,", humidity/100, (humidity-(humidity/100) * 100));
+				dprint(OK_CONT, "%d.%02d,",
+								temperature/100,
+								(temperature-(temperature/100) * 100));
+				dprint(OK_CONT, "%d.%02d,",
+								humidity/100,
+								(humidity-(humidity/100) * 100));
 			}
 		}
-		printf("\n");
+		dprint(OK_CONT, "\n");
 
 		GPIO_ResetBits(LED1_PORT, (1 << LED1_PIN));
 	}
@@ -144,17 +148,17 @@ void controller_process() {
 int32_t controller_enable(bool enabled) {
 	if(enabled && !running){
 		config_t *config = config_get();
-		printf("timestamp,");
+		dprint(DATA, "timestamp,");
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
 			if(sensor->addr != 0) {
-				printf("sensor%d_t,sensor%d_h,",sensor_id,sensor_id);
+				dprint(OK_CONT, "sensor%d_t,sensor%d_h,",sensor_id,sensor_id);
 			}
 		}
-		printf("\n");
+		dprint(OK_CONT, "\n");
 
 		timer_set(&controller_timer, 1);
-	} else {
+	} else if (!enabled) {
 		timer_clear(&controller_timer);
 	}
 
@@ -180,19 +184,19 @@ int32_t controller_autoconfig() {
 		for(uint8_t addr = 0; addr < sizeof(addresses)/sizeof(uint8_t); addr++) {
 
 			if(sensor_id > CONFIG_MAX_SENSORS) {
-				printf("ERR: maximum number of devices reached\n");
+				dprint(ERR, "maximum number of devices reached\n");
 				break;
 			}
 
 			rval = tca9584a_set_channel(TCA9548A_ADDR, bus);
 			if(rval != 0) {
-				printf("ERR: could not set i2c bus (%ld)\n", rval);
+				dprint(ERR, "could not set i2c bus (%ld)\n", rval);
 				break;
 			}
 
 			rval = sht31_init(addresses[addr]);
 			if (rval == 0) {
-				printf("OK found sensor with addr %02X on bus %d\n", addresses[addr], bus);
+				dprint(OK, "found sensor with addr %02X on bus %d\n", addresses[addr], bus);
 				new_config.sensor[sensor_id].addr = addresses[addr];
 				new_config.sensor[sensor_id].bus = bus;
 				sensor_id++;
@@ -201,7 +205,7 @@ int32_t controller_autoconfig() {
 	}
 
 	if(config_write(&new_config)) {
-		printf("OK config updated\n");
+		dprint(OK, "config updated\n");
 	}
 
 	return 0;
