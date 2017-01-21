@@ -1,0 +1,27 @@
+Title,
+Revision,
+Date,
+Generated,Fri 20 Jan 2017 06:25:38 PM PST
+Company,
+Comment 1,
+Comment 2,
+Comment 3,
+Comment 4,
+Total Parts,8
+Total Unique Parts,6
+
+
+
+Ref,Qty,Value,Footprint,MPN,
+D1 ,1,D,footprints:SOD-80,LL4148
+K1 ,1,EE2-3NU,footprints:EE2-3NU,EE2-3NU-L
+P1 ,1,CONN_01X03,Pin_Headers:Pin_Header_Straight_1x03, 
+P2 P3 P4 ,3,CONN_01X02,Pin_Headers:Pin_Header_Straight_1x02, 
+Q1 ,1,MMBT3904,TO_SOT_Packages_SMD:SOT-23,MMBT3904 215
+R1 ,1,1k1,Resistors_SMD:R_0805,RMCF0805JT1K00
+
+
+
+
+BOM made with KICAD_BOM_WIZARD (https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
+Generated Fri 20 Jan 2017 06:25:38 PM PST
