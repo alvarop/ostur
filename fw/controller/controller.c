@@ -15,7 +15,7 @@ typedef struct {
 } __attribute__((packed)) th_value_t;
 
 // NOTE: MUST be a power of 2
-#define CONTROLLER_BUFF_SAMPLES (16)
+#define CONTROLLER_BUFF_SAMPLES (64)
 
 static bool running = false;
 static config_t *config;
