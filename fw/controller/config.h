@@ -19,8 +19,11 @@ typedef struct {
 	th_sensor_t sensor[CONFIG_MAX_SENSORS];	// T/H Sensors
 	uint8_t primary_sensor;				// Primary sensor for TH control
 	uint8_t outside_sensor;				// Outside sensor for reference
+	uint16_t flags;						// Various flags
 	uint16_t crc16;						// CRC of configuration
 } __attribute__((packed)) config_t;
+
+#define CONFIG_FLAG_AUTOSTART (1 << 0)
 
 int32_t config_init();
 config_t *config_get();

@@ -54,6 +54,10 @@ int32_t controller_init() {
 
 	config_print(config_get());
 
+	if(config->flags & CONFIG_FLAG_AUTOSTART) {
+		controller_enable(true);
+	}
+
 	return rval;
 }
 

@@ -25,6 +25,7 @@ int32_t config_init() {
 			.humid_set = 7500,
 			.primary_sensor = 0,
 			.outside_sensor = 1,
+			.flags = CONFIG_FLAG_AUTOSTART,
 			.sensor = {
 				{0x88, 0},
 				{0x88, 1},
@@ -89,6 +90,7 @@ int32_t config_print(config_t *config_to_print) {
 	dprint(INFO, "humid_set: %d\n", config_to_print->humid_set);
 	dprint(INFO, "primary_sensor: %d\n", config_to_print->primary_sensor);
 	dprint(INFO, "outside_sensor: %d\n", config_to_print->outside_sensor);
+	dprint(INFO, "flags: %04X\n", config_to_print->flags);
 
 	dprint(INFO, "Sensors:\n");
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
