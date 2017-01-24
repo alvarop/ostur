@@ -4,26 +4,21 @@
 import sys
 import time
 import sqlite3
-from silta import ostur_controller
-from am2315 import AM2315
-from mcp970x import MCP9701
-from si7021 import SI7021
-from htu21d import HTU21D
-from sht31 import SHT31
+from Ostur import Ostur
 
-def log(cur, con, th_sensors):
+def log(cur, con, controller):
     while True:
         try:
             line = []
+            sensors = controller.read_sensors()
 
-            line.append(int(time.time()))
-            for name,sensor in th_sensors:
-                h, t = sensor.read()
+            line.append(int(sensors[0]))
+            for index in range(1, len(sensors)):
+                value = float(sensors[index])
 
                 # Saving integer data to reduce SQLite db size
-                # Storing units * 10 to keep 1 significant figure
-                line.append(int(h * 10))
-                line.append(int(t * 10))
+                # Storing units * 100 to keep 2 significant figures
+                line.append(int(value * 100))
 
             sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(','.join(['?']*len(line)))
 
@@ -37,21 +32,11 @@ def log(cur, con, th_sensors):
             print "Uh oh, IO error!"
             print e
 
-        time.sleep(1)
+controller = Ostur('/dev/ttyUSB0', 115200)
+controller.stop_sampling()
+controller.close()
 
-bridge = ostur_controller.bridge(sys.argv[1], 115200)
-
-th_sensors = [
-    # ('si7021', SI7021(bridge, mux_channel=0)),
-    ('sht31_0', SHT31(bridge, mux_channel=0)),
-    ('sht31_1', SHT31(bridge, mux_channel=1)),
-    ('sht31_2', SHT31(bridge, mux_channel=2)),
-    ('sht31_5', SHT31(bridge, mux_channel=5)),
-    ('sht31_6', SHT31(bridge, mux_channel=6)),
-    ('sht31_7', SHT31(bridge, mux_channel=7)),
-    # ('htu21d', HTU21D(bridge)),
-    # ('am2315', AM2315(bridge)),
-]
+controller = Ostur('/dev/ttyUSB0', 115200)
 
 # Create new sqlite db for every run (maybe later do day-by-day?)
 db_name = time.strftime('th_log_%Y-%m-%d_%H-%M-%S.db', time.localtime())
@@ -62,13 +47,12 @@ con = sqlite3.connect(db_name)
 if con is None:
     raise IOError('Unable to open sqlite database')
 
-names = ['timestamp']
-for name,sensor in th_sensors:
-    names.append('{}_humidity'.format(name))
-    names.append('{}_temperature'.format(name))
+print('Saving to %s', db_name)
+
+names = controller.start_sampling()
 
 cur = con.cursor()
 cur.execute("CREATE TABLE IF NOT EXISTS samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(' INTEGER, '.join(names)))
 
 print(names)
-log(cur, con, th_sensors)
+log(cur, con, controller)
