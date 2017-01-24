@@ -165,6 +165,7 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
 			controller_enable(true);
 		} else if (strcmp("stop", argv[1]) == 0) {
 			controller_enable(false);
+			dprint(OK, "Controller stopped\n");
 		} else if (strcmp("autoconfig", argv[1]) == 0) {
 			controller_autoconfig();
 		} else {
