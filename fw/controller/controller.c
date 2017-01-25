@@ -17,9 +17,13 @@ typedef struct {
 // NOTE: MUST be a power of 2
 #define CONTROLLER_BUFF_SAMPLES (64)
 
+// Time the fridge must be OFF before turning on again
+#define FRIDGE_OFF_TIME_M (15)
+
 static bool running = false;
 static config_t *config;
 static ms_timer_t controller_timer;
+static ms_timer_t fridge_off_timer;
 static th_value_t primary_buff[CONTROLLER_BUFF_SAMPLES];
 static th_value_t outside_buff[CONTROLLER_BUFF_SAMPLES];
 static uint16_t buff_index;
@@ -54,6 +58,8 @@ int32_t controller_init() {
 
 	config_print(config_get());
 
+	timer_set(&fridge_off_timer, 1);
+
 	if(config->flags & CONFIG_FLAG_AUTOSTART) {
 		controller_enable(true);
 	}
@@ -64,6 +70,7 @@ int32_t controller_init() {
 void controller_control(th_value_t *values) {
 	int32_t primary_t_avg = 0;
 	int32_t outside_t_avg = 0;
+	static bool enable_state = false;
 
 	// Update value buffer with latest data
 	primary_buff[buff_index].temperature = values[config->primary_sensor].temperature;
@@ -84,11 +91,20 @@ void controller_control(th_value_t *values) {
 
 	if((primary_t_avg > config->temp_set) &&
 		(config->temp_set < outside_t_avg)) {
-		GPIO_SetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
-		GPIO_SetBits(LED2_PORT, (1 << LED2_PIN));
+		if(timer_expired(&fridge_off_timer)) {
+			GPIO_SetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
+			GPIO_SetBits(LED2_PORT, (1 << LED2_PIN));
+			enable_state = true;
+		}
 	} else {
 		GPIO_ResetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
 		GPIO_ResetBits(LED2_PORT, (1 << LED2_PIN));
+
+		// Only clear timer when changing states
+		if(enable_state == true) {
+			timer_set(&fridge_off_timer, FRIDGE_OFF_TIME_M * 60 * 1000);
+		}
+		enable_state = false;
 	}
 }
 
