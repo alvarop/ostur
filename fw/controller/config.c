@@ -20,7 +20,7 @@ int32_t config_init() {
 	if(config->magic != CONFIG_MAGIC) {
 		config_t default_config = {
 			.magic = CONFIG_MAGIC,
-			.period_ms = 2000,
+			.period_ms = 5000,
 			.temp_set = 1000,
 			.humid_set = 7500,
 			.primary_sensor = 0,
