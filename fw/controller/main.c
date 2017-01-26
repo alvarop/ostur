@@ -14,6 +14,9 @@
 #define BLINK_DELAY_MS	(500)
 
 void init() {
+
+	SystemCoreClockUpdate();
+
 	// ---------- SysTick timer -------- //
 	if (SysTick_Config(SystemCoreClock / 1000)) {
 		// Capture error
