@@ -87,7 +87,7 @@ class Ostur:
     def start_sampling(self):
         self.stream.flush()
         line = self.__send_cmd('controller start')
-        self.stream.timeout = 5  # This should be dependent on sample rate
+        self.stream.timeout = 20  # This should be dependent on sample rate
 
         result = line.strip().split(' ')
         if result[0] == 'DATA':
