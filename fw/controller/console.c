@@ -32,6 +32,7 @@ static void shtCmd(uint8_t argc, char *argv[]);
 static void snCmd(uint8_t argc, char *argv[]);
 static void controllerCmd(uint8_t argc, char *argv[]);
 static void versionCmd(uint8_t argc, char *argv[]);
+static void resetCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
 
@@ -41,6 +42,7 @@ static command_t commands[] = {
 	{"sn", snCmd, "sn"},
 	{"controller", controllerCmd, "controller <start|stop|autoconfig>"},
 	{"version", versionCmd, "version"},
+	{"reset", resetCmd, "System reset"},
 	// Add new commands here!
 	{"help", helpFn, "Print this!"},
 	{NULL, NULL, NULL}
@@ -187,6 +189,10 @@ static void snCmd(uint8_t argc, char *argv[]) {
 
 static void versionCmd(uint8_t argc, char *argv[]) {
 	dprint(OK, "%s\n", versionStr);
+}
+
+static void resetCmd(uint8_t argc, char *argv[]) {
+	NVIC_SystemReset();
 }
 
 void consoleProcess() {
