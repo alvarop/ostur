@@ -9,6 +9,7 @@ from am2315 import AM2315
 from mcp970x import MCP9701
 import sys
 import time
+from datetime import datetime
 
 
 class InvalidRelayException(Exception):
@@ -107,6 +108,16 @@ class Ostur:
         result = line.strip().split(' ')
         if result[0] == 'DATA':
             # Return samples without DATA and the last comma
-            return (result[1].strip()[:-1]).split(',')
+            line = (result[1].strip()[:-1]).split(',')
+
+            # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
+            dt = datetime.strptime(line[0],'%Y%m%dT%H%M%S')
+            line[0] = int(time.mktime(dt.timetuple())) * 1000
+
+            return line
 
         return sensors
+
+    def set_localtime(self):
+        timecmd = time.strftime("time %Y %m %d %H %M %S", time.localtime())
+        self.__send_cmd(timecmd)

@@ -49,6 +49,8 @@ if con is None:
 
 print('Saving to %s', db_name)
 
+controller.set_localtime()
+
 names = controller.start_sampling()
 
 cur = con.cursor()

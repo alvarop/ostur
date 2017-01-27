@@ -8,6 +8,7 @@
 #include "board.h"
 #include "stm32f0xx_conf.h"
 #include "debug.h"
+#include "rtc.h"
 
 typedef struct {
 	int16_t temperature;
@@ -111,7 +112,6 @@ void controller_control(th_value_t *values) {
 void controller_process() {
 	int32_t rval;
 	th_value_t values[CONFIG_MAX_SENSORS];
-	uint32_t timestamp;
 
 	if(!running) {
 		return;
@@ -121,7 +121,6 @@ void controller_process() {
 		GPIO_SetBits(LED1_PORT, (1 << LED1_PIN));
 
 		timer_set(&controller_timer, config->period_ms);
-		timestamp = get_tick_ms();
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
@@ -144,7 +143,7 @@ void controller_process() {
 
 		controller_control(values);
 
-		dprint(DATA, "%ld,", timestamp);
+		dprint(DATA, "%s,", rtc_get_time_str());
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
