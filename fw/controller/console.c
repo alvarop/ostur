@@ -11,6 +11,7 @@
 #include "timer.h"
 #include "controller.h"
 #include "debug.h"
+#include "rtc.h"
 
 typedef struct {
 	char *commandStr;
@@ -32,6 +33,7 @@ static void shtCmd(uint8_t argc, char *argv[]);
 static void snCmd(uint8_t argc, char *argv[]);
 static void controllerCmd(uint8_t argc, char *argv[]);
 static void versionCmd(uint8_t argc, char *argv[]);
+static void timeCmd(uint8_t argc, char *argv[]);
 static void resetCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
@@ -43,6 +45,7 @@ static command_t commands[] = {
 	{"controller", controllerCmd, "controller <start|stop|autoconfig>"},
 	{"version", versionCmd, "version"},
 	{"reset", resetCmd, "System reset"},
+	{"time", timeCmd, "time <YYYY MM DD HH MM SS>"},
 	// Add new commands here!
 	{"help", helpFn, "Print this!"},
 	{NULL, NULL, NULL}
@@ -117,6 +120,28 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 		}
 
 	} while (0);
+}
+
+static void timeCmd(uint8_t argc, char *argv[]) {
+	do {
+
+		if(argc == 1) {
+			dprint(OK, "%s\n", rtc_get_time_str());
+		} else if (argc == 7) {
+			uint16_t year = strtoul(argv[1], NULL, 10);
+			uint16_t month = strtoul(argv[2], NULL, 10);
+			uint16_t day = strtoul(argv[3], NULL, 10);
+			uint16_t hour = strtoul(argv[4], NULL, 10);
+			uint16_t minute = strtoul(argv[5], NULL, 10);
+			uint16_t second = strtoul(argv[6], NULL, 10);
+
+			rtc_set_time(year, month, day, hour, minute, second);
+			dprint(OK, "%s\n", rtc_get_time_str());
+		} else {
+			dprint(ERR, "invalid arguments argc=%d\n", argc);
+		}
+
+	} while(0);
 }
 
 static void shtCmd(uint8_t argc, char *argv[]) {

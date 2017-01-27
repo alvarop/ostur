@@ -10,6 +10,7 @@
 #include "config.h"
 #include "controller.h"
 #include "debug.h"
+#include "rtc.h"
 
 #define BLINK_DELAY_MS	(500)
 
@@ -22,6 +23,8 @@ void init() {
 		// Capture error
 		while (1){};
 	}
+
+	rtc_init();
 
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	GPIO_Init(LED0_PORT,
