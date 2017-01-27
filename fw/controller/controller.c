@@ -9,6 +9,7 @@
 #include "stm32f0xx_conf.h"
 #include "debug.h"
 #include "rtc.h"
+#include "i2c.h"
 
 typedef struct {
 	int16_t temperature;
@@ -129,7 +130,8 @@ void controller_process() {
 			if(sensor->addr != 0) {
 				rval = tca9584a_set_channel(TCA9548A_ADDR, sensor->bus);
 				if(rval != 0) {
-					dprint(ERR, "could not set i2c bus (%ld)\n", rval);
+					dprint(ERR, "could not set i2c bus for sensor%d (%ld)\n",sensor_id, rval);
+					i2cSetup(100000); // Attempt to recover from I2C error
 					break;
 				}
 
@@ -137,7 +139,8 @@ void controller_process() {
 									&values[sensor_id].temperature,
 									&values[sensor_id].humidity);
 				if(rval != 0) {
-					dprint(ERR, "SHT could not read temp/humidity (%ld)\n", rval);
+					dprint(ERR, "SHT could not read temp/humidity for sensor%d (%ld)\n", sensor_id, rval);
+					i2cSetup(100000); // Attempt to recover from I2C error
 					break;
 				}
 			}
