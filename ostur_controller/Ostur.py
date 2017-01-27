@@ -110,9 +110,13 @@ class Ostur:
             # Return samples without DATA and the last comma
             line = (result[1].strip()[:-1]).split(',')
 
-            # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
-            dt = datetime.strptime(line[0],'%Y%m%dT%H%M%S')
-            line[0] = int(time.mktime(dt.timetuple())) * 1000
+            # Temporary workaround so it supports both kinds of timestamps
+            try:
+                # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
+                dt = datetime.strptime(line[0],'%Y%m%dT%H%M%S')
+                line[0] = int(time.mktime(dt.timetuple())) * 1000
+            except ValueError:
+                pass
 
             return line
 
