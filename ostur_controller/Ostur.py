@@ -102,7 +102,6 @@ class Ostur:
         self.stream.timeout = 0.1
 
     def read_sensors(self):
-        sensors = {}
         line = self.stream.readline()
 
         result = line.strip().split(' ')
@@ -120,7 +119,7 @@ class Ostur:
 
             return line
 
-        return sensors
+        return line
 
     def set_localtime(self):
         timecmd = time.strftime("time %Y %m %d %H %M %S", time.localtime())

@@ -12,6 +12,11 @@ def log(cur, con, controller):
             line = []
             sensors = controller.read_sensors()
 
+            if not isinstance(sensors, list):
+                # Most likely an error, print out and keep going
+                print sensors
+                continue
+
             line.append(int(sensors[0]))
             for index in range(1, len(sensors)):
                 value = float(sensors[index])
@@ -30,6 +35,9 @@ def log(cur, con, controller):
             print e
         except IOError as e:
             print "Uh oh, IO error!"
+            print e
+        except KeyError as e:
+            print "Uh oh, Key error!"
             print e
 
 controller = Ostur('/dev/ttyUSB0', 115200)
