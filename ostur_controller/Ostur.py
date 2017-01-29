@@ -124,3 +124,15 @@ class Ostur:
     def set_localtime(self):
         timecmd = time.strftime("time %Y %m %d %H %M %S", time.localtime())
         self.__send_cmd(timecmd)
+
+    def get_time(self):
+        line = self.__send_cmd('time')
+
+        result = line.strip().split(' ')
+
+        if result[0] == 'OK':
+            # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
+            dt = datetime.strptime(result[1],'%Y%m%dT%H%M%S')
+            return int(time.mktime(dt.timetuple())) * 1000
+        else:
+            return None
