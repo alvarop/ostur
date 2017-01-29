@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "config.h"
 #include "stm32f0xx_flash.h"
 #include "debug.h"
@@ -7,7 +8,8 @@
 #define CONFIG_MAX_SIZE	(0x800)
 #define CONFIG_MAGIC	(0xDEADC0DE)
 
-static config_t *config = (config_t *)CONFIG_ADDR;
+static config_t *flash_config = (config_t *)CONFIG_ADDR;
+static config_t config;
 
 int32_t config_init() {
 	// TODO: Use CRC
@@ -17,7 +19,10 @@ int32_t config_init() {
 		while(1);
 	}
 
-	if(config->magic != CONFIG_MAGIC) {
+	// Copy flash config to RAM
+	memcpy(&config, flash_config, sizeof(config_t));
+
+	if(config.magic != CONFIG_MAGIC) {
 		config_t default_config = {
 			.magic = CONFIG_MAGIC,
 			.period_ms = 5000,
@@ -29,10 +34,10 @@ int32_t config_init() {
 			.sensor = {
 				{0x88, 0},
 				{0x88, 1},
-				{0x88, 2},
-				{0x88, 5},
-				{0x88, 6},
-				{0x88, 7},
+				{0x88, 0},
+				{0x88, 0},
+				{0x88, 0},
+				{0x88, 0},
 				{0x00, 0},
 				{0x00, 0},
 				{0x00, 0},
@@ -46,9 +51,12 @@ int32_t config_init() {
 			},
 			.crc16 = 0x0000
 		};
+
+		memcpy(&config, &default_config, sizeof(config_t));
+
 		dprint(ERR, "Config not available.\n Writing defaults\n");
 
-		config_write(&default_config);
+		config_write();
 	} else {
 		dprint(INFO, "Configuration loaded\n");
 	}
@@ -58,11 +66,12 @@ int32_t config_init() {
 
 config_t *config_get() {
 	// TODO - add magic/crc check and return NULL if invalid
-	return config;
+	return &config;
 }
 
-int32_t config_write(config_t *new_config) {
-	uint16_t *buff = (uint16_t *)new_config;
+// Write current configuration to flash
+int32_t config_write() {
+	uint16_t *buff = (uint16_t *)&config;
 
 	// TODO - compute new CRC
 
@@ -78,28 +87,28 @@ int32_t config_write(config_t *new_config) {
 
 	FLASH_Lock();
 
-	config_print(config);
+	config_print();
 	return 0;
 }
 
-int32_t config_print(config_t *config_to_print) {
+int32_t config_print() {
 	dprint(INFO, "Device Configuration:\n");
-	dprint(INFO, "magic: %08lX\n", config_to_print->magic);
-	dprint(INFO, "period_ms: %ld\n", config_to_print->period_ms);
-	dprint(INFO, "temp_set: %d\n", config_to_print->temp_set);
-	dprint(INFO, "humid_set: %d\n", config_to_print->humid_set);
-	dprint(INFO, "primary_sensor: %d\n", config_to_print->primary_sensor);
-	dprint(INFO, "outside_sensor: %d\n", config_to_print->outside_sensor);
-	dprint(INFO, "flags: %04X\n", config_to_print->flags);
+	dprint(INFO, "magic: %08lX\n", config.magic);
+	dprint(INFO, "period_ms: %ld\n", config.period_ms);
+	dprint(INFO, "temp_set: %d\n", config.temp_set);
+	dprint(INFO, "humid_set: %d\n", config.humid_set);
+	dprint(INFO, "primary_sensor: %d\n", config.primary_sensor);
+	dprint(INFO, "outside_sensor: %d\n", config.outside_sensor);
+	dprint(INFO, "flags: %04X\n", config.flags);
 
 	dprint(INFO, "Sensors:\n");
 	for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
-		th_sensor_t *sensor = &config_to_print->sensor[sensor_id];
+		th_sensor_t *sensor = &config.sensor[sensor_id];
 		dprint(INFO, "  sensor %d - addr: %02X bus: %d\n",
 			sensor_id, sensor->addr, sensor->bus);
 	}
 
-	dprint(INFO, "crc16: %04X\n", config_to_print->crc16);
+	dprint(INFO, "crc16: %04X\n", config.crc16);
 
 	return 0;
 }

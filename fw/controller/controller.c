@@ -58,7 +58,7 @@ int32_t controller_init() {
 		outside_buff[sample].humidity = INT16_MAX;
 	}
 
-	config_print(config_get());
+	config_print();
 
 	timer_set(&fridge_off_timer, 1);
 
@@ -197,14 +197,10 @@ int32_t controller_autoconfig() {
 	int32_t rval;
 	uint8_t addresses[] = {SHT31_ADDR, SHT31_ALT_ADDR};
 	uint8_t sensor_id = 0;
-	config_t *current_config = config_get();
-	config_t new_config;
-
-	// Clone current config
-	memcpy(&new_config, current_config, sizeof(config_t));
+	config_t *config = config_get();
 
 	// Clear current sensors
-	memset(&new_config.sensor, 0, sizeof(th_sensor_t) * CONFIG_MAX_SENSORS);
+	memset(&config->sensor, 0, sizeof(th_sensor_t) * CONFIG_MAX_SENSORS);
 
 	for(uint8_t bus = 0; bus < TCA9548A_CHANNELS; bus++) {
 		for(uint8_t addr = 0; addr < sizeof(addresses)/sizeof(uint8_t); addr++) {
@@ -223,14 +219,14 @@ int32_t controller_autoconfig() {
 			rval = sht31_init(addresses[addr]);
 			if (rval == 0) {
 				dprint(OK, "found sensor with addr %02X on bus %d\n", addresses[addr], bus);
-				new_config.sensor[sensor_id].addr = addresses[addr];
-				new_config.sensor[sensor_id].bus = bus;
+				config->sensor[sensor_id].addr = addresses[addr];
+				config->sensor[sensor_id].bus = bus;
 				sensor_id++;
 			}
 		}
 	}
 
-	if(config_write(&new_config)) {
+	if(config_write()) {
 		dprint(OK, "config updated\n");
 	}
 
