@@ -140,14 +140,6 @@ Text Label 4850 2400 0    60   ~ 0
 a_in
 Text Label 4850 2600 0    60   ~ 0
 b_in
-Wire Wire Line
-	5950 2350 6750 2350
-Wire Wire Line
-	5950 2450 6750 2450
-Wire Wire Line
-	5950 2550 6750 2550
-Wire Wire Line
-	5950 2650 6750 2650
 Text Label 6300 2350 0    60   ~ 0
 a_out_off
 Text Label 6300 2450 0    60   ~ 0
@@ -181,23 +173,23 @@ $EndComp
 $Comp
 L CONN_01X02 P3
 U 1 1 58744714
-P 6950 2400
-F 0 "P3" H 7100 2400 50  0000 C CNN
-F 1 "CONN_01X02" H 6950 2550 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6950 2400 50  0001 C CNN
-F 3 "" H 6950 2400 50  0000 C CNN
-	1    6950 2400
+P 6950 2600
+F 0 "P3" H 6950 2400 50  0000 C CNN
+F 1 "CONN_01X02" H 6950 3050 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6950 2600 50  0001 C CNN
+F 3 "" H 6950 2600 50  0000 C CNN
+	1    6950 2600
 	1    0    0    -1  
 $EndComp
 $Comp
 L CONN_01X02 P4
 U 1 1 58744775
-P 6950 2600
-F 0 "P4" H 7100 2600 50  0000 C CNN
-F 1 "CONN_01X02" H 6950 2400 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6950 2600 50  0001 C CNN
-F 3 "" H 6950 2600 50  0000 C CNN
-	1    6950 2600
+P 6950 2400
+F 0 "P4" H 6950 2550 50  0000 C CNN
+F 1 "CONN_01X02" H 6950 1950 50  0000 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 6950 2400 50  0001 C CNN
+F 3 "" H 6950 2400 50  0000 C CNN
+	1    6950 2400
 	1    0    0    -1  
 $EndComp
 Wire Wire Line
@@ -237,9 +229,9 @@ F 3 "" H 3050 2600 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 3400 3400 0    60   ~ 0
-a_in
-Text Label 3400 3500 0    60   ~ 0
 b_in
+Text Label 3400 3500 0    60   ~ 0
+a_in
 $Comp
 L PWR_FLAG #FLG05
 U 1 1 58744D75
@@ -262,4 +254,12 @@ F 3 "" H 3050 3000 50  0000 C CNN
 	1    3050 3000
 	0    1    1    0   
 $EndComp
+Wire Wire Line
+	6750 2350 5950 2350
+Wire Wire Line
+	5950 2450 6750 2450
+Wire Wire Line
+	6750 2550 5950 2550
+Wire Wire Line
+	5950 2650 6750 2650
 $EndSCHEMATC
