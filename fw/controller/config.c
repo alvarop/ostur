@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #include "config.h"
 #include "stm32f0xx_flash.h"
 #include "debug.h"
@@ -70,7 +71,7 @@ config_t *config_get() {
 }
 
 // Write current configuration to flash
-int32_t config_write() {
+void config_write() {
 	uint16_t *buff = (uint16_t *)&config;
 
 	// TODO - compute new CRC
@@ -87,11 +88,9 @@ int32_t config_write() {
 
 	FLASH_Lock();
 
-	config_print();
-	return 0;
 }
 
-int32_t config_print() {
+void config_print() {
 	dprint(INFO, "Device Configuration:\n");
 	dprint(INFO, "magic: %08lX\n", config.magic);
 	dprint(INFO, "period_ms: %ld\n", config.period_ms);
@@ -109,6 +108,90 @@ int32_t config_print() {
 	}
 
 	dprint(INFO, "crc16: %04X\n", config.crc16);
+}
 
-	return 0;
+
+typedef struct {
+	char *key;
+	void (*get)();
+	void (*set)(uint8_t argc, char *argv[]);
+} command_t;
+
+void _get_period() {
+	dprint(OK, "%d\n", config.period_ms);
+}
+
+void _set_period(uint8_t argc, char *argv[]) {
+	config.period_ms = strtoul(argv[2], NULL, 10);
+	dprint(OK, "\n");
+}
+
+void _get_temp() {
+	dprint(OK, "%d\n", config.temp_set);
+}
+
+void _set_temp(uint8_t argc, char *argv[]) {
+	config.temp_set = strtoul(argv[2], NULL, 10);
+	dprint(OK, "\n");
+}
+
+void _get_p_sensor() {
+	dprint(OK, "%d\n", config.primary_sensor);
+}
+
+void _set_p_sensor(uint8_t argc, char *argv[]) {
+	config.primary_sensor = strtoul(argv[2], NULL, 10);
+	dprint(OK, "\n");
+}
+
+void _get_o_sensor() {
+	dprint(OK, "%d\n", config.outside_sensor);
+}
+
+void _set_o_sensor(uint8_t argc, char *argv[]) {
+	config.outside_sensor = strtoul(argv[2], NULL, 10);
+	dprint(OK, "\n");
+}
+
+static command_t commands[] = {
+	{"write", config_write, NULL},
+	{"print", config_print, NULL},
+	{"period", _get_period, _set_period},
+	{"temp", _get_temp, _set_temp},
+	{"psensor", _get_p_sensor, _set_p_sensor},
+	{"osensor", _get_o_sensor, _set_o_sensor},
+	{NULL, NULL, NULL}
+};
+
+
+void config_cmd(uint8_t argc, char *argv[]) {
+	do {
+		if(argc < 2) {
+			dprint(ERR, "config key [value]\n");
+			break;
+		}
+
+		command_t *command = commands;
+		while(command->key != NULL) {
+			if(strcmp(command->key, argv[1]) == 0) {
+				if(argc == 2) {
+					command->get();
+				} else {
+					if(command->set != NULL){
+						command->set(argc, argv);
+					}
+				}
+				break;
+			}
+			command++;
+		}
+
+		if(command->key == NULL) {
+			dprint(ERR, "Unknown key '%s'\n", argv[1]);
+		}
+
+
+
+
+	} while(0);
 }

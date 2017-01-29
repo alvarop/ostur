@@ -12,6 +12,7 @@
 #include "controller.h"
 #include "debug.h"
 #include "rtc.h"
+#include "config.h"
 
 typedef struct {
 	char *commandStr;
@@ -46,6 +47,7 @@ static command_t commands[] = {
 	{"version", versionCmd, "version"},
 	{"reset", resetCmd, "System reset"},
 	{"time", timeCmd, "time <YYYY MM DD HH MM SS>"},
+	{"config", config_cmd, "config key [value]"},
 	// Add new commands here!
 	{"help", helpFn, "Print this!"},
 	{NULL, NULL, NULL}

@@ -226,9 +226,8 @@ int32_t controller_autoconfig() {
 		}
 	}
 
-	if(config_write()) {
-		dprint(OK, "config updated\n");
-	}
+	config_write();
+	dprint(OK, "config updated\n");
 
 	return 0;
 }

@@ -27,7 +27,8 @@ typedef struct {
 
 int32_t config_init();
 config_t *config_get();
-int32_t config_write();
-int32_t config_print();
+void config_write();
+void config_print();
+void config_cmd(uint8_t argc, char *argv[]);
 
 #endif
