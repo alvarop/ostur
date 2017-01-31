@@ -151,7 +151,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 
 	do {
 		if(argc < 3) {
-			dprint(ERR, "sht <init|read> <channel>\n");
+			dprint(ERR, "sht <init|read|h_on|h_off> <channel>\n");
 			break;
 		}
 
@@ -178,6 +178,18 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 			}
 			dprint(OK, " %d.%02d ", temperature/100, (temperature-(temperature/100) * 100));
 			dprint(OK_CONT, "%d.%02d\n", humidity/100, (humidity-(humidity/100) * 100));
+		} else if (strcmp("h_on", argv[1]) == 0) {
+			rval = sht31_heater(SHT31_ADDR, true);
+			if(rval != 0) {
+				dprint(ERR, "SHT could not enable heater\n");
+				break;
+			}
+		} else if (strcmp("h_off", argv[1]) == 0) {
+			rval = sht31_heater(SHT31_ADDR, false);
+			if(rval != 0) {
+				dprint(ERR, "SHT could not enable heater\n");
+				break;
+			}
 		}
 
 	} while(0);

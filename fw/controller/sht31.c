@@ -81,6 +81,23 @@ int32_t sht31_reset(uint8_t addr) {
 	return rval;
 }
 
+int32_t sht31_heater(uint8_t addr, bool enable) {
+	int32_t rval = 0;
+	uint8_t wBuff[2];
+
+	if (enable) {
+		wBuff[0] = HEATER_ENABLE_H;
+		wBuff[1] = HEATER_ENABLE_L;
+	} else {
+		wBuff[0] = HEATER_DISABLE_H;
+		wBuff[1] = HEATER_DISABLE_L;
+	}
+
+	rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
+
+	return rval;
+}
+
 int32_t sht31_read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
 	int32_t rval = 0;
 	uint8_t rBuff[6];
