@@ -5,7 +5,7 @@
 
 #define TCA95XXA_ADDR (0x70 << 1)
 
-#define TCA95XXA_CHANNELS (8)
+#define TCA95XXA_CHANNELS (4)
 
 #define TCA95XXA_ERR_CHANNEL (-16)
 

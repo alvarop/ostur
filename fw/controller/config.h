@@ -8,7 +8,7 @@ typedef struct {
 	uint8_t bus;
 } __attribute__((packed)) th_sensor_t;
 
-#define CONFIG_MAX_SENSORS (16)
+#define CONFIG_MAX_SENSORS (8)
 
 // WARNING: when changing struct, Cortex-m0 doesn't do unaligned access!!
 typedef struct {
