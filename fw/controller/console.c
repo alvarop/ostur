@@ -6,7 +6,7 @@
 #include "fifo.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
-#include "tca9584a.h"
+#include "tca95xxa.h"
 #include "sht31.h"
 #include "timer.h"
 #include "controller.h"
@@ -156,7 +156,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 		}
 
 		uint8_t ch = strtoul(argv[2], NULL, 10);
-		rval = tca9584a_set_channel(TCA9548A_ADDR, ch);
+		rval = tca95xxa_set_channel(TCA95XXA_ADDR, ch);
 
 		if(rval != 0) {
 			dprint(ERR, "SHT could not set channel\n");
