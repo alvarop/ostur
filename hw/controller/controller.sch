@@ -36,8 +36,8 @@ $Descr A4 11693 8268
 encoding utf-8
 Sheet 1 1
 Title "Ostur Controller"
-Date "2017-01-11"
-Rev "1.1"
+Date "2017-02-04"
+Rev "1.2"
 Comp "alvarop.com"
 Comment1 ""
 Comment2 ""
@@ -251,22 +251,6 @@ Text Label 1250 4000 0    60   ~ 0
 UART1_RX
 Text Label 1250 3900 0    60   ~ 0
 UART1_TX
-Text Label 1250 3700 0    60   ~ 0
-MOSI
-Text Label 1250 3600 0    60   ~ 0
-MISO
-Text Label 1250 3500 0    60   ~ 0
-SCK
-Text Label 1250 3400 0    60   ~ 0
-CS
-Text Label 1800 3000 2    60   ~ 0
-GPIO0
-Text Label 1800 3100 2    60   ~ 0
-GPIO1
-Text Label 1800 3200 2    60   ~ 0
-GPIO2
-Text Label 1800 3300 2    60   ~ 0
-GPIO3
 Text Label 6800 3050 0    60   ~ 0
 SDA
 Text Label 6800 2950 0    60   ~ 0
@@ -302,8 +286,6 @@ TCA_A0
 Text Label 6800 2650 0    60   ~ 0
 TCA_A1
 Text Label 6800 2850 0    60   ~ 0
-TCA_A2
-Text Label 5000 2800 2    60   ~ 0
 TCA_A2
 $Comp
 L GND #PWR010
@@ -348,34 +330,22 @@ F 4 "CL21B104MBCNNNC" H 1200 1250 60  0001 C CNN "MPN"
 	1    1200 1250
 	1    0    0    -1  
 $EndComp
-Text Label 5000 4000 2    60   ~ 0
-UART3_TX
 Text Label 1250 4300 0    60   ~ 0
 SWDIO
-Text Label 5000 3900 2    60   ~ 0
-UART3_RX
-Text Label 5000 3800 2    60   ~ 0
+Text Label 1250 3600 2    60   ~ 0
 FRIDGE
-Text Label 5000 3700 2    60   ~ 0
+Text Label 1250 3500 2    60   ~ 0
 FAN
-Text Label 5000 3600 2    60   ~ 0
+Text Label 1250 3400 2    60   ~ 0
 PUMP
-Text Label 5000 3500 2    60   ~ 0
+Text Label 1250 3300 2    60   ~ 0
 MIST
-Text Label 5000 3400 2    60   ~ 0
-GPIO5
-Text Label 5000 3300 2    60   ~ 0
-GPIO6
-Text Label 5000 3200 2    60   ~ 0
-GPIO7
 Text Label 5000 4300 2    60   ~ 0
 LED0
 Text Label 5000 4200 2    60   ~ 0
 LED1
 Text Label 5000 4100 2    60   ~ 0
 LED2
-Text Label 1250 4500 0    60   ~ 0
-GPIO4
 $Comp
 L CONN_01X04 P14
 U 1 1 58299458
@@ -426,7 +396,7 @@ F 3 "" H 9400 5500 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 8900 5350 0    60   ~ 0
-VDD_ALT
+VDD
 Text Label 8900 5450 0    60   ~ 0
 SCL2
 Text Label 8900 5550 0    60   ~ 0
@@ -445,7 +415,7 @@ F 3 "" H 9400 6050 50  0000 C CNN
 	1    0    0    -1  
 $EndComp
 Text Label 8900 5900 0    60   ~ 0
-VDD_ALT
+VDD
 Text Label 8900 6000 0    60   ~ 0
 SCL3
 Text Label 8900 6100 0    60   ~ 0
@@ -542,17 +512,6 @@ LED1
 Text Label 2750 7150 0    60   ~ 0
 LED2
 $Comp
-L CONN_01X04 P13
-U 1 1 5829C63F
-P 8600 6050
-F 0 "P13" H 8600 6300 50  0000 C CNN
-F 1 "SPI" V 8700 6050 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 8600 6050 50  0001 C CNN
-F 3 "" H 8600 6050 50  0000 C CNN
-	1    8600 6050
-	1    0    0    -1  
-$EndComp
-$Comp
 L CONN_01X06 P12
 U 1 1 5829CA0B
 P 8600 5400
@@ -633,42 +592,6 @@ F 3 "" H 5550 4400 50  0000 C CNN
 	1    5550 4400
 	0    -1   -1   0   
 $EndComp
-Text Label 8000 5900 0    60   ~ 0
-MOSI
-Text Label 8000 6000 0    60   ~ 0
-MISO
-Text Label 8000 6100 0    60   ~ 0
-SCK
-Text Label 8000 6200 0    60   ~ 0
-CS
-$Comp
-L CONN_01X03 P11
-U 1 1 582A1820
-P 8600 4800
-F 0 "P11" H 8600 5000 50  0000 C CNN
-F 1 "VDD_SEL" V 8700 4800 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 8600 4800 50  0001 C CNN
-F 3 "" H 8600 4800 50  0000 C CNN
-	1    8600 4800
-	1    0    0    -1  
-$EndComp
-Text Label 8000 4800 0    60   ~ 0
-VDD_ALT
-Text Label 8000 4700 0    60   ~ 0
-VDD
-Text Label 8000 4900 0    60   ~ 0
-VDD_5
-$Comp
-L CONN_01X04 P10
-U 1 1 582A5612
-P 7700 6050
-F 0 "P10" H 7700 6300 50  0000 C CNN
-F 1 "GPIO" V 7800 6050 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 7700 6050 50  0001 C CNN
-F 3 "" H 7700 6050 50  0000 C CNN
-	1    7700 6050
-	1    0    0    -1  
-$EndComp
 $Comp
 L CONN_01X04 P6
 U 1 1 582A579E
@@ -688,33 +611,6 @@ Text Label 6050 5550 0    60   ~ 0
 GND
 Text Label 6050 5650 0    60   ~ 0
 GND
-Text Label 7050 5900 0    60   ~ 0
-GPIO4
-Text Label 7050 6000 0    60   ~ 0
-GPIO5
-Text Label 7050 6100 0    60   ~ 0
-GPIO6
-Text Label 7050 6200 0    60   ~ 0
-GPIO7
-$Comp
-L CONN_01X04 P9
-U 1 1 582A6318
-P 7700 5500
-F 0 "P9" H 7700 5750 50  0000 C CNN
-F 1 "GPIO" V 7800 5500 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x04" H 7700 5500 50  0001 C CNN
-F 3 "" H 7700 5500 50  0000 C CNN
-	1    7700 5500
-	1    0    0    -1  
-$EndComp
-Text Label 7050 5350 0    60   ~ 0
-GPIO0
-Text Label 7050 5450 0    60   ~ 0
-GPIO1
-Text Label 7050 5550 0    60   ~ 0
-GPIO2
-Text Label 7050 5650 0    60   ~ 0
-GPIO3
 $Comp
 L CONN_01X04 P7
 U 1 1 582A64CE
@@ -976,21 +872,6 @@ F 3 "" H 7000 4100 50  0000 C CNN
 $EndComp
 NoConn ~ 5900 6950
 $Comp
-L CONN_01X02 P22
-U 1 1 582B6843
-P 7700 5000
-F 0 "P22" H 7700 5150 50  0000 C CNN
-F 1 "UART3" V 7800 5000 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x02" H 7700 5000 50  0001 C CNN
-F 3 "" H 7700 5000 50  0000 C CNN
-	1    7700 5000
-	1    0    0    -1  
-$EndComp
-Text Label 7050 5050 0    60   ~ 0
-UART3_TX
-Text Label 7050 4950 0    60   ~ 0
-UART3_RX
-$Comp
 L R R11
 U 1 1 582C3EF6
 P 10000 1200
@@ -1150,7 +1031,7 @@ Connection ~ 3100 2000
 Connection ~ 3200 2000
 Connection ~ 3300 2000
 Wire Wire Line
-	3200 1800 3200 2000
+	3200 2000 3200 1800
 Wire Wire Line
 	3000 5200 3300 5200
 Connection ~ 3100 5200
@@ -1191,34 +1072,6 @@ Wire Wire Line
 Wire Wire Line
 	1250 3900 2000 3900
 Wire Wire Line
-	2000 3700 1250 3700
-Wire Wire Line
-	2000 3600 1250 3600
-Wire Wire Line
-	2000 3500 1250 3500
-Wire Wire Line
-	2000 3400 1250 3400
-Wire Wire Line
-	2000 3000 1800 3000
-Wire Wire Line
-	2000 3100 1800 3100
-Wire Wire Line
-	2000 3200 1800 3200
-Wire Wire Line
-	2000 3300 1800 3300
-Wire Wire Line
-	4500 3800 5000 3800
-Wire Wire Line
-	4500 3700 5000 3700
-Wire Wire Line
-	4500 3600 5000 3600
-Wire Wire Line
-	4500 3500 5000 3500
-Wire Wire Line
-	4500 4000 5000 4000
-Wire Wire Line
-	4500 3900 5000 3900
-Wire Wire Line
 	7100 3050 6800 3050
 Wire Wire Line
 	7100 2950 6800 2950
@@ -1231,11 +1084,9 @@ Wire Wire Line
 Wire Wire Line
 	6500 2750 7100 2750
 Wire Wire Line
-	7100 2850 6800 2850
+	6700 2850 7100 2850
 Wire Wire Line
-	4500 2800 5000 2800
-Wire Wire Line
-	6700 2650 6700 2550
+	6700 2550 6700 2850
 Connection ~ 6700 2550
 Wire Wire Line
 	8300 2750 8750 2750
@@ -1250,21 +1101,13 @@ Connection ~ 1450 1350
 Connection ~ 2600 1150
 Connection ~ 2600 1350
 Wire Wire Line
-	4500 3400 5000 3400
-Wire Wire Line
 	2000 4300 1250 4300
-Wire Wire Line
-	4500 3300 5000 3300
-Wire Wire Line
-	4500 3200 5000 3200
 Wire Wire Line
 	4500 4300 5000 4300
 Wire Wire Line
 	4500 4200 5000 4200
 Wire Wire Line
 	4500 4100 5000 4100
-Wire Wire Line
-	2000 4500 1250 4500
 Wire Wire Line
 	9200 4250 8900 4250
 Wire Wire Line
@@ -1321,14 +1164,6 @@ Connection ~ 4050 6850
 Wire Wire Line
 	4250 6850 4250 6900
 Wire Wire Line
-	8400 5900 8000 5900
-Wire Wire Line
-	8400 6000 8000 6000
-Wire Wire Line
-	8400 6100 8000 6100
-Wire Wire Line
-	8400 6200 8000 6200
-Wire Wire Line
 	8400 5150 8000 5150
 Wire Wire Line
 	8000 5350 8400 5350
@@ -1355,12 +1190,6 @@ Wire Wire Line
 Wire Wire Line
 	4750 4500 4750 4800
 Wire Wire Line
-	8400 4800 8000 4800
-Wire Wire Line
-	8400 4700 8000 4700
-Wire Wire Line
-	8400 4900 8000 4900
-Wire Wire Line
 	6500 5350 6050 5350
 Wire Wire Line
 	6500 5450 6050 5450
@@ -1368,22 +1197,6 @@ Wire Wire Line
 	6500 5550 6050 5550
 Wire Wire Line
 	6500 5650 6050 5650
-Wire Wire Line
-	7500 5900 7050 5900
-Wire Wire Line
-	7500 6000 7050 6000
-Wire Wire Line
-	7500 6100 7050 6100
-Wire Wire Line
-	7500 6200 7050 6200
-Wire Wire Line
-	7500 5350 7050 5350
-Wire Wire Line
-	7500 5450 7050 5450
-Wire Wire Line
-	7500 5550 7050 5550
-Wire Wire Line
-	7500 5650 7050 5650
 Wire Wire Line
 	6500 5900 6050 5900
 Wire Wire Line
@@ -1453,15 +1266,11 @@ Wire Wire Line
 	3800 1100 3550 1100
 Connection ~ 3550 1100
 Wire Wire Line
-	7500 4950 7050 4950
-Wire Wire Line
-	7500 5050 7050 5050
-Wire Wire Line
 	10150 1200 10400 1200
 Wire Wire Line
 	10150 1350 10400 1350
 Wire Wire Line
-	9850 850  9850 1700
+	9850 850  9850 2500
 Wire Wire Line
 	10150 850  10400 850 
 Wire Wire Line
@@ -1470,8 +1279,6 @@ Wire Wire Line
 	10150 1550 10400 1550
 Wire Wire Line
 	10150 1700 10400 1700
-Wire Wire Line
-	9850 2000 9850 2500
 Wire Wire Line
 	10150 2000 10400 2000
 Wire Wire Line
@@ -1491,10 +1298,6 @@ Wire Wire Line
 	9850 1550 9650 1550
 Wire Wire Line
 	9650 1550 9650 1450
-Wire Wire Line
-	9450 2150 9850 2150
-Text Label 9450 2150 0    60   ~ 0
-VDD_ALT
 $Comp
 L VDD #PWR022
 U 1 1 582C95F9
@@ -1636,4 +1439,29 @@ F 3 "" H 3550 2000 50  0000 C CNN
 	1    3550 2000
 	0    1    1    0   
 $EndComp
+NoConn ~ 2000 3000
+NoConn ~ 2000 3700
+NoConn ~ 2000 4500
+NoConn ~ 4500 3400
+NoConn ~ 4500 3300
+NoConn ~ 4500 3200
+NoConn ~ 4500 3900
+NoConn ~ 4500 4000
+Connection ~ 9850 2000
+Connection ~ 6700 2650
+NoConn ~ 4500 2800
+NoConn ~ 2000 3200
+NoConn ~ 2000 3100
+Wire Wire Line
+	2000 3600 1250 3600
+Wire Wire Line
+	2000 3500 1250 3500
+Wire Wire Line
+	2000 3400 1250 3400
+Wire Wire Line
+	2000 3300 1250 3300
+NoConn ~ 4500 3500
+NoConn ~ 4500 3600
+NoConn ~ 4500 3700
+NoConn ~ 4500 3800
 $EndSCHEMATC

@@ -1,14 +1,14 @@
 Title,Ostur Controller
 Revision,1.1
 Date,2017-01-11
-Generated,Sat 04 Feb 2017 07:59:08 AM PST
+Generated,Sat 04 Feb 2017 02:36:27 PM PST
 Company,alvarop.com
 Comment 1,
 Comment 2,
 Comment 3,
 Comment 4,
-Total Parts,57
-Total Unique Parts,37
+Total Parts,52
+Total Unique Parts,33
 
 
 
@@ -27,10 +27,7 @@ P14 ,1,I2C0,Pin_Headers:Pin_Header_Straight_1x04,
 P15 ,1,I2C1,Pin_Headers:Pin_Header_Straight_1x04, 
 P16 ,1,I2C2,Pin_Headers:Pin_Header_Straight_1x04, 
 P17 ,1,I2C3,Pin_Headers:Pin_Header_Straight_1x04, 
-P13 ,1,SPI,Pin_Headers:Pin_Header_Straight_1x04, 
 P12 ,1,UART0,Pin_Headers:Pin_Header_Straight_1x06, 
-P11 ,1,VDD_SEL,Pin_Headers:Pin_Header_Straight_1x03, 
-P10 P9 ,2,GPIO,Pin_Headers:Pin_Header_Straight_1x04, 
 P6 ,1,GND,Pin_Headers:Pin_Header_Straight_1x04, 
 P7 ,1,VDD,Pin_Headers:Pin_Header_Straight_1x04, 
 P2 ,1,FRIDGE,Pin_Headers:Pin_Header_Straight_1x02, 
@@ -38,7 +35,6 @@ P3 ,1,FAN,Pin_Headers:Pin_Header_Straight_1x02,
 P4 ,1,PUMP,Pin_Headers:Pin_Header_Straight_1x02, 
 P5 ,1,MIST,Pin_Headers:Pin_Header_Straight_1x02, 
 P1 ,1,USB_OTG,footprints:USB_MICRO_B,10118192-0001LF
-P22 ,1,UART3,Pin_Headers:Pin_Header_Straight_1x02, 
 R2 R11 R12 R9 R10 R13 R14 R21 R22 R23 R24 ,11,10k,Resistors_SMD:R_0805,311-10KARCT-ND
 R5 R4 R3 ,3,680,Resistors_SMD:R_0805,RC0805JR-07680RL
 R7 R8 ,2,22,Resistors_SMD:R_0805,RC0805JR-0722RL
@@ -55,4 +51,4 @@ Y2 ,1,32768Hz,footprints:FC-135,ABS07-120-32.768KHZ-T
 
 
 BOM made with KICAD_BOM_WIZARD (https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
-Generated Sat 04 Feb 2017 07:59:08 AM PST
+Generated Sat 04 Feb 2017 02:36:27 PM PST
