@@ -17,7 +17,7 @@ int32_t rtc_init() {
 	PWR_BackupAccessCmd(ENABLE);
 
 	dprint(INFO, "Enabling 32.768kHz oscillator.\n");
-	RCC_LSEDriveConfig(RCC_LSEDrive_MediumLow);
+	RCC_LSEDriveConfig(RCC_LSEDrive_Low);
 	RCC_LSEConfig(RCC_LSE_ON);
 
 	while(!(RCC->BDCR & 0x2)) {
