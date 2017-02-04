@@ -24,8 +24,6 @@ void init() {
 		while (1){};
 	}
 
-	rtc_init();
-
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
 	GPIO_Init(LED0_PORT,
 		&(GPIO_InitTypeDef){
@@ -109,6 +107,8 @@ void init() {
 	uartInit(115200);
 
 	dprint(INFO, "Ostur Controller %s\n", FW_VERSION);
+
+	rtc_init();
 
 	i2cSetup(100000);
 	config_init();

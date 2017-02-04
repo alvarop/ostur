@@ -58,8 +58,6 @@ int32_t controller_init() {
 		outside_buff[sample].humidity = INT16_MAX;
 	}
 
-	config_print();
-
 	timer_set(&fridge_off_timer, 1);
 
 	if(config->flags & CONFIG_FLAG_AUTOSTART) {
@@ -113,7 +111,6 @@ void controller_control(th_value_t *values) {
 void controller_process() {
 	int32_t rval;
 	th_value_t values[CONFIG_MAX_SENSORS];
-	uint32_t timestamp;
 
 	if(!running) {
 		return;
@@ -123,7 +120,6 @@ void controller_process() {
 		GPIO_SetBits(LED1_PORT, (1 << LED1_PIN));
 
 		timer_set(&controller_timer, config->period_ms);
-		timestamp = get_tick_ms();
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];
@@ -148,9 +144,7 @@ void controller_process() {
 
 		controller_control(values);
 
-		// Printing ms timestamp until I figure out RTC drift
-		dprint(DATA, "%ld,", timestamp);
-		// dprint(DATA, "%s,", rtc_get_time_str());
+		dprint(DATA, "%s,", rtc_get_time_str());
 
 		for(uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
 			th_sensor_t *sensor = &config->sensor[sensor_id];

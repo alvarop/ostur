@@ -3,18 +3,34 @@
 #include "stm32f0xx_conf.h"
 #include "debug.h"
 #include "timer.h"
+#include "debug.h"
+#include "board.h"
 #include "rtc.h"
 
 static char time_str[16];
 
 int32_t rtc_init() {
 	RTC_InitTypeDef rtc_init_struct;
-
-	RCC_LSICmd(ENABLE);
+	uint32_t blinkState = 0;
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
 	PWR_BackupAccessCmd(ENABLE);
-	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSI);
+
+	dprint(INFO, "Enabling 32.768kHz oscillator.\n");
+	RCC_LSEDriveConfig(RCC_LSEDrive_MediumLow);
+	RCC_LSEConfig(RCC_LSE_ON);
+
+	while(!(RCC->BDCR & 0x2)) {
+		if(blinkState) {
+			GPIO_SetBits(LED0_PORT, (1 << LED0_PIN));
+		} else {
+			GPIO_ResetBits(LED0_PORT, (1 << LED0_PIN));
+		}
+		blinkState ^= 1;
+		sleep_ms(50);
+	}
+
+	RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);
 	RCC_RTCCLKCmd(ENABLE);
 
 	RTC_WriteProtectionCmd(DISABLE);
