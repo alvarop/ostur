@@ -145,6 +145,15 @@ void _set_o_sensor(uint8_t argc, char *argv[]) {
 	dprint(OK, "\n");
 }
 
+void _get_flags() {
+	dprint(OK, "%04X\n", config.flags);
+}
+
+void _set_flags(uint8_t argc, char *argv[]) {
+	config.flags = strtoul(argv[2], NULL, 16);
+	dprint(OK, "\n");
+}
+
 static command_t commands[] = {
 	{"write", config_write, NULL},
 	{"print", config_print, NULL},
@@ -152,6 +161,7 @@ static command_t commands[] = {
 	{"temp", _get_temp, _set_temp},
 	{"psensor", _get_p_sensor, _set_p_sensor},
 	{"osensor", _get_o_sensor, _set_o_sensor},
+	{"flags", _get_flags, _set_flags},
 	{NULL, NULL, NULL}
 };
 
