@@ -5,7 +5,10 @@ import sys
 import time
 import sqlite3
 import numpy as np
+import datetime
 import matplotlib.pyplot as plt
+from matplotlib.dates import DayLocator, HourLocator, DateFormatter, drange
+from numpy import arange
 
 
 # Create new sqlite db for every run (maybe later do day-by-day?)
@@ -24,8 +27,8 @@ rows = cur.fetchall()
 
 (index, timestamp, t0, h0, t1, h1, t2, h2) = zip(*rows)
 
-# Convert timestamp to hours since first sample
-timestamp = [(x - timestamp[0])/1000.0/60.0/60.0 for x in timestamp]
+# Convert timestamp to datetime
+dates = [datetime.datetime.fromtimestamp(x/1000.0) for x in timestamp]
 
 # Convert back to units (from units * 100 stored in db)
 h0 = [x / 100.0 for x in h0]
@@ -37,37 +40,26 @@ t1 = [x / 100.0 for x in t1]
 t2 = [x / 100.0 for x in t2]
 
 # Two subplots, the axes array is 1-d
-f, axarr = plt.subplots(2, sharex=True)
-axarr[0].plot(timestamp, h0)
-axarr[0].plot(timestamp, h1)
-axarr[0].plot(timestamp, h2)
+fig, axarr = plt.subplots(2, sharex=True)
+axarr[0].set_title('Cheese cave controller!')
 
-axarr[0].set_ylim([20,100])
-# axarr[0].set_xlim([0,3])
-axarr[0].set_title('Sharing X axis')
-axarr[1].plot(timestamp, t0)
-axarr[1].plot(timestamp, t1)
-axarr[1].plot(timestamp, t2)
+axarr[0].plot(dates, h0, 'b', label='fridge')
+axarr[0].plot(dates, h1, 'g', label='outside')
+axarr[0].plot(dates, h2, 'r', label='cheese')
+axarr[0].set_ylabel('% Humidity')
 
-axarr[1].set_ylim([5,20])
+axarr[1].plot(dates, t0, 'b', label='fridge')
+axarr[1].plot(dates, t1, 'g', label='outside')
+axarr[1].plot(dates, t2, 'r', label='cheese')
+axarr[1].set_ylabel('Temperature (C)')
 
-# Show temperature and humidity on same plot with different axes
-# fig, ax1 = plt.subplots()
-# ax1.plot(timestamp, h1, 'b-')
-# ax1.set_xlabel('Time (Hours)')
-# ax1.set_ylim([0,100])
+axarr[0].xaxis.set_major_locator(DayLocator())
+axarr[0].xaxis.set_minor_locator(HourLocator(arange(0, 25, 6)))
+axarr[0].xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
 
-# ax1.set_ylabel('% Humidity', color='b')
-# for tl in ax1.get_yticklabels():
-#     tl.set_color('b')
+legend = axarr[0].legend(loc='best', shadow=True)
 
-# ax2 = ax1.twinx()
-# ax2.plot(timestamp, t1, 'r-')
-# # ax2.set_xlabel('time (s)')
-# ax2.set_ylim([5,25])
-
-# ax2.set_ylabel('Temperature (C)', color='r')
-# for tl in ax2.get_yticklabels():
-#     tl.set_color('r')
+# Make the dates at the bottom pretty
+fig.autofmt_xdate()
 
 plt.show()
