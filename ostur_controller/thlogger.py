@@ -1,9 +1,10 @@
 #!/usr/bin/env python
 #
 
+import argparse
+import sqlite3
 import sys
 import time
-import sqlite3
 from Ostur import Ostur
 
 def log(cur, con, controller):
@@ -40,22 +41,34 @@ def log(cur, con, controller):
             print "Uh oh, Key error!"
             print e
 
-controller = Ostur('/dev/ttyUSB0', 115200)
+parser = argparse.ArgumentParser()
+parser.add_argument('--device',
+                    default='/dev/ttyUSB0',
+                    help='Serial/usb device to connect to')
+parser.add_argument('--db',
+                    default=None,
+                    help='Serial/usb device to connect to')
+args = parser.parse_args()
+
+controller = Ostur(args.device, 115200)
 controller.stop_sampling()
 controller.close()
 
-controller = Ostur('/dev/ttyUSB0', 115200)
+controller = Ostur(args.device, 115200)
 
-# Create new sqlite db for every run (maybe later do day-by-day?)
-db_name = time.strftime('th_log_%Y-%m-%d_%H-%M-%S.db', time.localtime())
+if args.db is None:
+    # Create new sqlite db for every run (maybe later do day-by-day?)
+    db_name = time.strftime('th_log_%Y-%m-%d_%H-%M-%S.db', time.localtime())
+else:
+    db_name = args.db
+
+print('Using %s', db_name)
 
 con = None
 con = sqlite3.connect(db_name)
 
 if con is None:
     raise IOError('Unable to open sqlite database')
-
-print('Saving to %s', db_name)
 
 controller.set_localtime()
 
