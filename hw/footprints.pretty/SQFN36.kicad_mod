@@ -1,11 +1,11 @@
-(module SQFN36 (layer F.Cu) (tedit 589FB4ED)
+(module SQFN36 (layer F.Cu) (tedit 58A0861D)
   (fp_text reference REF** (at 0 4.5) (layer F.SilkS)
     (effects (font (size 1 1) (thickness 0.15)))
   )
   (fp_text value SQFN36 (at 0 -5) (layer F.Fab) hide
     (effects (font (size 1 1) (thickness 0.15)))
   )
-  (fp_circle (center -3 -3) (end -3 -2.5) (layer F.Fab) (width 0.15))
+  (fp_circle (center -3 -3) (end -3 -2.5) (layer F.SilkS) (width 0.15))
   (pad 14 smd rect (at 0 2.775) (size 0.28 0.9) (layers F.Cu F.Paste F.Mask))
   (pad 15 smd rect (at 0.5 2.775) (size 0.28 0.9) (layers F.Cu F.Paste F.Mask))
   (pad 16 smd rect (at 1 2.775) (size 0.28 0.9) (layers F.Cu F.Paste F.Mask))
