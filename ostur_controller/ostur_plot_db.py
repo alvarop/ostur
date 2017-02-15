@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 #
 
+import argparse
+import operator
 import sys
 import time
 import sqlite3
@@ -11,11 +13,18 @@ from matplotlib.dates import DayLocator, HourLocator, DateFormatter, drange
 from numpy import arange
 
 
-# Create new sqlite db for every run (maybe later do day-by-day?)
-db_name = sys.argv[1]
+parser = argparse.ArgumentParser()
+parser.add_argument('--avg_window',
+                    default=1,
+                    type=int,
+                    help='Number of samples to average')
+parser.add_argument('--db',
+                    required=True,
+                    help='Serial/usb device to connect to')
+args = parser.parse_args()
 
 con = None
-con = sqlite3.connect(db_name)
+con = sqlite3.connect(args.db)
 
 if con is None:
     raise IOError('Unable to open sqlite database')
@@ -23,7 +32,23 @@ if con is None:
 cur = con.cursor()
 cur.execute("SELECT * FROM samples")
 
-rows = cur.fetchall()
+rows = []
+subrows = []
+
+# Average avg_window samples before plotting
+while 1:
+    row = cur.fetchone()
+    if row is not None:
+        subrows.append(row)
+
+    # Make sure we don't ignore the last samples either
+    if len(subrows) == args.avg_window or (row is None and len(subrows) > 0):
+        tmp_array = np.array(subrows)
+        rows.append(np.around(np.mean(tmp_array, axis=0)).tolist())
+        subrows = []
+
+    if row is None:
+        break
 
 (index, timestamp, t0, h0, t1, h1, t2, h2) = zip(*rows)
 
