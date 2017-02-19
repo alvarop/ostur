@@ -1465,4 +1465,8 @@ NoConn ~ 4500 3500
 NoConn ~ 4500 3600
 NoConn ~ 4500 3700
 NoConn ~ 4500 3800
+Text Label 4500 4400 0    60   ~ 0
+LSE_OUT
+Text Label 4500 4500 0    60   ~ 0
+LSE_IN
 $EndSCHEMATC
