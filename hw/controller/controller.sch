@@ -1,4 +1,5 @@
 EESchema Schematic File Version 2
+LIBS:controller-rescue
 LIBS:power
 LIBS:device
 LIBS:transistors
@@ -423,7 +424,7 @@ SDA3
 Text Label 8900 6200 0    60   ~ 0
 GND
 $Comp
-L LED D3
+L LED-RESCUE-controller D3
 U 1 1 5829AECD
 P 3600 7150
 F 0 "D3" H 3600 7250 50  0000 C CNN
@@ -435,7 +436,7 @@ F 4 "LG R971-KN-1" H 3600 7150 60  0001 C CNN "MPN"
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED D2
+L LED-RESCUE-controller D2
 U 1 1 5829AF4F
 P 3600 6850
 F 0 "D2" H 3600 6950 50  0000 C CNN
@@ -447,7 +448,7 @@ F 4 "LG R971-KN-1" H 3600 6850 60  0001 C CNN "MPN"
 	-1   0    0    1   
 $EndComp
 $Comp
-L LED D1
+L LED-RESCUE-controller D1
 U 1 1 5829AFC5
 P 3600 6550
 F 0 "D1" H 3600 6650 50  0000 C CNN
@@ -691,7 +692,7 @@ GND
 Text Label 6050 4900 0    60   ~ 0
 MIST
 $Comp
-L USB_OTG P1
+L USB_OTG-RESCUE-controller P1
 U 1 1 582A896C
 P 6200 6850
 F 0 "P1" H 6525 6725 50  0000 C CNN
