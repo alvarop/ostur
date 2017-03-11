@@ -57,14 +57,6 @@ void init() {
 			GPIO_OType_PP,
 			GPIO_PuPd_NOPULL});
 
-	GPIO_Init(TCA_A2_PORT,
-		&(GPIO_InitTypeDef){
-			(1 << TCA_A2_PIN),
-			GPIO_Mode_OUT,
-			GPIO_Speed_2MHz,
-			GPIO_OType_PP,
-			GPIO_PuPd_NOPULL});
-
 	GPIO_Init(FAN_PORT,
 		&(GPIO_InitTypeDef){
 			(1 << FAN_PIN),
@@ -102,7 +94,6 @@ void init() {
 	GPIO_ResetBits(MIST_PORT, (1 << MIST_PIN));
 
 	GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
-	GPIO_ResetBits(TCA_A2_PORT, (1 << TCA_A2_PIN));
 
 	uartInit(115200);
 

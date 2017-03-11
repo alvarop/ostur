@@ -27,19 +27,16 @@
 #define TCA_nRST_PORT GPIOB
 #define TCA_nRST_PIN 8
 
-#define TCA_A2_PORT GPIOB
-#define TCA_A2_PIN 9
+#define MIST_PORT GPIOA
+#define MIST_PIN 3
 
-#define MIST_PORT GPIOB
-#define MIST_PIN 15
+#define PUMP_PORT GPIOA
+#define PUMP_PIN 4
 
-#define PUMP_PORT GPIOB
-#define PUMP_PIN 14
+#define FAN_PORT GPIOA
+#define FAN_PIN 5
 
-#define FAN_PORT GPIOB
-#define FAN_PIN 13
-
-#define FRIDGE_PORT GPIOB
-#define FRIDGE_PIN 12
+#define FRIDGE_PORT GPIOA
+#define FRIDGE_PIN 6
 
 #endif // __BOARD__
