@@ -185,11 +185,11 @@ X VI 3 -400 50 150 R 50 50 1 1 W
 ENDDRAW
 ENDDEF
 #
-# LED-RESCUE-controller
+# LED-RESCUE-controller-RESCUE-controller
 #
-DEF LED-RESCUE-controller D 0 40 Y N 1 F N
+DEF LED-RESCUE-controller-RESCUE-controller D 0 40 Y N 1 F N
 F0 "D" 0 100 50 H V C CNN
-F1 "LED" 0 -100 50 H V C CNN
+F1 "LED-RESCUE-controller-RESCUE-controller" 0 -100 50 H V C CNN
 F2 "" 0 0 50 H I C CNN
 F3 "" 0 0 50 H I C CNN
 $FPLIST
@@ -252,7 +252,7 @@ X 2 2 300 0 200 L 50 50 0 1 P I
 ENDDRAW
 ENDDEF
 #
-# USB_OTG-RESCUE-controller
+# USB_OTG
 #
 DEF USB_OTG J 0 40 Y Y 1 F N
 F0 "J" -200 450 50 H V L CNN
