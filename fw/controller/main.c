@@ -24,7 +24,11 @@ void init() {
 		while (1){};
 	}
 
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOB, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOC, ENABLE);
+	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOF, ENABLE);
+
 	GPIO_Init(LED0_PORT,
 		&(GPIO_InitTypeDef){
 			(1 << LED0_PIN),
