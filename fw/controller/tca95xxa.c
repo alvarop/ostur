@@ -8,7 +8,7 @@ int32_t tca95xxa_set_channel(uint8_t addr, uint8_t channel) {
 	uint8_t wBuff[] = {(1 << channel) & 0xFF};
 
 	do {
-		if (channel > 7) {
+		if (channel > TCA95XXA_CHANNELS) {
 			rval = TCA95XXA_ERR_CHANNEL;
 			break;
 		}

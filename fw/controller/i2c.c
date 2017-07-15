@@ -93,7 +93,7 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 				break;
 			}
 
-			if((reg & I2C_ISR_NACKF) || (i2cErr & I2C_ISR_NACKF)) {
+			if(i2cErr & I2C_ISR_NACKF) {
 				I2Cx->ICR = I2C_ICR_NACKCF; // Clear ack failure bit
 				rval = I2C_ANACK;
 				break;
@@ -111,7 +111,7 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 					break;
 				}
 
-				if((reg & I2C_ISR_NACKF) || (i2cErr & I2C_ISR_NACKF)) {
+				if(i2cErr & I2C_ISR_NACKF) {
 					I2Cx->ICR = I2C_ICR_NACKCF; // Clear ack failure bit
 					rval = I2C_DNACK;
 					break;
@@ -150,7 +150,7 @@ int32_t i2c(I2C_TypeDef* I2Cx, uint8_t addr, uint16_t wLen, uint8_t *wBuff, uint
 				break;
 			}
 
-			if((reg & I2C_ISR_NACKF) || (i2cErr & I2C_ISR_NACKF)) {
+			if(i2cErr & I2C_ISR_NACKF) {
 				I2Cx->ICR = I2C_ICR_NACKCF; // Clear ack failure bit
 				rval = I2C_ANACK;
 				break;
