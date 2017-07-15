@@ -100,16 +100,8 @@ Text Label 2950 2400 0    60   ~ 0
 VSS
 Wire Wire Line
 	3350 1800 2950 1800
-Wire Wire Line
-	3350 1900 2950 1900
-Wire Wire Line
-	3350 2200 2950 2200
 Text Label 2950 1800 0    60   ~ 0
 ADDR
-Text Label 2950 1900 0    60   ~ 0
-ALERT
-Text Label 2950 2200 0    60   ~ 0
-nRESET
 $Comp
 L GND #PWR01
 U 1 1 58213437
@@ -154,29 +146,21 @@ VSS
 Text Label 1700 2000 0    60   ~ 0
 ADDR
 Wire Wire Line
-	3700 3350 3300 3350
+	4200 2950 3800 2950
 Wire Wire Line
-	3700 3450 3300 3450
+	4200 3150 3800 3150
 Wire Wire Line
-	3700 2950 3300 2950
+	4200 3050 3800 3050
 Wire Wire Line
-	3700 2850 3300 2850
-Wire Wire Line
-	3700 3550 3300 3550
-Wire Wire Line
-	3700 3050 3300 3050
-Text Label 3300 3350 0    60   ~ 0
+	4200 2850 3800 2850
+Text Label 3800 2950 0    60   ~ 0
 VDD
-Text Label 3300 3450 0    60   ~ 0
+Text Label 3800 3150 0    60   ~ 0
 SCL
-Text Label 3300 2950 0    60   ~ 0
+Text Label 3800 3050 0    60   ~ 0
 SDA
-Text Label 3300 2850 0    60   ~ 0
+Text Label 3800 2850 0    60   ~ 0
 VSS
-Text Label 3300 3550 0    60   ~ 0
-nRESET
-Text Label 3300 3050 0    60   ~ 0
-ALERT
 $Comp
 L C C1
 U 1 1 582143D4
@@ -193,25 +177,20 @@ Wire Wire Line
 Wire Wire Line
 	1100 2150 1100 2450
 $Comp
-L CONN_01X03 P1
-U 1 1 5892AA7E
-P 3900 2950
-F 0 "P1" H 3900 3150 50  0000 C CNN
-F 1 "CONN_01X03" V 4000 2950 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 3900 2950 50  0001 C CNN
-F 3 "" H 3900 2950 50  0000 C CNN
-	1    3900 2950
+L CONN_01X04 J1
+U 1 1 596A2ADA
+P 4400 3000
+F 0 "J1" H 4400 3250 50  0000 C CNN
+F 1 "CONN_01X04" V 4500 3000 50  0000 C CNN
+F 2 "footprints:smd_flex_4" H 4400 3000 50  0001 C CNN
+F 3 "" H 4400 3000 50  0001 C CNN
+	1    4400 3000
 	1    0    0    -1  
 $EndComp
-$Comp
-L CONN_01X03 P2
-U 1 1 5892AB09
-P 3900 3450
-F 0 "P2" H 3900 3650 50  0000 C CNN
-F 1 "CONN_01X03" V 4000 3450 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x03" H 3900 3450 50  0001 C CNN
-F 3 "" H 3900 3450 50  0000 C CNN
-	1    3900 3450
-	1    0    0    -1  
-$EndComp
+NoConn ~ 3350 1900
+Wire Wire Line
+	3350 2200 3250 2200
+Wire Wire Line
+	3250 2200 3250 2100
+Connection ~ 3250 2100
 $EndSCHEMATC
