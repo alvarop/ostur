@@ -2,10 +2,10 @@
 
   (general
     (links 12)
-    (no_connects 1)
-    (area 0 0 0 0)
+    (no_connects 0)
+    (area 134.551267 63.0806 144.522734 127.075001)
     (thickness 1.6)
-    (drawings 12)
+    (drawings 13)
     (tracks 58)
     (zones 0)
     (modules 5)
@@ -37,7 +37,7 @@
   )
 
   (setup
-    (last_trace_width 0.381)
+    (last_trace_width 0.1524)
     (user_trace_width 0.1524)
     (user_trace_width 0.254)
     (user_trace_width 0.381)
@@ -280,6 +280,9 @@
       (net 3 /SCL))
   )
 
+  (gr_text "SHT3x Flex Breakout by @alvaroprieto" (at 139.7 97.028 90) (layer F.SilkS)
+    (effects (font (size 1.27 1.27) (thickness 0.254)))
+  )
   (gr_line (start 137.16 75.438) (end 137.16 64.262) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 138.43 76.708) (end 137.16 75.438) (layer Edge.Cuts) (width 0.15))
   (gr_line (start 138.43 118.618) (end 138.43 76.708) (layer Edge.Cuts) (width 0.15))
@@ -352,4 +355,19 @@
   (segment (start 139.45 71.403) (end 139.45 70.2574) (width 0.1524) (layer F.Cu) (net 5))
   (segment (start 139.45 70.2574) (end 139.45 69.83) (width 0.1524) (layer F.Cu) (net 5))
 
+  (zone (net 0) (net_name "") (layer Eco1.User) (tstamp 0) (hatch edge 0.508)
+    (connect_pads (clearance 0.508))
+    (min_thickness 0.254)
+    (fill yes (arc_segments 16) (thermal_gap 0.508) (thermal_bridge_width 0.508))
+    (polygon
+      (pts
+        (xy 137.16 64.262) (xy 142.24 64.262) (xy 142.24 75.438) (xy 137.16 75.438)
+      )
+    )
+    (filled_polygon
+      (pts
+        (xy 142.113 75.311) (xy 137.287 75.311) (xy 137.287 64.389) (xy 142.113 64.389)
+      )
+    )
+  )
 )
