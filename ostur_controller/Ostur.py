@@ -1,12 +1,8 @@
 '''
- AM2315 Temp/Humidity Sensor Driver (using Silta bridge)
- Based on the Adafruite Arduino driver
- https://github.com/adafruit/Adafruit_AM2315
+ Ostur Cheese Cave Controller Logger
 '''
 
 import serial
-from am2315 import AM2315
-from mcp970x import MCP9701
 import sys
 import time
 from datetime import datetime
@@ -21,8 +17,6 @@ class Ostur:
 
     # Hardcoding until we can read values back from device
     __CMD_MAX_STR_LEN = 1024
-    __SPI_MAX_BYTES = 512
-    __I2C_MAX_BYTES = 512
 
     def __init__(self, serial_device, baud_rate=None):
         self.stream = None
