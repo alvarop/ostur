@@ -34,12 +34,23 @@ def log(cur, con, controller):
         except IndexError as e:
             print "Uh oh, index error!"
             print e
+            print sensors
+            print line
         except IOError as e:
             print "Uh oh, IO error!"
             print e
+            print sensors
+            print line
         except KeyError as e:
             print "Uh oh, Key error!"
             print e
+            print sensors
+            print line
+        except ValueError as e:
+            print "Uh oh, Value error!"
+            print e
+            print sensors
+            print line
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--device',
