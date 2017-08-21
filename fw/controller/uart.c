@@ -4,10 +4,12 @@
 #include "stm32f0xx_usart.h"
 #include "stm32f0xx.h"
 #include "stm32f0xx_conf.h"
+#include "usbd_cdc_core.h"
 
 #define FIFO_BUFF_SIZE  (2048)
 
 extern uint16_t VCP_DataTx (uint8_t* Buf, uint32_t Len);
+extern USB_CORE_HANDLE  USB_Device_dev;
 
 fifo_t txFifo;
 fifo_t rxFifo;
@@ -76,7 +78,8 @@ int _write (int fd, char *ptr, int len)
 {
 	// Stderr only goes to uart, not USB CDC
 	// Stderr is #2
-	if(fd != 2) {
+	// Don't print anything if USB isn't ready
+	if((fd != 2) && (USB_Device_dev.dev.device_status == USB_CONFIGURED)) {
 		VCP_DataTx((uint8_t *)ptr, len);
 	}
 

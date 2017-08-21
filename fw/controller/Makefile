@@ -49,7 +49,7 @@ CPU = -mcpu=cortex-m0 -mthumb
 
 VERSION = $(shell git describe --dirty | sed 's/releases\/fw\/controller\///')
 
-CFLAGS  = $(CPU) -c -std=gnu99 -g -O0 -Wall -Werror
+CFLAGS  = $(CPU) -c -std=gnu99 -g -O2 -Wall -Werror
 LDFLAGS  = $(CPU) -mlittle-endian -mthumb-interwork -nostartfiles -Wl,--gc-sections,-Map=$(OUTPATH)/$(PROJ_NAME).map,--cref --specs=nano.specs
 
 CFLAGS += -msoft-float
