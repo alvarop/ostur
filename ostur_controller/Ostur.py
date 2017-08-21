@@ -31,11 +31,9 @@ class Ostur:
         except OSError:
             raise IOError('could not open ' + serial_device)
 
-        if self.stream:
-            self.stream.flush()
-
-        # Flush any remaining data in the silta's buffer
+        # Flush any remaining data in the input buffer
         self.__send_cmd('\n')
+        self.stream.reset_input_buffer()
 
         # Get device serial number and save it
         line = self.__send_cmd('sn\n')
@@ -80,7 +78,7 @@ class Ostur:
         return line
 
     def start_sampling(self):
-        self.stream.flush()
+        self.stream.reset_input_buffer()
         line = self.__send_cmd('controller start')
         self.stream.timeout = 20  # This should be dependent on sample rate
 
