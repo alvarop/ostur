@@ -45,6 +45,8 @@
 /* Private function prototypes -----------------------------------------------*/
 /* Private functions ---------------------------------------------------------*/
 
+extern void USB_Istr(void);
+
 /******************************************************************************/
 /*            Cortex-M0 Processor Exceptions Handlers                         */
 /******************************************************************************/
@@ -97,6 +99,11 @@ void PendSV_Handler(void)
 // void SysTick_Handler(void)
 // {
 // }
+
+void USB_IRQHandler(void)
+{
+  USB_Istr();
+}
 
 /******************************************************************************/
 /*                 STM32F0xx Peripherals Interrupt Handlers                   */

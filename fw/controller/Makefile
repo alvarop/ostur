@@ -1,7 +1,30 @@
 # Sources
 
-SRCS = main.c fifo.c i2c.c uart.c console.c startup_stm32f0xx.c tca95xxa.c timer.c sht31.c config.c controller.c debug.c rtc.c
-SRCS += system_stm32f0xx.c stm32f0xx_it.c
+SRCS =	main.c \
+		fifo.c \
+		i2c.c \
+		uart.c \
+		console.c \
+		startup_stm32f0xx.c \
+		tca95xxa.c \
+		timer.c \
+		sht31.c \
+		config.c \
+		controller.c \
+		debug.c \
+		rtc.c
+
+SRCS += system_stm32f0xx.c\
+		stm32f0xx_it.c
+
+# USB sources
+USB_SRCS += usb/usbd_desc.c \
+			usb/usbd_cdc_core.c \
+			usb/usbd_cdc_vcp.c \
+			usb/usb_bsp.c \
+			usb/usbd_usr.c \
+			usb/usbd_pwr.c
+
 S_SRCS =
 
 # Project name
@@ -26,7 +49,7 @@ CPU = -mcpu=cortex-m0 -mthumb
 
 VERSION = $(shell git describe --dirty | sed 's/releases\/fw\/controller\///')
 
-CFLAGS  = $(CPU) -c -std=gnu99 -g -O2 -Wall
+CFLAGS  = $(CPU) -c -std=gnu99 -g -O0 -Wall -Werror
 LDFLAGS  = $(CPU) -mlittle-endian -mthumb-interwork -nostartfiles -Wl,--gc-sections,-Map=$(OUTPATH)/$(PROJ_NAME).map,--cref --specs=nano.specs
 
 CFLAGS += -msoft-float
@@ -44,19 +67,28 @@ vpath %.a lib
 
 # Includes
 INCLUDE_PATHS = -I$(BASEDIR) -I$(BASEDIR)/lib/CMSIS/Include -I$(BASEDIR)/lib/CMSIS/Device/ST/STM32F0xx/Include
+INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32_USB_Device_Driver/inc
+INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32_USB_Device_Library/Core/inc
 
 # Library paths
 LIBPATHS = -L$(BASEDIR)/lib/STM32F0xx_StdPeriph_Driver/
+LIBPATHS += -L$(BASEDIR)/lib/STM32_USB_Device_Driver/
+LIBPATHS += -L$(BASEDIR)/lib/STM32_USB_Device_Library/Core/
 
 # Libraries to link
 LIBS = -lstdperiph -lc -lgcc -lnosys
+LIBS += -lusbdevcore -lusbcore
 
 # Extra includes
 INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32F0xx_StdPeriph_Driver/inc
+INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32_USB_Device_Driver/inc
+INCLUDE_PATHS += -I$(BASEDIR)/lib/STM32_USB_Device_Library/Core/inc
+INCLUDE_PATHS += -I$(BASEDIR)/usb
 
 #CFLAGS += -Map $(OUTPATH)/$(PROJ_NAME).map
 
 OBJS = $(SRCS:.c=.o)
+OBJS += $(USB_SRCS:.c=.o)
 OBJS += $(S_SRCS:.s=.o)
 
 ###################################################

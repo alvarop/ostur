@@ -11,8 +11,12 @@
 #include "controller.h"
 #include "debug.h"
 #include "rtc.h"
+#include "usbd_cdc_core.h"
+#include "usbd_usr.h"
 
 #define BLINK_DELAY_MS	(500)
+
+USB_CORE_HANDLE  USB_Device_dev;
 
 void init() {
 
@@ -101,7 +105,25 @@ void init() {
 
 	uartInit(115200);
 
-	dprint(INFO, "Ostur Controller %s\n", FW_VERSION);
+	fprintf(stderr, "Ostur Controller %s\n", FW_VERSION);
+
+	USBD_Init(&USB_Device_dev,
+			&USR_desc,
+			&USBD_CDC_cb,
+			&USR_cb);
+
+	// If we try to output anything over USB before it's ready, it stops
+	// working completely. Here we wait until it's ready (or times out)
+	ms_timer_t usb_config_timer;
+	timer_set(&usb_config_timer, 1000);
+	while((USB_Device_dev.dev.device_status != USB_CONFIGURED) &&
+			!timer_expired(&usb_config_timer)) {
+		sleep_ms(2); // No need to spin constantly
+	}
+
+	if(USB_Device_dev.dev.device_status != USB_CONFIGURED) {
+		fprintf(stderr, "USB never came up.\n");
+	}
 
 	rtc_init();
 

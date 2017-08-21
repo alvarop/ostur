@@ -7,6 +7,8 @@
 
 #define FIFO_BUFF_SIZE  (2048)
 
+extern uint16_t VCP_DataTx (uint8_t* Buf, uint32_t Len);
+
 fifo_t txFifo;
 fifo_t rxFifo;
 static uint8_t outBuff[FIFO_BUFF_SIZE];
@@ -68,15 +70,21 @@ int uartPutchar(USART_TypeDef *uart, fifo_t *fifo, char c) {
 
 //
 // Retarget read/write to use usb/serial!
+// Found in share/gcc-arm-none-eabi/samples/src/retarget/retarget.c
 //
 int _write (int fd, char *ptr, int len)
 {
-	//
-	// If planning on supporting both serial and usb-serial, check fd here!
-	//
-	while(len--) {
+	// Stderr only goes to uart, not USB CDC
+	// Stderr is #2
+	if(fd != 2) {
+		VCP_DataTx((uint8_t *)ptr, len);
+	}
+
+	// Print everything to stderr for now
+	for(uint32_t byte =0; byte < len; byte++) {
 		uartPutchar(USART1, &txFifo, *ptr++);
 	}
+
 	return len;
 }
 
@@ -89,6 +97,7 @@ int _read (int fd, char *ptr, int len)
   //
   while(fifoSize(&rxFifo) && len--) {
     *ptr++ = fifoPop(&rxFifo);
+    readChars++;
   }
 
   return readChars;

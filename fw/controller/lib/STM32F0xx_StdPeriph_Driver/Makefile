@@ -12,7 +12,7 @@ endif
 
 vpath %.c src
 
-CFLAGS  = -g -O2 -Wall
+CFLAGS  = -g -O2 -Wall -Werror
 CFLAGS += -mlittle-endian -mthumb -mthumb-interwork -mcpu=cortex-m0
 CFLAGS += -msoft-float
 
