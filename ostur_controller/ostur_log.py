@@ -51,6 +51,11 @@ def log(cur, con, controller):
             print e
             print sensors
             print line
+        except OverflowError as e:
+            print "Uh oh, Overflow error!"
+            print e
+            print sensors
+            print line
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--device',
