@@ -50,7 +50,7 @@ while 1:
     if row is None:
         break
 
-(index, timestamp, t0, h0, t1, h1, t2, h2) = zip(*rows)
+(index, timestamp, t0, h0, t1, h1, t2, h2, t3, h3) = zip(*rows)
 
 # Convert timestamp to datetime
 dates = [datetime.datetime.fromtimestamp(x/1000.0) for x in timestamp]
@@ -59,10 +59,12 @@ dates = [datetime.datetime.fromtimestamp(x/1000.0) for x in timestamp]
 h0 = [x / 100.0 for x in h0]
 h1 = [x / 100.0 for x in h1]
 h2 = [x / 100.0 for x in h2]
+h3 = [x / 100.0 for x in h3]
 
 t0 = [x / 100.0 for x in t0]
 t1 = [x / 100.0 for x in t1]
 t2 = [x / 100.0 for x in t2]
+t3 = [x / 100.0 for x in t3]
 
 # Two subplots, the axes array is 1-d
 fig, axarr = plt.subplots(2, sharex=True)
@@ -70,17 +72,19 @@ axarr[0].set_title('Cheese cave controller!')
 
 axarr[0].plot(dates, h0, 'b', label='fridge')
 axarr[0].plot(dates, h1, 'g', label='outside')
-axarr[0].plot(dates, h2, 'r', label='cheese')
+axarr[0].plot(dates, h2, 'r', label='cheese1')
+axarr[0].plot(dates, h3, 'y', label='cheese2')
 axarr[0].set_ylabel('% Humidity')
 
 axarr[1].plot(dates, t0, 'b', label='fridge')
 axarr[1].plot(dates, t1, 'g', label='outside')
-axarr[1].plot(dates, t2, 'r', label='cheese')
+axarr[1].plot(dates, t2, 'r', label='cheese1')
+axarr[1].plot(dates, t3, 'y', label='cheese2')
 axarr[1].set_ylabel('Temperature (C)')
 
 axarr[0].xaxis.set_major_locator(DayLocator())
 axarr[0].xaxis.set_minor_locator(HourLocator(arange(0, 25, 6)))
-axarr[0].xaxis.set_major_formatter(DateFormatter('%Y-%m-%d'))
+axarr[0].xaxis.set_major_formatter(DateFormatter('%Y-%m-%d %H:%M:%S'))
 
 legend = axarr[0].legend(loc='best', shadow=True)
 
