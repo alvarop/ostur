@@ -207,7 +207,15 @@ int32_t controller_autoconfig() {
 			rval = tca95xxa_set_channel(TCA95XXA_ADDR, bus);
 			if(rval != 0) {
 				dprint(ERR, "could not set i2c bus (%ld)\n", rval);
-				break;
+				GPIO_ResetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+				sleep_ms(2);
+				GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+				i2cSetup(100000);
+				rval = tca95xxa_set_channel(TCA95XXA_ADDR, bus);
+				dprint(ERR, "Retry %d\n", rval);
+				if (rval != 0) {
+					break;
+				}
 			}
 
 			rval = sht31_init(addresses[addr]);

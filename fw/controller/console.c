@@ -12,6 +12,7 @@
 #include "controller.h"
 #include "debug.h"
 #include "rtc.h"
+#include "board.h"
 #include "config.h"
 
 typedef struct {
@@ -159,8 +160,16 @@ static void shtCmd(uint8_t argc, char *argv[]) {
 		rval = tca95xxa_set_channel(TCA95XXA_ADDR, ch);
 
 		if(rval != 0) {
-			dprint(ERR, "SHT could not set channel\n");
-			break;
+			dprint(ERR, "SHT could not set channel %d\n", rval);
+			GPIO_ResetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+			sleep_ms(2);
+			GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+			i2cSetup(100000);
+			rval = tca95xxa_set_channel(TCA95XXA_ADDR, ch);
+			dprint(ERR, "Retry %d\n", rval);
+			if (rval != 0) {
+				break;
+			}
 		}
 
 		if(strcmp("init", argv[1]) == 0) {

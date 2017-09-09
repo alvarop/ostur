@@ -35,7 +35,7 @@ int32_t sht31_init(uint8_t addr) {
 	do {
 		rval = sht31_reset(addr);
 		if(rval != 0) {
-			dprint(ERR, "SHT could not reset\n");
+			dprint(ERR, "SHT could not reset %d\n", rval);
 			break;
 		}
 
