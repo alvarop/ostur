@@ -14,9 +14,9 @@ def log(cur, con, controller):
             sensors = controller.read_sensors()
 
             if not isinstance(sensors, list):
-                # Most likely an error, print out and keep going
-                print sensors
-                continue
+                # Most likely an error, exit :'(
+                print "ERR - not a list"
+                sys.exit()
 
             line.append(int(sensors[0]))
             for index in range(1, len(sensors)):
@@ -31,6 +31,10 @@ def log(cur, con, controller):
             cur.execute(sql_insert, line)
             con.commit()
             print line
+            if len(line) == 0:
+                print "empty line, exiting"
+                sys.exit()
+
         except IndexError as e:
             print "Uh oh, index error!"
             print e
@@ -41,6 +45,7 @@ def log(cur, con, controller):
             print e
             print sensors
             print line
+            sys.exit()
         except KeyError as e:
             print "Uh oh, Key error!"
             print e
