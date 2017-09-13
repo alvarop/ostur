@@ -162,14 +162,14 @@ static void shtCmd(uint8_t argc, char *argv[]) {
     }
 
     if (strcmp("init", argv[1]) == 0) {
-      rval = sht31_init(SHT31_ADDR);
+      rval = Sht31Init(SHT31_ADDR);
       if (rval == 0) {
         dprint(OK, "\n");
       }
     } else if (strcmp("read", argv[1]) == 0) {
       int16_t temperature = 0;
       int16_t humidity = 0;
-      rval = sht31_read(SHT31_ADDR, &temperature, &humidity);
+      rval = Sht31Read(SHT31_ADDR, &temperature, &humidity);
       if (rval != 0) {
         dprint(ERR, "SHT could not read temp/humidity\n");
         break;
@@ -179,13 +179,13 @@ static void shtCmd(uint8_t argc, char *argv[]) {
       dprint(OK_CONT, "%d.%02d\n", humidity / 100,
              (humidity - (humidity / 100) * 100));
     } else if (strcmp("h_on", argv[1]) == 0) {
-      rval = sht31_heater(SHT31_ADDR, true);
+      rval = Sht31Heater(SHT31_ADDR, true);
       if (rval != 0) {
         dprint(ERR, "SHT could not enable heater\n");
         break;
       }
     } else if (strcmp("h_off", argv[1]) == 0) {
-      rval = sht31_heater(SHT31_ADDR, false);
+      rval = Sht31Heater(SHT31_ADDR, false);
       if (rval != 0) {
         dprint(ERR, "SHT could not enable heater\n");
         break;

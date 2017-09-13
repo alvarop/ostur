@@ -43,7 +43,7 @@ int32_t controller_init() {
         break;
       }
 
-      sht31_init(sensor->addr);
+      Sht31Init(sensor->addr);
       if (rval != 0) {
         dprint(ERR, "SHT could not initialize (%ld)\n", rval);
         break;
@@ -134,7 +134,7 @@ void controller_process() {
           break;
         }
 
-        rval = sht31_read(SHT31_ADDR, &values[sensor_id].temperature,
+        rval = Sht31Read(SHT31_ADDR, &values[sensor_id].temperature,
                           &values[sensor_id].humidity);
         if (rval != 0) {
           dprint(ERR, "SHT could not read temp/humidity for sensor%d (%ld)\n",
@@ -210,7 +210,7 @@ int32_t controller_autoconfig() {
         break;
       }
 
-      rval = sht31_init(addresses[addr]);
+      rval = Sht31Init(addresses[addr]);
       if (rval == 0) {
         dprint(OK, "found sensor with addr %02X on bus %d\n", addresses[addr],
                bus);

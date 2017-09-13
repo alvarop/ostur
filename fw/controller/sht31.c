@@ -28,12 +28,12 @@
 #define RESET_H 0x30
 #define RESET_L 0xA2
 
-int32_t sht31_init(uint8_t addr) {
+int32_t Sht31Init(uint8_t addr) {
   int32_t rval = 0;
   int16_t status = 0;
 
   do {
-    rval = sht31_reset(addr);
+    rval = Sht31Reset(addr);
     if (rval != 0) {
       dprint(ERR, "SHT could not reset\n");
       break;
@@ -42,7 +42,7 @@ int32_t sht31_init(uint8_t addr) {
     // Device requires 500us. 2ms is the smallest we can do with sleep_ms
     sleep_ms(2);
 
-    rval = sht31_status(addr, &status);
+    rval = Sht31Status(addr, &status);
     if (rval != 0) {
       dprint(ERR, "SHT could not read status\n");
       break;
@@ -58,7 +58,7 @@ int32_t sht31_init(uint8_t addr) {
   return rval;
 }
 
-int32_t sht31_status(uint8_t addr, int16_t *status) {
+int32_t Sht31Status(uint8_t addr, int16_t *status) {
   int32_t rval = 0;
   uint8_t rBuff[2];
   uint8_t wBuff[2] = {RD_STATUS_H, RD_STATUS_L};
@@ -72,7 +72,7 @@ int32_t sht31_status(uint8_t addr, int16_t *status) {
   return rval;
 }
 
-int32_t sht31_reset(uint8_t addr) {
+int32_t Sht31Reset(uint8_t addr) {
   int32_t rval = 0;
   uint8_t wBuff[2] = {RESET_H, RESET_L};
 
@@ -81,7 +81,7 @@ int32_t sht31_reset(uint8_t addr) {
   return rval;
 }
 
-int32_t sht31_heater(uint8_t addr, bool enable) {
+int32_t Sht31Heater(uint8_t addr, bool enable) {
   int32_t rval = 0;
   uint8_t wBuff[2];
 
@@ -98,7 +98,7 @@ int32_t sht31_heater(uint8_t addr, bool enable) {
   return rval;
 }
 
-int32_t sht31_read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
+int32_t Sht31Read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
   int32_t rval = 0;
   uint8_t rBuff[6];
   uint8_t wBuff[2] = {RD_TH_HIGH_NOHOLD_H, RD_TH_HIGH_NOHOLD_L};
