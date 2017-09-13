@@ -1,9 +1,9 @@
-#include <stdio.h>
 #include "sht31.h"
-#include "i2c.h"
-#include "timer.h"
-#include "stm32f0xx.h"
+#include <stdio.h>
 #include "debug.h"
+#include "i2c.h"
+#include "stm32f0xx.h"
+#include "timer.h"
 
 #define RD_TH_HIGH_HOLD_H 0x2c
 #define RD_TH_HIGH_HOLD_L 0x06
@@ -29,112 +29,112 @@
 #define RESET_L 0xA2
 
 int32_t sht31_init(uint8_t addr) {
-	int32_t rval = 0;
-	int16_t status = 0;
+  int32_t rval = 0;
+  int16_t status = 0;
 
-	do {
-		rval = sht31_reset(addr);
-		if(rval != 0) {
-			dprint(ERR, "SHT could not reset\n");
-			break;
-		}
+  do {
+    rval = sht31_reset(addr);
+    if (rval != 0) {
+      dprint(ERR, "SHT could not reset\n");
+      break;
+    }
 
-		// Device requires 500us. 2ms is the smallest we can do with sleep_ms
-		sleep_ms(2);
+    // Device requires 500us. 2ms is the smallest we can do with sleep_ms
+    sleep_ms(2);
 
-		rval = sht31_status(addr, &status);
-		if(rval != 0) {
-			dprint(ERR, "SHT could not read status\n");
-			break;
-		}
+    rval = sht31_status(addr, &status);
+    if (rval != 0) {
+      dprint(ERR, "SHT could not read status\n");
+      break;
+    }
 
-		if((status & 0x10) == 0) {
-			dprint(ERR, "SHT invalid status\n");
-			rval = SHT31_ERR;
-			break;
-		}
-	} while (0);
+    if ((status & 0x10) == 0) {
+      dprint(ERR, "SHT invalid status\n");
+      rval = SHT31_ERR;
+      break;
+    }
+  } while (0);
 
-	return rval;
+  return rval;
 }
 
 int32_t sht31_status(uint8_t addr, int16_t *status) {
-	int32_t rval = 0;
-	uint8_t rBuff[2];
-	uint8_t wBuff[2] = {RD_STATUS_H, RD_STATUS_L};
+  int32_t rval = 0;
+  uint8_t rBuff[2];
+  uint8_t wBuff[2] = {RD_STATUS_H, RD_STATUS_L};
 
-	rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 2, rBuff);
+  rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 2, rBuff);
 
-	if((rval == I2C_OK) && (status != NULL)) {
-		*status = (rBuff[0] << 8) | rBuff[1];
-	}
+  if ((rval == I2C_OK) && (status != NULL)) {
+    *status = (rBuff[0] << 8) | rBuff[1];
+  }
 
-	return rval;
+  return rval;
 }
 
 int32_t sht31_reset(uint8_t addr) {
-	int32_t rval = 0;
-	uint8_t wBuff[2] = {RESET_H, RESET_L};
+  int32_t rval = 0;
+  uint8_t wBuff[2] = {RESET_H, RESET_L};
 
-	rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
+  rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
 
-	return rval;
+  return rval;
 }
 
 int32_t sht31_heater(uint8_t addr, bool enable) {
-	int32_t rval = 0;
-	uint8_t wBuff[2];
+  int32_t rval = 0;
+  uint8_t wBuff[2];
 
-	if (enable) {
-		wBuff[0] = HEATER_ENABLE_H;
-		wBuff[1] = HEATER_ENABLE_L;
-	} else {
-		wBuff[0] = HEATER_DISABLE_H;
-		wBuff[1] = HEATER_DISABLE_L;
-	}
+  if (enable) {
+    wBuff[0] = HEATER_ENABLE_H;
+    wBuff[1] = HEATER_ENABLE_L;
+  } else {
+    wBuff[0] = HEATER_DISABLE_H;
+    wBuff[1] = HEATER_DISABLE_L;
+  }
 
-	rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
+  rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
 
-	return rval;
+  return rval;
 }
 
 int32_t sht31_read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
-	int32_t rval = 0;
-	uint8_t rBuff[6];
-	uint8_t wBuff[2] = {RD_TH_HIGH_NOHOLD_H, RD_TH_HIGH_NOHOLD_L};
+  int32_t rval = 0;
+  uint8_t rBuff[6];
+  uint8_t wBuff[2] = {RD_TH_HIGH_NOHOLD_H, RD_TH_HIGH_NOHOLD_L};
 
-	do {
-		// Send read command
-		rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
-		if(rval != I2C_OK) {
-			break;
-		}
+  do {
+    // Send read command
+    rval = i2c(SHT31_I2Cx, addr, 2, wBuff, 0, NULL);
+    if (rval != I2C_OK) {
+      break;
+    }
 
-		sleep_ms(15); // Wait for measurement
+    sleep_ms(15);  // Wait for measurement
 
-		// Read back measurements
-		rval = i2c(SHT31_I2Cx, addr, 0, NULL, 6, rBuff);
-		if(rval != I2C_OK) {
-			break;
-		}
+    // Read back measurements
+    rval = i2c(SHT31_I2Cx, addr, 0, NULL, 6, rBuff);
+    if (rval != I2C_OK) {
+      break;
+    }
 
-		if(temperature != NULL) {
-			uint32_t temp;
-			// Get temperature * 100
-			temp = (rBuff[0] << 8) | rBuff[1];
-			temp = -4500 + (temp * 17500)/0xFFFF;
-			*temperature = (uint16_t)temp;
-		}
+    if (temperature != NULL) {
+      uint32_t temp;
+      // Get temperature * 100
+      temp = (rBuff[0] << 8) | rBuff[1];
+      temp = -4500 + (temp * 17500) / 0xFFFF;
+      *temperature = (uint16_t)temp;
+    }
 
-		if(humidity != NULL) {
-			uint32_t rh;
-			// Get humidity * 100
-			rh = (rBuff[3] << 8) | rBuff[4];
-			rh = (10000 * rh)/0xFFFF;
-			*humidity = (uint16_t)rh;
-		}
+    if (humidity != NULL) {
+      uint32_t rh;
+      // Get humidity * 100
+      rh = (rBuff[3] << 8) | rBuff[4];
+      rh = (10000 * rh) / 0xFFFF;
+      *humidity = (uint16_t)rh;
+    }
 
-	} while(0);
+  } while (0);
 
-	return rval;
+  return rval;
 }

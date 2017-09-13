@@ -5,4 +5,4 @@
 
 void uartInit(uint32_t baud);
 
-#endif // __UART__
+#endif  // __UART__

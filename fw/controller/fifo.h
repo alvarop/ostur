@@ -11,10 +11,10 @@
 #include <stdint.h>
 
 typedef struct {
-	uint32_t sizeMask;
-	uint8_t *buff;
-	uint32_t start;
-	uint32_t end;
+  uint32_t sizeMask;
+  uint8_t *buff;
+  uint32_t start;
+  uint32_t end;
 } fifo_t;
 
 int32_t fifoInit(fifo_t *fifo, uint32_t size, void *buff);

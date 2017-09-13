@@ -1,8 +1,8 @@
 #ifndef __CONTROLLER_H__
 #define __CONTROLLER_H__
 
-#include <stdint.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 int32_t controller_init();
 void controller_process();
