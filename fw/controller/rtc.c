@@ -8,8 +8,8 @@
 
 static char time_str[16];
 
-int32_t rtc_init() {
-  RTC_InitTypeDef rtc_init_struct;
+int32_t RtcInit() {
+  RTC_InitTypeDef RtcInit_struct;
   uint32_t blinkState = 0;
 
   RCC_APB1PeriphClockCmd(RCC_APB1Periph_PWR, ENABLE);
@@ -33,14 +33,14 @@ int32_t rtc_init() {
   RCC_RTCCLKCmd(ENABLE);
 
   RTC_WriteProtectionCmd(DISABLE);
-  RTC_StructInit(&rtc_init_struct);
-  RTC_Init(&rtc_init_struct);
+  RTC_StructInit(&RtcInit_struct);
+  RTC_Init(&RtcInit_struct);
   RTC_WriteProtectionCmd(ENABLE);
 
   return 0;
 }
 
-int32_t rtc_set_time(uint16_t year, uint8_t month, uint8_t day, uint8_t hour,
+int32_t RtcSetTime(uint16_t year, uint8_t month, uint8_t day, uint8_t hour,
                      uint8_t minute, uint8_t second) {
   RTC_TimeTypeDef time;
   RTC_DateTypeDef date;
@@ -63,7 +63,7 @@ int32_t rtc_set_time(uint16_t year, uint8_t month, uint8_t day, uint8_t hour,
   return 0;
 }
 
-char *rtc_get_time_str() {
+char *RtcGetTimeStr() {
   RTC_TimeTypeDef time;
   RTC_DateTypeDef date;
 

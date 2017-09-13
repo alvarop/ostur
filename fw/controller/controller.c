@@ -147,7 +147,7 @@ void controller_process() {
 
     controller_control(values);
 
-    dprint(DATA, "%s,", rtc_get_time_str());
+    dprint(DATA, "%s,", RtcGetTimeStr());
 
     for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
       th_sensor_t *sensor = &config->sensor[sensor_id];

@@ -126,7 +126,7 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
 static void timeCmd(uint8_t argc, char *argv[]) {
   do {
     if (argc == 1) {
-      dprint(OK, "%s\n", rtc_get_time_str());
+      dprint(OK, "%s\n", RtcGetTimeStr());
     } else if (argc == 7) {
       uint16_t year = strtoul(argv[1], NULL, 10);
       uint16_t month = strtoul(argv[2], NULL, 10);
@@ -135,8 +135,8 @@ static void timeCmd(uint8_t argc, char *argv[]) {
       uint16_t minute = strtoul(argv[5], NULL, 10);
       uint16_t second = strtoul(argv[6], NULL, 10);
 
-      rtc_set_time(year, month, day, hour, minute, second);
-      dprint(OK, "%s\n", rtc_get_time_str());
+      RtcSetTime(year, month, day, hour, minute, second);
+      dprint(OK, "%s\n", RtcGetTimeStr());
     } else {
       dprint(ERR, "invalid arguments argc=%d\n", argc);
     }
