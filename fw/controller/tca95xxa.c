@@ -3,7 +3,7 @@
 #include "i2c.h"
 #include "stm32f0xx.h"
 
-int32_t tca95xxa_set_channel(uint8_t addr, uint8_t channel) {
+int32_t Tca95xxaSetChannel(uint8_t addr, uint8_t channel) {
   int32_t rval;
   uint8_t wBuff[] = {(1 << channel) & 0xFF};
 

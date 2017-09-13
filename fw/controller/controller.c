@@ -37,7 +37,7 @@ int32_t controller_init() {
   for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
     th_sensor_t *sensor = &config->sensor[sensor_id];
     if (sensor->addr != 0) {
-      rval = tca95xxa_set_channel(TCA95XXA_ADDR, sensor->bus);
+      rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
       if (rval != 0) {
         dprint(ERR, "could not set i2c bus (%ld)\n", rval);
         break;
@@ -126,7 +126,7 @@ void controller_process() {
     for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
       th_sensor_t *sensor = &config->sensor[sensor_id];
       if (sensor->addr != 0) {
-        rval = tca95xxa_set_channel(TCA95XXA_ADDR, sensor->bus);
+        rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
         if (rval != 0) {
           dprint(ERR, "could not set i2c bus for sensor%d (%ld)\n", sensor_id,
                  rval);
@@ -204,7 +204,7 @@ int32_t controller_autoconfig() {
         break;
       }
 
-      rval = tca95xxa_set_channel(TCA95XXA_ADDR, bus);
+      rval = Tca95xxaSetChannel(TCA95XXA_ADDR, bus);
       if (rval != 0) {
         dprint(ERR, "could not set i2c bus (%ld)\n", rval);
         break;

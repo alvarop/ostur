@@ -154,7 +154,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
     }
 
     uint8_t ch = strtoul(argv[2], NULL, 10);
-    rval = tca95xxa_set_channel(TCA95XXA_ADDR, ch);
+    rval = Tca95xxaSetChannel(TCA95XXA_ADDR, ch);
 
     if (rval != 0) {
       dprint(ERR, "SHT could not set channel\n");
