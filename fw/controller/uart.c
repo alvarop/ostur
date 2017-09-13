@@ -19,8 +19,8 @@ static uint8_t inBuff[FIFO_BUFF_SIZE];
 void uartInit(uint32_t baud) {
   USART_InitTypeDef uartConfig;
 
-  fifoInit(&txFifo, FIFO_BUFF_SIZE, outBuff);
-  fifoInit(&rxFifo, FIFO_BUFF_SIZE, inBuff);
+  FifoInit(&txFifo, FIFO_BUFF_SIZE, outBuff);
+  FifoInit(&rxFifo, FIFO_BUFF_SIZE, inBuff);
 
   RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 
@@ -57,7 +57,7 @@ int uartPutchar(USART_TypeDef *uart, fifo_t *fifo, char c) {
     USART_ITConfig(uart, USART_IT_TXE, ENABLE);
 
   } else {
-    fifoPush(fifo, c);
+    FifoPush(fifo, c);
   }
 
   return c;
@@ -89,8 +89,8 @@ int _read(int fd, char *ptr, int len) {
   //
   // If planning on supporting both serial and usb-serial, check fd here!
   //
-  while (fifoSize(&rxFifo) && len--) {
-    *ptr++ = fifoPop(&rxFifo);
+  while (FifoSize(&rxFifo) && len--) {
+    *ptr++ = FifoPop(&rxFifo);
     readChars++;
   }
 
@@ -101,8 +101,8 @@ void USART1_IRQHandler(void) {
   uint32_t irq = USART1->ISR;
   if (irq & USART_ISR_TXE) {
     // Tx new byte if available
-    if (fifoSize(&txFifo) > 0) {
-      USART1->TDR = fifoPop(&txFifo);
+    if (FifoSize(&txFifo) > 0) {
+      USART1->TDR = FifoPop(&txFifo);
 
     } else {
       USART_ITConfig(USART1, USART_IT_TXE, DISABLE);
@@ -111,7 +111,7 @@ void USART1_IRQHandler(void) {
 
   if (irq & USART_ISR_RXNE) {
     // Add received char to buff
-    fifoPush(&rxFifo, USART1->RDR);
+    FifoPush(&rxFifo, USART1->RDR);
   }
 
   USART1->ICR = irq;

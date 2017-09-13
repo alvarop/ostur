@@ -233,12 +233,12 @@ static void versionCmd(uint8_t argc, char *argv[]) {
 static void resetCmd(uint8_t argc, char *argv[]) { NVIC_SystemReset(); }
 
 void consoleProcess() {
-  uint32_t inBytes = fifoSize(&rxFifo);
+  uint32_t inBytes = FifoSize(&rxFifo);
   if (inBytes > 0) {
     uint32_t newLine = 0;
     for (int32_t index = 0; index < inBytes; index++) {
-      if ((fifoPeek(&rxFifo, index) == '\n') ||
-          (fifoPeek(&rxFifo, index) == '\r')) {
+      if ((FifoPeek(&rxFifo, index) == '\n') ||
+          (FifoPeek(&rxFifo, index) == '\r')) {
         newLine = index + 1;
         break;
       }
@@ -251,12 +251,12 @@ void consoleProcess() {
     if (newLine) {
       uint8_t *pBuf = (uint8_t *)cmdBuff;
       while (newLine--) {
-        *pBuf++ = fifoPop(&rxFifo);
+        *pBuf++ = FifoPop(&rxFifo);
       }
 
       // If it's an \r\n combination, discard the second one
-      if ((fifoPeek(&rxFifo, 0) == '\n') || (fifoPeek(&rxFifo, 0) == '\r')) {
-        fifoPop(&rxFifo);
+      if ((FifoPeek(&rxFifo, 0) == '\n') || (FifoPeek(&rxFifo, 0) == '\r')) {
+        FifoPop(&rxFifo);
       }
 
       *(pBuf - 1) = 0;  // String terminator

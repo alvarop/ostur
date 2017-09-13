@@ -143,7 +143,7 @@ static uint16_t VCP_DataRx (uint8_t* Buf, uint32_t Len)
 
   for (i = 0; i < Len; i++)
   {
-    fifoPush(&rxFifo, Buf[i]);
+    FifoPush(&rxFifo, Buf[i]);
   }
 
   return USBD_OK;

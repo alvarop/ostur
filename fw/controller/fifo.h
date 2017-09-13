@@ -17,10 +17,10 @@ typedef struct {
   uint32_t end;
 } fifo_t;
 
-int32_t fifoInit(fifo_t *fifo, uint32_t size, void *buff);
-uint32_t fifoSize(fifo_t *fifo);
-uint8_t fifoPush(fifo_t *fifo, uint8_t byte);
-uint8_t fifoPop(fifo_t *fifo);
-uint8_t fifoPeek(fifo_t *fifo, uint32_t byte);
+int32_t FifoInit(fifo_t *fifo, uint32_t size, void *buff);
+uint32_t FifoSize(fifo_t *fifo);
+uint8_t FifoPush(fifo_t *fifo, uint8_t byte);
+uint8_t FifoPop(fifo_t *fifo);
+uint8_t FifoPeek(fifo_t *fifo, uint32_t byte);
 
 #endif
