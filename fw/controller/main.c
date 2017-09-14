@@ -95,7 +95,7 @@ void init() {
 
   i2cSetup(100000);
   config_init();
-  controller_init();
+  ControllerInit();
 }
 
 int main(void) {
@@ -116,7 +116,7 @@ int main(void) {
       blinkState ^= 1;
     }
 
-    controller_process();
+    ControllerProcess();
     consoleProcess();
 
     __WFI();

@@ -30,7 +30,7 @@ static th_value_t primary_buff[CONTROLLER_BUFF_SAMPLES];
 static th_value_t outside_buff[CONTROLLER_BUFF_SAMPLES];
 static uint16_t buff_index;
 
-int32_t controller_init() {
+int32_t ControllerInit() {
   int32_t rval;
   config = config_get();
   dprint(DEBUG, "%s\n", __func__);
@@ -61,13 +61,13 @@ int32_t controller_init() {
   TimerSet(&fridge_off_timer, 1);
 
   if (config->flags & CONFIG_FLAG_AUTOSTART) {
-    controller_enable(true);
+    ControllerEnable(true);
   }
 
   return rval;
 }
 
-void controller_control(th_value_t *values) {
+void ControllerControl(th_value_t *values) {
   int32_t primary_t_avg = 0;
   int32_t outside_t_avg = 0;
   static bool enable_state = false;
@@ -110,7 +110,7 @@ void controller_control(th_value_t *values) {
   }
 }
 
-void controller_process() {
+void ControllerProcess() {
   int32_t rval;
   th_value_t values[CONFIG_MAX_SENSORS];
 
@@ -145,7 +145,7 @@ void controller_process() {
       }
     }
 
-    controller_control(values);
+    ControllerControl(values);
 
     dprint(DATA, "%s,", RtcGetTimeStr());
 
@@ -166,7 +166,7 @@ void controller_process() {
   }
 }
 
-int32_t controller_enable(bool enabled) {
+int32_t ControllerEnable(bool enabled) {
   if (enabled && !running) {
     config_t *config = config_get();
     dprint(DATA, "timestamp,");
@@ -188,7 +188,7 @@ int32_t controller_enable(bool enabled) {
   return 0;
 }
 
-int32_t controller_autoconfig() {
+int32_t ControllerAutoconfig() {
   int32_t rval;
   uint8_t addresses[] = {SHT31_ADDR, SHT31_ALT_ADDR};
   uint8_t sensor_id = 0;

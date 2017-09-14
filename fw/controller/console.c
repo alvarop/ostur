@@ -203,12 +203,12 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
     }
 
     if (strcmp("start", argv[1]) == 0) {
-      controller_enable(true);
+      ControllerEnable(true);
     } else if (strcmp("stop", argv[1]) == 0) {
-      controller_enable(false);
+      ControllerEnable(false);
       dprint(OK, "Controller stopped\n");
     } else if (strcmp("autoconfig", argv[1]) == 0) {
-      controller_autoconfig();
+      ControllerAutoconfig();
     } else {
       dprint(ERR, "controller <start|stop|autoconfig>\n");
     }
