@@ -16,7 +16,7 @@ fifo_t rxFifo;
 static uint8_t outBuff[FIFO_BUFF_SIZE];
 static uint8_t inBuff[FIFO_BUFF_SIZE];
 
-void uartInit(uint32_t baud) {
+void UartInit(uint32_t baud) {
   USART_InitTypeDef uartConfig;
 
   FifoInit(&txFifo, FIFO_BUFF_SIZE, outBuff);
@@ -51,7 +51,7 @@ void uartInit(uint32_t baud) {
   NVIC_EnableIRQ(USART1_IRQn);
 }
 
-int uartPutchar(USART_TypeDef *uart, fifo_t *fifo, char c) {
+int UartPutchar(USART_TypeDef *uart, fifo_t *fifo, char c) {
   if (uart->ISR & USART_ISR_TXE) {
     uart->TDR = c;
     USART_ITConfig(uart, USART_IT_TXE, ENABLE);
@@ -77,7 +77,7 @@ int _write(int fd, char *ptr, int len) {
 
   // Print everything to stderr for now
   for (uint32_t byte = 0; byte < len; byte++) {
-    uartPutchar(USART1, &txFifo, *ptr++);
+    UartPutchar(USART1, &txFifo, *ptr++);
   }
 
   return len;

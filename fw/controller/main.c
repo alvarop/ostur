@@ -72,7 +72,7 @@ void init() {
 
   GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
 
-  uartInit(115200);
+  UartInit(115200);
 
   fprintf(stderr, "Ostur Controller %s\n", FW_VERSION);
 
