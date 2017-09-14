@@ -94,7 +94,7 @@ void init() {
   RtcInit();
 
   i2cSetup(100000);
-  config_init();
+  ConfigInit();
   ControllerInit();
 }
 

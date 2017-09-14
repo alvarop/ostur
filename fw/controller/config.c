@@ -12,7 +12,7 @@
 static config_t *flash_config = (config_t *)CONFIG_ADDR;
 static config_t config;
 
-int32_t config_init() {
+int32_t ConfigInit() {
   // TODO: Use CRC
 
   if (sizeof(config_t) > CONFIG_MAX_SIZE) {
@@ -49,7 +49,7 @@ int32_t config_init() {
 
     dprint(ERR, "Config not available.\n Writing defaults\n");
 
-    config_write();
+    ConfigWrite();
   } else {
     dprint(INFO, "Configuration loaded\n");
   }
@@ -57,13 +57,13 @@ int32_t config_init() {
   return 0;
 }
 
-config_t *config_get() {
+config_t *ConfigGet() {
   // TODO - add magic/crc check and return NULL if invalid
   return &config;
 }
 
 // Write current configuration to flash
-void config_write() {
+void ConfigWrite() {
   uint16_t *buff = (uint16_t *)&config;
 
   // TODO - compute new CRC
@@ -81,7 +81,7 @@ void config_write() {
   FLASH_Lock();
 }
 
-void config_print() {
+void ConfigPrint() {
   dprint(INFO, "Device Configuration:\n");
   dprint(INFO, "magic: %08lX\n", config.magic);
   dprint(INFO, "period_ms: %ld\n", config.period_ms);
@@ -142,8 +142,8 @@ void _set_flags(uint8_t argc, char *argv[]) {
   dprint(OK, "\n");
 }
 
-static command_t commands[] = {{"write", config_write, NULL},
-                               {"print", config_print, NULL},
+static command_t commands[] = {{"write", ConfigWrite, NULL},
+                               {"print", ConfigPrint, NULL},
                                {"period", _get_period, _set_period},
                                {"temp", _get_temp, _set_temp},
                                {"psensor", _get_p_sensor, _set_p_sensor},
@@ -151,7 +151,7 @@ static command_t commands[] = {{"write", config_write, NULL},
                                {"flags", _get_flags, _set_flags},
                                {NULL, NULL, NULL}};
 
-void config_cmd(uint8_t argc, char *argv[]) {
+void ConfigCmd(uint8_t argc, char *argv[]) {
   do {
     if (argc < 2) {
       dprint(ERR, "config key [value]\n");

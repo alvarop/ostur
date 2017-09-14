@@ -47,7 +47,7 @@ static command_t commands[] = {
     {"version", VersionCmd, "version"},
     {"reset", ResetCmd, "System reset"},
     {"time", TimeCmd, "time <YYYY MM DD HH MM SS>"},
-    {"config", config_cmd, "config key [value]"},
+    {"config", ConfigCmd, "config key [value]"},
     // Add new commands here!
     {"help", HelpFn, "Print this!"},
     {NULL, NULL, NULL}};

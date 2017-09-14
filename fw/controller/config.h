@@ -25,10 +25,10 @@ typedef struct {
 
 #define CONFIG_FLAG_AUTOSTART (1 << 0)
 
-int32_t config_init();
-config_t *config_get();
-void config_write();
-void config_print();
-void config_cmd(uint8_t argc, char *argv[]);
+int32_t ConfigInit();
+config_t *ConfigGet();
+void ConfigWrite();
+void ConfigPrint();
+void ConfigCmd(uint8_t argc, char *argv[]);
 
 #endif

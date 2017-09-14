@@ -32,7 +32,7 @@ static uint16_t buff_index;
 
 int32_t ControllerInit() {
   int32_t rval;
-  config = config_get();
+  config = ConfigGet();
   dprint(DEBUG, "%s\n", __func__);
   for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
     th_sensor_t *sensor = &config->sensor[sensor_id];
@@ -168,7 +168,7 @@ void ControllerProcess() {
 
 int32_t ControllerEnable(bool enabled) {
   if (enabled && !running) {
-    config_t *config = config_get();
+    config_t *config = ConfigGet();
     dprint(DATA, "timestamp,");
     for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
       th_sensor_t *sensor = &config->sensor[sensor_id];
@@ -192,7 +192,7 @@ int32_t ControllerAutoconfig() {
   int32_t rval;
   uint8_t addresses[] = {SHT31_ADDR, SHT31_ALT_ADDR};
   uint8_t sensor_id = 0;
-  config_t *config = config_get();
+  config_t *config = ConfigGet();
 
   // Clear current sensors
   memset(&config->sensor, 0, sizeof(th_sensor_t) * CONFIG_MAX_SENSORS);
@@ -221,7 +221,7 @@ int32_t ControllerAutoconfig() {
     }
   }
 
-  config_write();
+  ConfigWrite();
   dprint(OK, "config updated\n");
 
   return 0;
