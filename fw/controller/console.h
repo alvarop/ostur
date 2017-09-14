@@ -3,6 +3,6 @@
 
 #include <stdint.h>
 
-void consoleProcess();
+void ConsoleProcess();
 
 #endif

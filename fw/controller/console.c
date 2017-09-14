@@ -28,34 +28,34 @@ static char cmdBuff[1024];
 static uint8_t argc;
 static char *argv[255];
 
-static void helpFn(uint8_t argc, char *argv[]);
-static void i2cCmd(uint8_t argc, char *argv[]);
-static void shtCmd(uint8_t argc, char *argv[]);
-static void snCmd(uint8_t argc, char *argv[]);
-static void controllerCmd(uint8_t argc, char *argv[]);
-static void versionCmd(uint8_t argc, char *argv[]);
-static void timeCmd(uint8_t argc, char *argv[]);
-static void resetCmd(uint8_t argc, char *argv[]);
+static void HelpFn(uint8_t argc, char *argv[]);
+static void I2cCmd(uint8_t argc, char *argv[]);
+static void ShtCmd(uint8_t argc, char *argv[]);
+static void SnCmd(uint8_t argc, char *argv[]);
+static void ControllerCmd(uint8_t argc, char *argv[]);
+static void VersionCmd(uint8_t argc, char *argv[]);
+static void TimeCmd(uint8_t argc, char *argv[]);
+static void ResetCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
 
 static command_t commands[] = {
-    {"i2c", i2cCmd, "i2c"},
-    {"sht", shtCmd, "sht31 stuff"},
-    {"sn", snCmd, "sn"},
-    {"controller", controllerCmd, "controller <start|stop|autoconfig>"},
-    {"version", versionCmd, "version"},
-    {"reset", resetCmd, "System reset"},
-    {"time", timeCmd, "time <YYYY MM DD HH MM SS>"},
+    {"i2c", I2cCmd, "i2c"},
+    {"sht", ShtCmd, "sht31 stuff"},
+    {"sn", SnCmd, "sn"},
+    {"controller", ControllerCmd, "controller <start|stop|autoconfig>"},
+    {"version", VersionCmd, "version"},
+    {"reset", ResetCmd, "System reset"},
+    {"time", TimeCmd, "time <YYYY MM DD HH MM SS>"},
     {"config", config_cmd, "config key [value]"},
     // Add new commands here!
-    {"help", helpFn, "Print this!"},
+    {"help", HelpFn, "Print this!"},
     {NULL, NULL, NULL}};
 
 //
 // Print the help menu
 //
-static void helpFn(uint8_t argc, char *argv[]) {
+static void HelpFn(uint8_t argc, char *argv[]) {
   command_t *command = commands;
 
   if (argc < 2) {
@@ -77,7 +77,7 @@ static void helpFn(uint8_t argc, char *argv[]) {
 #define I2C_ADDR_OFFSET (1)
 #define I2C_RLEN_OFFSET (2)
 #define I2C_WBUFF_OFFSET (3)
-static void i2cCmd(uint8_t argc, char *argv[]) {
+static void I2cCmd(uint8_t argc, char *argv[]) {
   uint8_t wBuff[128];
   uint8_t rBuff[128];
   int32_t rval;
@@ -123,7 +123,7 @@ static void i2cCmd(uint8_t argc, char *argv[]) {
   } while (0);
 }
 
-static void timeCmd(uint8_t argc, char *argv[]) {
+static void TimeCmd(uint8_t argc, char *argv[]) {
   do {
     if (argc == 1) {
       dprint(OK, "%s\n", RtcGetTimeStr());
@@ -144,7 +144,7 @@ static void timeCmd(uint8_t argc, char *argv[]) {
   } while (0);
 }
 
-static void shtCmd(uint8_t argc, char *argv[]) {
+static void ShtCmd(uint8_t argc, char *argv[]) {
   int32_t rval;
 
   do {
@@ -195,7 +195,7 @@ static void shtCmd(uint8_t argc, char *argv[]) {
   } while (0);
 }
 
-static void controllerCmd(uint8_t argc, char *argv[]) {
+static void ControllerCmd(uint8_t argc, char *argv[]) {
   do {
     if (argc < 2) {
       dprint(ERR, "controller <start|stop|autoconfig>\n");
@@ -216,7 +216,7 @@ static void controllerCmd(uint8_t argc, char *argv[]) {
   } while (0);
 }
 
-static void snCmd(uint8_t argc, char *argv[]) {
+static void SnCmd(uint8_t argc, char *argv[]) {
   dprint(OK, "");
 
   // Print 96-bit serial number
@@ -226,13 +226,13 @@ static void snCmd(uint8_t argc, char *argv[]) {
   dprint(OK_CONT, "\n");
 }
 
-static void versionCmd(uint8_t argc, char *argv[]) {
+static void VersionCmd(uint8_t argc, char *argv[]) {
   dprint(OK, "%s\n", versionStr);
 }
 
-static void resetCmd(uint8_t argc, char *argv[]) { NVIC_SystemReset(); }
+static void ResetCmd(uint8_t argc, char *argv[]) { NVIC_SystemReset(); }
 
-void consoleProcess() {
+void ConsoleProcess() {
   uint32_t inBytes = FifoSize(&rxFifo);
   if (inBytes > 0) {
     uint32_t newLine = 0;
