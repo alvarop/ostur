@@ -81,10 +81,10 @@ void init() {
   // If we try to output anything over USB before it's ready, it stops
   // working completely. Here we wait until it's ready (or times out)
   ms_timer_t usb_config_timer;
-  timer_set(&usb_config_timer, 1000);
+  TimerSet(&usb_config_timer, 1000);
   while ((USB_Device_dev.dev.device_status != USB_CONFIGURED) &&
-         !timer_expired(&usb_config_timer)) {
-    sleep_ms(2);  // No need to spin constantly
+         !TimerExpired(&usb_config_timer)) {
+    SleepMs(2);  // No need to spin constantly
   }
 
   if (USB_Device_dev.dev.device_status != USB_CONFIGURED) {
@@ -104,10 +104,10 @@ int main(void) {
 
   init();
 
-  timer_set(&blink_timer, BLINK_DELAY_MS);
+  TimerSet(&blink_timer, BLINK_DELAY_MS);
   for (;;) {
-    if (timer_expired(&blink_timer)) {
-      timer_set(&blink_timer, BLINK_DELAY_MS);
+    if (TimerExpired(&blink_timer)) {
+      TimerSet(&blink_timer, BLINK_DELAY_MS);
       if (blinkState) {
         GPIO_SetBits(LED0_PORT, (1 << LED0_PIN));
       } else {

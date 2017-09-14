@@ -39,8 +39,8 @@ int32_t Sht31Init(uint8_t addr) {
       break;
     }
 
-    // Device requires 500us. 2ms is the smallest we can do with sleep_ms
-    sleep_ms(2);
+    // Device requires 500us. 2ms is the smallest we can do with SleepMs
+    SleepMs(2);
 
     rval = Sht31Status(addr, &status);
     if (rval != 0) {
@@ -110,7 +110,7 @@ int32_t Sht31Read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
       break;
     }
 
-    sleep_ms(15);  // Wait for measurement
+    SleepMs(15);  // Wait for measurement
 
     // Read back measurements
     rval = i2c(SHT31_I2Cx, addr, 0, NULL, 6, rBuff);

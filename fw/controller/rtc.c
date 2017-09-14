@@ -26,7 +26,7 @@ int32_t RtcInit() {
       GPIO_ResetBits(LED0_PORT, (1 << LED0_PIN));
     }
     blinkState ^= 1;
-    sleep_ms(50);
+    SleepMs(50);
   }
 
   RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE);

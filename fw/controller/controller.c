@@ -58,7 +58,7 @@ int32_t controller_init() {
     outside_buff[sample].humidity = INT16_MAX;
   }
 
-  timer_set(&fridge_off_timer, 1);
+  TimerSet(&fridge_off_timer, 1);
 
   if (config->flags & CONFIG_FLAG_AUTOSTART) {
     controller_enable(true);
@@ -93,7 +93,7 @@ void controller_control(th_value_t *values) {
 
   if ((primary_t_avg > config->temp_set) &&
       (config->temp_set < outside_t_avg)) {
-    if (timer_expired(&fridge_off_timer)) {
+    if (TimerExpired(&fridge_off_timer)) {
       GPIO_SetBits(FRIDGE_PORT, (1 << FRIDGE_PIN));
       GPIO_SetBits(LED2_PORT, (1 << LED2_PIN));
       enable_state = true;
@@ -104,7 +104,7 @@ void controller_control(th_value_t *values) {
 
     // Only clear timer when changing states
     if (enable_state == true) {
-      timer_set(&fridge_off_timer, FRIDGE_OFF_TIME_M * 60 * 1000);
+      TimerSet(&fridge_off_timer, FRIDGE_OFF_TIME_M * 60 * 1000);
     }
     enable_state = false;
   }
@@ -118,10 +118,10 @@ void controller_process() {
     return;
   }
 
-  if (timer_expired(&controller_timer)) {
+  if (TimerExpired(&controller_timer)) {
     GPIO_SetBits(LED1_PORT, (1 << LED1_PIN));
 
-    timer_set(&controller_timer, config->period_ms);
+    TimerSet(&controller_timer, config->period_ms);
 
     for (uint8_t sensor_id = 0; sensor_id < CONFIG_MAX_SENSORS; sensor_id++) {
       th_sensor_t *sensor = &config->sensor[sensor_id];
@@ -178,9 +178,9 @@ int32_t controller_enable(bool enabled) {
     }
     dprint(OK_CONT, "\n");
 
-    timer_set(&controller_timer, 1);
+    TimerSet(&controller_timer, 1);
   } else if (!enabled) {
-    timer_clear(&controller_timer);
+    TimerClear(&controller_timer);
   }
 
   running = enabled;
