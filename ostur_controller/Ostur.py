@@ -11,6 +11,7 @@ from datetime import datetime
 class InvalidRelayException(Exception):
     pass
 
+
 class Ostur:
 
     DEBUG = False
@@ -104,7 +105,7 @@ class Ostur:
             # Temporary workaround so it supports both kinds of timestamps
             try:
                 # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
-                dt = datetime.strptime(line[0],'%Y%m%dT%H%M%S')
+                dt = datetime.strptime(line[0], '%Y%m%dT%H%M%S')
                 line[0] = int(time.mktime(dt.timetuple())) * 1000
             except ValueError:
                 pass
@@ -124,7 +125,7 @@ class Ostur:
 
         if result[0] == 'OK':
             # Convert YYYYMMDDTHHMMSS to unix timestamp in milliseconds
-            dt = datetime.strptime(result[1],'%Y%m%dT%H%M%S')
+            dt = datetime.strptime(result[1], '%Y%m%dT%H%M%S')
             return int(time.mktime(dt.timetuple())) * 1000
         else:
             return None

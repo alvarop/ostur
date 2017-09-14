@@ -7,6 +7,7 @@ import sys
 import time
 from Ostur import Ostur
 
+
 def log(cur, con, controller):
     while True:
         try:
@@ -26,7 +27,8 @@ def log(cur, con, controller):
                 # Storing units * 100 to keep 2 significant figures
                 line.append(int(value * 100))
 
-            sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(','.join(['?']*len(line)))
+            sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(
+                                                    ','.join(['?']*len(line)))
 
             cur.execute(sql_insert, line)
             con.commit()
@@ -96,7 +98,9 @@ controller.set_localtime()
 names = controller.start_sampling()
 
 cur = con.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(' INTEGER, '.join(names)))
+cur.execute("CREATE TABLE IF NOT EXISTS " +
+            "samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(
+                                            ' INTEGER, '.join(names)))
 
 print(names)
 log(cur, con, controller)
