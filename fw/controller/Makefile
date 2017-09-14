@@ -91,6 +91,9 @@ OBJS = $(SRCS:.c=.o)
 OBJS += $(USB_SRCS:.c=.o)
 OBJS += $(S_SRCS:.s=.o)
 
+# Make sure needed directories are there
+_dummy := $(shell mkdir -p build/usb)
+
 ###################################################
 
 .PHONY: lib proj
