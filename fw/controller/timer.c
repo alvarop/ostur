@@ -3,38 +3,30 @@
 
 volatile uint32_t tickMs = 0;
 
-void sleep_ms(uint32_t milliseconds) {
-	uint32_t start_time = get_tick_ms();
-	while((get_tick_ms() - start_time) < milliseconds)	{
-		__WFI();
-	}
+void SleepMs(uint32_t milliseconds) {
+  uint32_t start_time = GetTickMs();
+  while ((GetTickMs() - start_time) < milliseconds) {
+    __WFI();
+  }
 }
 
-uint32_t get_tick_ms() {
-	return tickMs;
+uint32_t GetTickMs() { return tickMs; }
+
+void TimerSet(ms_timer_t *timer, uint32_t delay) {
+  timer->start_time = GetTickMs();
+  timer->delay = delay;
 }
 
-void timer_set(ms_timer_t *timer, uint32_t delay) {
-	timer->start_time = get_tick_ms();
-	timer->delay = delay;
+void TimerClear(ms_timer_t *timer) { timer->delay = 0; }
+
+bool TimerExpired(ms_timer_t *timer) {
+  if (timer->delay != 0) {
+    if ((GetTickMs() - timer->start_time) >= timer->delay) {
+      return true;
+    }
+  }
+
+  return false;
 }
 
-void timer_clear(ms_timer_t *timer) {
-	timer->delay = 0;
-}
-
-bool timer_expired(ms_timer_t *timer) {
-	if(timer->delay != 0) {
-		if((get_tick_ms() - timer->start_time) >= timer->delay) {
-			return true;
-		}
-	}
-
-	return false;
-}
-
-
-void SysTick_Handler(void)
-{
-	tickMs++;
-}
+void SysTick_Handler(void) { tickMs++; }

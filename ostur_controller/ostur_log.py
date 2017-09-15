@@ -7,6 +7,7 @@ import sys
 import time
 from Ostur import Ostur
 
+
 def log(cur, con, controller):
     while True:
         try:
@@ -14,9 +15,9 @@ def log(cur, con, controller):
             sensors = controller.read_sensors()
 
             if not isinstance(sensors, list):
-                # Most likely an error, print out and keep going
-                print sensors
-                continue
+                # Most likely an error, exit :'(
+                print "ERR - not a list"
+                sys.exit()
 
             line.append(int(sensors[0]))
             for index in range(1, len(sensors)):
@@ -26,11 +27,16 @@ def log(cur, con, controller):
                 # Storing units * 100 to keep 2 significant figures
                 line.append(int(value * 100))
 
-            sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(','.join(['?']*len(line)))
+            sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(
+                                                    ','.join(['?']*len(line)))
 
             cur.execute(sql_insert, line)
             con.commit()
             print line
+            if len(line) == 0:
+                print "empty line, exiting"
+                sys.exit()
+
         except IndexError as e:
             print "Uh oh, index error!"
             print e
@@ -41,6 +47,7 @@ def log(cur, con, controller):
             print e
             print sensors
             print line
+            sys.exit()
         except KeyError as e:
             print "Uh oh, Key error!"
             print e
@@ -91,7 +98,9 @@ controller.set_localtime()
 names = controller.start_sampling()
 
 cur = con.cursor()
-cur.execute("CREATE TABLE IF NOT EXISTS samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(' INTEGER, '.join(names)))
+cur.execute("CREATE TABLE IF NOT EXISTS " +
+            "samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(
+                                            ' INTEGER, '.join(names)))
 
 print(names)
 log(cur, con, controller)

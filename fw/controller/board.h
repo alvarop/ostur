@@ -39,4 +39,4 @@
 #define FRIDGE_PORT GPIOA
 #define FRIDGE_PIN 6
 
-#endif // __BOARD__
+#endif  // __BOARD__
