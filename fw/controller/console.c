@@ -6,6 +6,7 @@
 #include "config.h"
 #include "controller.h"
 #include "debug.h"
+#include "dfu.h"
 #include "fifo.h"
 #include "i2c.h"
 #include "rtc.h"
@@ -37,6 +38,7 @@ static void ControllerCmd(uint8_t argc, char *argv[]);
 static void VersionCmd(uint8_t argc, char *argv[]);
 static void TimeCmd(uint8_t argc, char *argv[]);
 static void ResetCmd(uint8_t argc, char *argv[]);
+static void DfuCmd(uint8_t argc, char *argv[]);
 
 static const char versionStr[] = FW_VERSION;
 
@@ -49,6 +51,7 @@ static command_t commands[] = {
     {"reset", ResetCmd, "System reset"},
     {"time", TimeCmd, "time <YYYY MM DD HH MM SS>"},
     {"config", ConfigCmd, "config key [value]"},
+    {"dfu", DfuCmd, "Switch to USB DFU bootloader]"},
     // Add new commands here!
     {"help", HelpFn, "Print this!"},
     {NULL, NULL, NULL}};
@@ -241,6 +244,11 @@ static void VersionCmd(uint8_t argc, char *argv[]) {
 }
 
 static void ResetCmd(uint8_t argc, char *argv[]) { NVIC_SystemReset(); }
+
+static void DfuCmd(uint8_t argc, char *argv[]) {
+  dprint(OK, "\n");
+  EnterDfu();
+}
 
 void ConsoleProcess() {
   uint32_t inBytes = FifoSize(&rxFifo);

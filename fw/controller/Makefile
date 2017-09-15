@@ -12,6 +12,7 @@ SRCS =	main.c \
 		config.c \
 		controller.c \
 		debug.c \
+		dfu.c \
 		rtc.c
 
 SRCS += system_stm32f0xx.c\

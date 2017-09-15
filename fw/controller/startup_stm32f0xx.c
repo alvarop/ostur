@@ -61,6 +61,7 @@ extern unsigned long __bss_end__;		/* end address for the .bss section. defined 
 extern unsigned long *_estack;				/* init value for the stack pointer. defined in linker script */
 
 extern void SystemInit(void);
+extern void DfuCheck(void);
 
 /* Private typedef -----------------------------------------------------------*/
 /* function prototypes ------------------------------------------------------*/
@@ -132,6 +133,8 @@ void (* const g_pfnVectors[])(void) =
 *******************************************************************************/
 void Reset_Handler(void) {
 	unsigned long *pulSrc, *pulDest;
+
+	DfuCheck();
 
 	/*
 	* This used for cleaning AHBRAM0 section
