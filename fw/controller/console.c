@@ -51,7 +51,7 @@ static command_t commands[] = {
     {"reset", ResetCmd, "System reset"},
     {"time", TimeCmd, "time <YYYY MM DD HH MM SS>"},
     {"config", ConfigCmd, "config key [value]"},
-    {"dfu", DfuCmd, "Switch to USB DFU bootloader]"},
+    {"dfu", DfuCmd, "Switch to USB DFU bootloader"},
     // Add new commands here!
     {"help", HelpFn, "Print this!"},
     {NULL, NULL, NULL}};
