@@ -182,7 +182,7 @@ U 1 1 596A2ADA
 P 4400 3000
 F 0 "J1" H 4400 3250 50  0000 C CNN
 F 1 "CONN_01X04" V 4500 3000 50  0000 C CNN
-F 2 "footprints:smd_flex_4" H 4400 3000 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm" H 4400 3000 50  0001 C CNN
 F 3 "" H 4400 3000 50  0001 C CNN
 	1    4400 3000
 	1    0    0    -1  
