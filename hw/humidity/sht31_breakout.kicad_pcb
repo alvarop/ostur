@@ -2,10 +2,10 @@
 
   (general
     (links 12)
-    (no_connects 6)
-    (area 139.624999 112.34476 177.875001 141.65524)
+    (no_connects 0)
+    (area 138.524267 112.34476 177.875001 141.65524)
     (thickness 1.6)
-    (drawings 9)
+    (drawings 11)
     (tracks 59)
     (zones 0)
     (modules 5)
@@ -37,7 +37,7 @@
   )
 
   (setup
-    (last_trace_width 0.254)
+    (last_trace_width 0.1524)
     (user_trace_width 0.1524)
     (user_trace_width 0.254)
     (user_trace_width 0.381)
@@ -71,7 +71,7 @@
     (visible_elements FFFFFF7F)
     (pcbplotparams
       (layerselection 0x010fc_80000001)
-      (usegerberextensions false)
+      (usegerberextensions true)
       (excludeedgelayer true)
       (linewidth 0.100000)
       (plotframeref false)
@@ -305,8 +305,14 @@
     )
   )
 
-  (gr_text "Ostur T/H Sensor\nby @alvaroprieto" (at 147.32 127 90) (layer B.SilkS) (tstamp 59D4F270)
-    (effects (font (size 1 1) (thickness 0.15)) (justify mirror))
+  (gr_text Humidity/Temperature (at 156.1084 131.064 22.5) (layer B.SilkS) (tstamp 5A11E061)
+    (effects (font (size 1.5 1.5) (thickness 0.25)) (justify mirror))
+  )
+  (gr_text "by @alvaroprieto" (at 163.1188 130.9116 22.5) (layer B.SilkS) (tstamp 5A11E037)
+    (effects (font (size 1.5 1.5) (thickness 0.25)) (justify mirror))
+  )
+  (gr_text Ostur (at 154.2288 127.762 22.5) (layer B.SilkS) (tstamp 5A11DFB9)
+    (effects (font (size 3 3) (thickness 0.5)) (justify mirror))
   )
   (gr_text SCL (at 147.066 130.81) (layer F.SilkS) (tstamp 59D4F23C)
     (effects (font (size 1 1) (thickness 0.15)))
