@@ -154,7 +154,12 @@ void ControllerProcess() {
       if (sensor->addr != 0) {
         int16_t temperature = values[sensor_id].temperature;
         int16_t humidity = values[sensor_id].humidity;
-        dprint(OK_CONT, "%d.%02d,", temperature / 100,
+        char *sign = "";
+        if (temperature < 0) {
+          sign = "-";
+          temperature *= -1;
+        }
+        dprint(OK_CONT, "%s%d.%02d,", sign, temperature / 100,
                (temperature - (temperature / 100) * 100));
         dprint(OK_CONT, "%d.%02d,", humidity / 100,
                (humidity - (humidity / 100) * 100));
