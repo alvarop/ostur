@@ -40,6 +40,15 @@ int32_t ControllerInit() {
       rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
       if (rval != 0) {
         dprint(ERR, "could not set i2c bus (%ld)\n", rval);
+        GPIO_ResetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+        SleepMs(2);
+        GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+        i2cSetup(100000);
+        rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
+        dprint(ERR, "Retry %d\n", rval);
+        if (rval != 0) {
+          break;
+        }
         break;
       }
 
@@ -128,13 +137,20 @@ void ControllerProcess() {
       if (sensor->addr != 0) {
         rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
         if (rval != 0) {
-          dprint(ERR, "could not set i2c bus for sensor%d (%ld)\n", sensor_id,
-                 rval);
-          i2cSetup(100000);  // Attempt to recover from I2C error
+          dprint(ERR, "could not set i2c bus (%ld)\n", rval);
+          GPIO_ResetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+          SleepMs(2);
+          GPIO_SetBits(TCA_nRST_PORT, (1 << TCA_nRST_PIN));
+          i2cSetup(100000);
+          rval = Tca95xxaSetChannel(TCA95XXA_ADDR, sensor->bus);
+          dprint(ERR, "Retry %d\n", rval);
+          if (rval != 0) {
+            break;
+          }
           break;
         }
 
-        rval = Sht31Read(SHT31_ADDR, &values[sensor_id].temperature,
+        rval = Sht31Read(sensor->addr, &values[sensor_id].temperature,
                           &values[sensor_id].humidity);
         if (rval != 0) {
           dprint(ERR, "SHT could not read temp/humidity for sensor%d (%ld)\n",
