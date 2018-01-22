@@ -1,4 +1,4 @@
-update=Sat 29 Jul 2017 07:54:54 AM PDT
+update=Sun 21 Jan 2018 10:43:00 AM PST
 version=1
 last_client=kicad
 [pcbnew]
@@ -27,7 +27,7 @@ NetIExt=net
 version=1
 [eeschema]
 version=1
-LibDir=../../hw;../footprints.pretty
+LibDir=../../hw;../footprints.pretty;../../../kicad
 [eeschema/libraries]
 LibName1=controller-rescue
 LibName2=power
@@ -60,3 +60,4 @@ LibName28=atmel
 LibName29=contrib
 LibName30=valves
 LibName31=ostur
+LibName32=/home/alvaro/code/kicad/alvarop
