@@ -1,56 +1,50 @@
 Title,Ostur Controller
-Revision,1.2
-Date,2017-02-04
-Generated,Sat 09 Sep 2017 06:51:01 AM PDT
+Revision,2.0
+Date,2018-01-22
+Generated,Fri 02 Feb 2018 03:28:43 AM PST
 Company,alvarop.com
 Comment 1,
 Comment 2,
 Comment 3,
 Comment 4,
-Total Parts,72
-Total Unique Parts,35
+Total Parts,49
+Total Unique Parts,29
 
 
 
 Ref,Qty,Value,Footprint,MPN,
-C5 C1 C3 C14 C15 C16 C17 ,7,100nF,Capacitors_SMD:C_0603,CL21B104MBCNNNC
-C6 C7 C9 ,3,4.7uF,Capacitors_SMD:C_0603,CL21A475KQFNNNG
-C8 C10 C11 ,3,1uF,Capacitors_SMD:C_0603,CL21F105ZAFNNNG
-C4 C2 ,2,10nF,Capacitors_SMD:C_0603,CL21B103KBANNNC
-C13 C12 ,2,6pF,Capacitors_SMD:C_0603,CL10C060CB8NCNC
+AE1 ,1,Antenna,alvarop:AMCA31-2R450G-S1F-T3, 
+C10 C11 C5 ,3,1uF,Capacitors_SMD:C_0603,CL21F105ZAFNNNG
+C2 ,1,10nF,Capacitors_SMD:C_0603,CL21B103KBANNNC
+C17 C4 C6 C1 ,4,100nF,Capacitors_SMD:C_0603,CL21B104MBCNNNC
+C9 C3 ,2,4.7uF,Capacitors_SMD:C_0603,CL21A475KQFNNNG
+C12 C7 ,2,12pF,Capacitors_SMD:C_0603, 
+C8 ,1,100pF,Capacitors_SMD:C_0603, 
+C13 ,1,0.8pF,Capacitors_SMD:C_0603, 
+C14 C15 ,2,DNP,Capacitors_SMD:C_0603, 
 D3 ,1,LED2,LEDs:LED_0603,LG R971-KN-1
 D2 ,1,LED1,LEDs:LED_0603,LG R971-KN-1
 D1 ,1,LED0,LEDs:LED_0603,LG R971-KN-1
-J1 ,1,ARM-SWD,footprints:ARM_SWD_SMD,20021121-00010C4LF
 J2 ,1,USB_OTG,footprints:USB_MICRO_B,10118192-0001LF
 J3 ,1,UART,Pin_Headers:Pin_Header_Straight_1x03_Pitch1.27mm, 
+J1 ,1,ARM-SWD,alvarop:ARM_SWD_SMD, 
+L1 ,1,3.9nH,Resistors_SMD:R_0603, 
 P14 ,1,I2C0,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
 P15 ,1,I2C1,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
 P16 ,1,I2C2,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
 P17 ,1,I2C3,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
 P2 ,1,FRIDGE,Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm, 
-P3 ,1,FAN,Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm, 
-P4 ,1,PUMP,Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm, 
-P5 ,1,MIST,Pin_Headers:Pin_Header_Straight_1x02_Pitch2.54mm, 
-P1 ,1,TH0,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
-P6 ,1,TH1,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
-P7 ,1,TH2,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
-P8 ,1,TH3,Pin_Headers:Pin_Header_Straight_1x04_Pitch2.54mm, 
-R2 R11 R12 R9 R10 R13 R14 R21 R22 R23 R24 R15 R17 R19 R25 R26 ,16,10k,Resistors_SMD:R_0603,311-10KARCT-ND
 R5 R4 R3 ,3,680,Resistors_SMD:R_0603,RC0805JR-07680RL
-R7 R8 ,2,22,Resistors_SMD:R_0603,RC0805JR-0722RL
-R1 ,1,0,Resistors_SMD:R_0603,MCR10ERTJ000
-R6 R16 R18 R20 ,4,DNP,Resistors_SMD:R_0603,DNP
-SW1 ,1,RST,footprints:PTS645SM43SMTR92,PTS645SM43SMTR92
-SW2 ,1,BOOT,footprints:PTS645SM43SMTR92,PTS645SM43SMTR92
-U1 ,1,stm32f072x,footprints:LQFP48,STM32F072CBT6
+R11 R12 R9 R10 R13 R14 R21 R22 R23 R24 R26 ,11,10k,Resistors_SMD:R_0603,311-10KARCT-ND
+R1 ,1,0,Resistors_SMD:R_0603, 
 U3 ,1,tca9546a,Housings_SSOP:TSSOP-16_4.4x5mm_Pitch0.65mm,TCA9546APWR
 U2 ,1,MIC550X,footprints:SOT-23(M5), 
-U4 U5 U6 U7 U8 ,5,SHT3x-DIS,footprints:SHT3x, 
-Y2 ,1,32768Hz,footprints:FC-135,ABS07-120-32.768KHZ-T
+U8 ,1,SHT3x-DIS,footprints:SHT3x, 
+U1 ,1,NRF52810-QCAA,alvarop:NRF52810_QCAA_QFN32, 
+Y1 ,1,32MHz,Crystals:Crystal_SMD_2016-4pin_2.0x1.6mm,CX2016DB32000D0FLJCC
 
 
 
 
 BOM made with KICAD_BOM_WIZARD (https://github.com/HashDefineElectronics/KiCad_BOM_Wizard.git)
-Generated Sat 09 Sep 2017 06:51:01 AM PDT
+Generated Fri 02 Feb 2018 03:28:43 AM PST
