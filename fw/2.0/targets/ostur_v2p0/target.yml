@@ -1,4 +1,4 @@
 ### Target: targets/ostur_v2p0
-target.app: "apps/blinky"
+target.app: "apps/ostur"
 target.bsp: "hw/bsp/ostur_v2p0"
 target.build_profile: "debug"
