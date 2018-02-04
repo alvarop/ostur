@@ -27,3 +27,5 @@ _autosave-*
 build/
 *.a
 *.o
+
+Pipfile.lock
