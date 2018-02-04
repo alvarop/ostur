@@ -27,7 +27,9 @@ static uint16_t timestamp;
 typedef struct {
     uint16_t magic;
     uint16_t timestamp;
-    uint8_t dummy[12];
+    int16_t temperature;
+    int16_t humidity;
+    uint8_t dummy[8];
 } __attribute__((packed)) ble_beacon_t;
 
 static ble_beacon_t beacon_data;
@@ -89,11 +91,20 @@ void ostur_task_fn(void *arg) {
 
     tca95xxa_set_channel(0x70, 3);
 
-    sht3x_init(SHT3x_ADDR);
+    sht3x_init(SHT3x_ALT_ADDR);
 
     while (1) {
+        int16_t temp;
+        int16_t humidity;
 
         os_time_delay(OS_TICKS_PER_SEC);
+
+        sht3x_read(SHT3x_ALT_ADDR, &temp, &humidity);
+
+        beacon_data.temperature = temp;
+        beacon_data.humidity = humidity;
+
+        console_printf("t:%d h:%d\n", temp, humidity);
 
         ble_app_advertise();
         hal_gpio_toggle(LED_0_PIN);
