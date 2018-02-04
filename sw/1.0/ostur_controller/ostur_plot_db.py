@@ -35,10 +35,27 @@ cur.execute("SELECT * FROM samples")
 rows = []
 subrows = []
 
+start_time = None
+
 # Average avg_window samples before plotting
 while 1:
     row = cur.fetchone()
     if row is not None:
+        if start_time is None:
+            start_time = row[1]
+
+        if row[1] < start_time:
+            continue
+
+        if row[1] > (start_time + 31622400000):
+            continue
+
+        if row[2] > 5000 or row[4] > 5000 or row[6] > 5000 or row[8] > 5000:
+            continue
+
+        if row[3] > 10000 or row[5] > 10000 or row[7] > 10000 or row[9] > 10000:
+            continue
+
         subrows.append(row)
 
     # Make sure we don't ignore the last samples either
@@ -71,15 +88,15 @@ fig, axarr = plt.subplots(2, sharex=True)
 axarr[0].set_title('Cheese cave controller!')
 
 axarr[0].plot(dates, h0, 'b', label='fridge')
-axarr[0].plot(dates, h1, 'g', label='outside')
-axarr[0].plot(dates, h2, 'r', label='cheese1')
-axarr[0].plot(dates, h3, 'y', label='cheese2')
+axarr[0].plot(dates, h3, 'g', label='outside')
+axarr[0].plot(dates, h1, 'r', label='cheese1')
+axarr[0].plot(dates, h2, 'y', label='cheese2')
 axarr[0].set_ylabel('% Humidity')
 
 axarr[1].plot(dates, t0, 'b', label='fridge')
-axarr[1].plot(dates, t1, 'g', label='outside')
-axarr[1].plot(dates, t2, 'r', label='cheese1')
-axarr[1].plot(dates, t3, 'y', label='cheese2')
+axarr[1].plot(dates, t3, 'g', label='outside')
+axarr[1].plot(dates, t1, 'r', label='cheese1')
+axarr[1].plot(dates, t2, 'y', label='cheese2')
 axarr[1].set_ylabel('Temperature (C)')
 
 axarr[0].xaxis.set_major_locator(DayLocator())
