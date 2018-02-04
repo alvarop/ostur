@@ -29,3 +29,5 @@ build/
 *.o
 
 Pipfile.lock
+*.egg-info
+__pycache__/
