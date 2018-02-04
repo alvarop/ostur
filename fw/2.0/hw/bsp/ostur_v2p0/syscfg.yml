@@ -97,6 +97,7 @@ syscfg.vals:
     XTAL_32768: 0
     XTAL_32768_SYNTH: 1
     HARDFLOAT: 0
+    I2C_0: 1
 
 syscfg.vals.BLE_LP_CLOCK:
     OS_CPUTIME_FREQ: 32768

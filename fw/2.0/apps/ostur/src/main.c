@@ -6,6 +6,9 @@
 #include "console/console.h"
 #include "bsp/bsp.h"
 #include "hal/hal_gpio.h"
+#include "i2c/i2c.h"
+#include "tca95xxa/tca95xxa.h"
+#include "sht3x/sht3x.h"
 
 #if MYNEWT_VAL(USE_BLE)
 #include <host/ble_hs.h>
@@ -71,21 +74,29 @@ static void ble_app_on_sync(void) {
 #endif
 
 void ostur_task_fn(void *arg) {
-    hal_gpio_init_out(LED_0, 0);
+    hal_gpio_init_out(LED_0_PIN, 0);
+    hal_gpio_init_out(TCA_NRST_PIN, 1);
 
     console_printf("Ostur Controller v2.0\n");
+
+    i2c_init(0, SDA_PIN, SCL_PIN, 100);
 
     #if MYNEWT_VAL(USE_BLE)
         beacon_data.magic = 0xDA7A;
         beacon_data.timestamp = 0;
     #endif
 
+
+    tca95xxa_set_channel(0x70, 3);
+
+    sht3x_init(SHT3x_ADDR);
+
     while (1) {
 
-        os_time_delay(OS_TICKS_PER_SEC * 2);
+        os_time_delay(OS_TICKS_PER_SEC);
 
         ble_app_advertise();
-        hal_gpio_toggle(LED_0);
+        hal_gpio_toggle(LED_0_PIN);
 
         timestamp++;
     }

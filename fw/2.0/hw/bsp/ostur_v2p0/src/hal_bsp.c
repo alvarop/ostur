@@ -104,8 +104,8 @@ static struct pwm_dev os_bsp_spwm;
 
 #if MYNEWT_VAL(I2C_0)
 static const struct nrf52_hal_i2c_cfg hal_i2c_cfg = {
-    .scl_pin = 27,
-    .sda_pin = 26,
+    .scl_pin = SCL_PIN,
+    .sda_pin = SDA_PIN,
     .i2c_frequency = 100    /* 100 kHz */
 };
 #endif

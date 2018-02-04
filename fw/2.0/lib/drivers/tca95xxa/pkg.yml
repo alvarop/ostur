@@ -1,0 +1,13 @@
+pkg.name: lib/drivers/tca95xxa
+pkg.description: I2C Mux driver
+pkg.author: "Alvaro Prieto <source@alvaroprieto.com>"
+pkg.homepage: "https://github.com/alvarop/"
+pkg.keywords:
+    - I2C Mux
+
+pkg.deps:
+    - "@apache-mynewt-core/kernel/os"
+    - lib/drivers/i2c
+
+pkg.cflags:
+    - -std=gnu99
