@@ -20,7 +20,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include <assert.h>
-#include <nrf52.h>
+#include <nrf.h>
 #include "os/os_cputime.h"
 #include "syscfg/syscfg.h"
 #include "sysflash/sysflash.h"

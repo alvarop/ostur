@@ -12,7 +12,7 @@
 #define NVIC_NUM_VECTORS      (16 + 38)   // CORE + MCU Peripherals
 #define NVIC_USER_IRQ_OFFSET  16
 
-#include "nrf52.h"
+#include "nrf.h"
 
 #ifdef __cplusplus
 extern "C" {
