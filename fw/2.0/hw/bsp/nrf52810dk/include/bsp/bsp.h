@@ -45,7 +45,8 @@ extern uint8_t _ram_start;
 #define LED_3           (19)
 #define LED_4           (20)
 #define LED_0_PIN   (LED_1)
-
+#define LED_BLINK_PIN   (LED_1)
+    
 #define FRIDGE_PIN (5)
 #define SDA_PIN (31)
 #define SCL_PIN (30)
