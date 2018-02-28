@@ -3,3 +3,15 @@ syscfg.defs:
     USE_BLE:
         description: 'Enable BLE'
         value: 1
+
+    FRIDGE_OFF_TIME_M:
+        description: 'Minimum time (in minutes) the fridge must be off for'
+        value: 15
+
+    SAMPLE_RATE_S:
+        description: 'Time between temperature samples in seconds'
+        value: 10
+
+    TEMP_SETTING_C:
+        description: 'Temperature set point in degrees C'
+        value: 10.0
