@@ -14,73 +14,25 @@
 #include <host/ble_hs.h>
 #endif
 
-#define OSTUR_TASK_PRI         (10)
+#define OSTUR_TASK_PRI         (20)
 #define OSTUR_STACK_SIZE       (256)
 struct os_task ostur_task;
 os_stack_t ostur_task_stack[OSTUR_STACK_SIZE];
 
-#define FRIDGE_TASK_PRI         (20)
+#define FRIDGE_TASK_PRI         (10)
 #define FRIDGE_STACK_SIZE       (64)
 struct os_task fridge_task;
 os_stack_t fridge_task_stack[FRIDGE_STACK_SIZE];
 
+#define BLINK_TASK_PRI         (99)
+#define BLINK_STACK_SIZE       (64)
+struct os_task blink_task;
+os_stack_t blink_task_stack[BLINK_STACK_SIZE];
+
 static volatile uint16_t timestamp;
 
 static volatile bool fridge_on;
-
-#if MYNEWT_VAL(USE_BLE)
-#define BEACON_MAGIC 0xDA7A
-
-typedef struct {
-    uint16_t magic;
-    uint16_t timestamp;
-    int16_t temperature;
-    int16_t humidity;
-    uint8_t dummy[8];
-} __attribute__((packed)) ble_beacon_t;
-
-static ble_beacon_t beacon_data;
-
-static void ble_app_advertise();
-
-static void ble_app_set_addr(void) {
-    ble_addr_t addr;
-    int rc;
-
-    rc = ble_hs_id_gen_rnd(1, &addr);
-    assert(rc == 0);
-
-    rc = ble_hs_id_set_rnd(addr.val);
-    assert(rc == 0);
-}
-
-static void ble_app_advertise() {
-    struct ble_gap_adv_params adv_params;
-    struct ble_hs_adv_fields fields;
-    int rc;
-
-    beacon_data.timestamp = timestamp;
-
-    fields = (struct ble_hs_adv_fields){ 0 };
-    rc = ble_eddystone_set_adv_data_uid(&fields, &beacon_data);
-    assert(rc == 0);
-
-    adv_params = (struct ble_gap_adv_params){ 0 };
-    rc = ble_gap_adv_start(
-        BLE_OWN_ADDR_RANDOM,
-        NULL,
-        500,
-        &adv_params,
-        NULL,
-        NULL);
-    assert(rc == 0);
-}
-
-static void ble_app_on_sync(void) {
-    /* Generate a non-resolvable private address. */
-    ble_app_set_addr();
-}
-#endif
+static bool fridge_running = false;
 
 #define NUM_SAMPLES 8
 
@@ -113,6 +65,96 @@ th_sensor_t sensors[MAX_SENSORS] = {
     {3, SHT3x_ALT_ADDR, false},
 };
 
+#if MYNEWT_VAL(USE_BLE)
+#define BEACON_MAGIC 0x0578
+
+typedef struct {
+    uint16_t magic;
+    uint32_t device_id;
+    uint16_t timestamp;
+    uint8_t sensor_ch;
+    uint8_t fridge_state;
+    int16_t temperature;
+    int16_t humidity;
+    uint16_t flags;
+} __attribute__((packed)) ble_beacon_t;
+
+static ble_beacon_t beacon_data;
+
+static void ble_app_advertise(bool);
+
+static uint8_t adv_sensor_ch;
+
+static int gap_event_cb(struct ble_gap_event *event, void *arg) {
+    switch (event->type) {
+
+    case BLE_GAP_EVENT_ADV_COMPLETE:
+        ble_app_advertise(false);
+        break;
+    }
+    return 0;
+}
+
+static void ble_app_set_addr(void) {
+    ble_addr_t addr;
+    int rc;
+
+    rc = ble_hs_id_gen_rnd(1, &addr);
+    assert(rc == 0);
+
+    rc = ble_hs_id_set_rnd(addr.val);
+    assert(rc == 0);
+}
+
+// Use a BLE_CH_ADV_TIME_MS long beacon to send each individual
+// channel's data
+static void ble_app_advertise(bool first_tx) {
+    struct ble_gap_adv_params adv_params;
+    struct ble_hs_adv_fields fields;
+    int rc;
+
+    if(first_tx) {
+        adv_sensor_ch = 0;
+        beacon_data.device_id = NRF_FICR->DEVICEADDR[0];
+        beacon_data.timestamp = timestamp;
+        beacon_data.fridge_state = fridge_running;
+        beacon_data.flags = 0;
+    }
+
+    // Find the next enabled sensor
+    while(adv_sensor_ch < MAX_SENSORS && !sensors[adv_sensor_ch].enabled) {
+        adv_sensor_ch++;
+    }
+
+    if(adv_sensor_ch < MAX_SENSORS) {
+        beacon_data.sensor_ch = adv_sensor_ch;
+        beacon_data.temperature = sensors[adv_sensor_ch].temperature;
+        beacon_data.humidity = sensors[adv_sensor_ch].humidity;
+
+        fields = (struct ble_hs_adv_fields){ 0 };
+        rc = ble_eddystone_set_adv_data_uid(&fields, &beacon_data);
+        assert(rc == 0);
+
+        adv_params = (struct ble_gap_adv_params){ 0 };
+        rc = ble_gap_adv_start(
+            BLE_OWN_ADDR_RANDOM,
+            NULL,
+            MYNEWT_VAL(BLE_CH_ADV_TIME_MS),
+            &adv_params,
+            gap_event_cb,
+            NULL);
+        assert(rc == 0);
+
+        adv_sensor_ch++;
+    }
+}
+
+static void ble_app_on_sync(void) {
+    /* Generate a non-resolvable private address. */
+    ble_app_set_addr();
+}
+#endif
+
 void fridge_control(bool enable) {
     if(enable) {
         hal_gpio_write(FRIDGE_PIN, 1);
@@ -126,7 +168,6 @@ void fridge_control(bool enable) {
 }
 
 void fridge_task_fn(void *arg) {
-    bool fridge_running = false;
 
     hal_gpio_init_out(FRIDGE_PIN, 0);
     hal_gpio_init_out(LED_2_PIN, 0);
@@ -149,7 +190,7 @@ void ostur_task_fn(void *arg) {
     int32_t outside_avg;
     int32_t primary_avg;
 
-    hal_gpio_init_out(LED_0_PIN, 0);
+    hal_gpio_init_out(LED_1_PIN, 0);
     hal_gpio_init_out(TCA_NRST_PIN, 1);
 
     console_printf("Ostur Controller v2.0\n");
@@ -157,7 +198,7 @@ void ostur_task_fn(void *arg) {
     i2c_init(0, SDA_PIN, SCL_PIN, 100);
 
     #if MYNEWT_VAL(USE_BLE)
-        beacon_data.magic = 0xDA7A;
+        beacon_data.magic = BEACON_MAGIC;
         beacon_data.timestamp = 0;
     #endif
 
@@ -180,6 +221,8 @@ void ostur_task_fn(void *arg) {
         console_printf("Error! Primary sensor not present\n");
     }
 
+    // TODO: Blink differently or advertise error here
+
     // Take a bunch of samples to initialize the buffer
     for(uint16_t sample = 0; sample < NUM_SAMPLES; sample++) {
         int16_t temp;
@@ -192,11 +235,10 @@ void ostur_task_fn(void *arg) {
         primary_buff[sample] = temp;
     }
 
-    console_printf("Temp setting: %d\n", temp_setting);
-
     while (1) {
         os_time_delay(OS_TICKS_PER_SEC * MYNEWT_VAL(SAMPLE_RATE_S));
 
+        hal_gpio_init_out(LED_1_PIN, 1);
         for(uint8_t sensor=0; sensor < MAX_SENSORS; sensor++) {
             if (!sensors[sensor].enabled) {
                 continue;
@@ -233,23 +275,41 @@ void ostur_task_fn(void *arg) {
         }
 
 #if MYNEWT_VAL(USE_BLE)
-        beacon_data.temperature = sensors[OUTSIDE_SENSOR].temperature;
-        beacon_data.humidity = sensors[OUTSIDE_SENSOR].humidity;
 
-        ble_app_advertise();
+        ble_app_advertise(true);
 #endif
 
-        hal_gpio_toggle(LED_0_PIN);
+        hal_gpio_init_out(LED_1_PIN, 0);
 
         timestamp++;
     }
 }
 
+void blink_task_fn(void *arg) {
+
+    hal_gpio_init_out(LED_0_PIN, 0);
+
+    while(1) {
+        os_time_delay(OS_TICKS_PER_SEC);
+        hal_gpio_toggle(LED_0_PIN);
+    }
+
+}
 
 int
 main(int argc, char **argv)
 {
     sysinit();
+
+    os_task_init(
+        &blink_task,
+        "blink_task",
+        blink_task_fn,
+        NULL,
+        BLINK_TASK_PRI,
+        OS_WAIT_FOREVER,
+        blink_task_stack,
+        BLINK_STACK_SIZE);
 
     os_task_init(
         &fridge_task,
@@ -283,4 +343,3 @@ main(int argc, char **argv)
 
     return 0;
 }
-

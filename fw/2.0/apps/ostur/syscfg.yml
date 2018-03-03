@@ -12,6 +12,13 @@ syscfg.defs:
         description: 'Time between temperature samples in seconds'
         value: 10
 
+    #
+    # NOTE! BLE_CH_ADV_TIME_MS * number_of channels must be < SAMPLE_RATE_S
+    #
+    BLE_CH_ADV_TIME_MS:
+        description: 'Advertising time per channel'
+        value: 1000
+
     TEMP_SETTING_C:
         description: 'Temperature set point in degrees C'
         value: 10.0
