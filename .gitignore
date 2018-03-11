@@ -2,6 +2,7 @@
 *.db
 
 *.csv
+*.sqlite
 
 gerbers/
 

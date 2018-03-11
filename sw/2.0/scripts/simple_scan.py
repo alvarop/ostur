@@ -10,6 +10,11 @@ import argparse
 import serial
 import struct
 import time
+import datetime
+import os.path
+import sqlite3
+import json
+import base64
 from bglib import bglib
 
 last_index = -1
@@ -83,17 +88,19 @@ def process_ostur_packet(packet, rssi):
 
         data = {}
         data['sample_index'] = sample_index
-        data['timestamp'] = time.strftime(
-            '%Y-%m-%d %H:%M:%S', time.localtime())
+        data['timestamp'] = int(time.time())
         data['fridge_state'] = fridge_state
-        data['temperature'] = temperature/100.0
-        data['humidity'] = humidity/100.0
+        data['temperature'] = temperature
+        data['humidity'] = humidity
         data['sensor_ch'] = sensor_ch
         data['device_id'] = device_id
         data['flags'] = flags
 
-        if args.filename:
-            save_data(data)
+        if args.csvfile:
+            save_csv_data(data)
+
+        if args.db:
+            save_sqlite_data(data)
 
         print_data(data)
 
@@ -102,17 +109,37 @@ data_columns = ['timestamp', 'device_id', 'sample_index', 'sensor_ch',
                 'temperature', 'humidity', 'fridge_state', 'flags']
 
 
-def save_data(data):
+sql_insert = "INSERT INTO samples VALUES(NULL,{})".format(
+                                    ','.join(['?']*len(data_columns)))
+
+
+def save_sqlite_data(data):
+    line = []
+    for key in data_columns:
+        line.append(data[key])
+    cur.execute(sql_insert, line)
+    con.commit()
+
+
+def save_csv_data(data):
     line = ''
 
-    for item in data_columns:
-        line += str(data[item]) + ','
+    for key in data_columns:
+        if key == 'timestamp':
+            line += datetime.datetime.fromtimestamp(
+                data['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
+        elif key == 'temperature' or key == 'humidity':
+            line += str(data[key]/100.0)
+        else:
+            line += str(data[key])
+
+        line += ','
 
     csvfile.write(line + '\n')
     csvfile.flush()
 
 
-def write_header():
+def write_csv_header():
     header = ''
     for item in data_columns:
         header += str(item) + ','
@@ -122,8 +149,15 @@ def write_header():
 def print_data(data):
     line = ''
 
-    for item in data_columns:
-        line += str(data[item]) + ','
+    for key in data_columns:
+        if key == 'timestamp':
+            line += datetime.datetime.fromtimestamp(
+                data['timestamp']).strftime('%Y-%m-%d %H:%M:%S')
+        elif key == 'temperature' or key == 'humidity':
+            line += str(data[key]/100.0)
+        else:
+            line += str(data[key])
+        line += ','
 
     print(line)
 
@@ -139,7 +173,36 @@ def timeout(sender, args):
     raise IOError('BGLib timeut :(')
 
 
+def encode_json(data):
+    b64_data = {}
+    for key, val in data.items():
+        if type(val) is bytes:
+            b64_data[key + '_base64'] = base64.b64encode(val).decode('utf-8')
+        else:
+            b64_data[key] = val
+
+    return json.dumps(b64_data)
+
+
+def decode_json(json_data):
+    data = {}
+
+    base64_data = json.loads(json_data)
+
+    for key, val in base64_data.items():
+        if '_base64' in key:
+            original_key = key[:-len('_base64')]
+            data[original_key] = base64.b64decode(val)
+        else:
+            data[key] = val
+
+    return data
+
+
 def process_scan_response(sender, args):
+    # json_args = encode_json(args)
+    # print(json_args)
+
     eddystone_data = decode_eddystone_data(args['data'])
     if eddystone_data and eddystone_data['type'] == 'uid':
         process_ostur_packet(eddystone_data['uid'], args['rssi'])
@@ -156,15 +219,37 @@ parser.add_argument('--port',
                     required=True,
                     help='BLED112 device to connect to')
 
-parser.add_argument('--filename',
-                    help='Output filename (csv format)')
+parser.add_argument('--csvfile',
+                    help='Output csvfile (csv format)')
+
+parser.add_argument('--db',
+                    help='Sqlite db csvfile')
 
 args = parser.parse_args()
 
-if args.filename:
-    csvfile = open(args.filename, mode='a')
+if os.path.isfile(args.csvfile):
+    need_header = False
+else:
+    need_header = True
 
-    write_header()
+if args.csvfile:
+    csvfile = open(args.csvfile, mode='a')
+
+    if need_header:
+        write_csv_header()
+
+if args.db:
+    con = None
+    con = sqlite3.connect(args.db)
+
+    if con is None:
+        raise IOError('Unable to open sqlite database')
+
+    cur = con.cursor()
+    cur.execute(
+        "CREATE TABLE IF NOT EXISTS " +
+        "samples(id INTEGER PRIMARY KEY,{} INTEGER)".format(
+                                        ' INTEGER, '.join(data_columns)))
 
 
 ble = bglib.BGLib()
