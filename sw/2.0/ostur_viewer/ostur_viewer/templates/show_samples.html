@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block body %}
+	<div>
+	<table class="pure-table pure-table-striped">
+		<thead>
+			<tr>
+				<th>Timestamp</th>
+				<th>Sensor CH</th>
+				<th>Temperature</th>
+				<th>Humidity</th>
+			</tr>
+		</thead>
+		<tbody>
+	{% for sample in samples %}
+			<tr>
+				<td>{{ sample.timestamp }}</td>
+				<td>{{ sample.sensor_ch }}</td>
+				<td>{{ sample.temperature }}</td>
+				<td>{{ sample.humidity }}</td>
+			</tr>
+	{% else %}
+	<tr>
+		<td>:(</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+</div>
+{% endblock %}

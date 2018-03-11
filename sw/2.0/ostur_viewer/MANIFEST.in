@@ -1,0 +1,3 @@
+graft ostur_viewer/templates
+graft ostur_viewer/static
+include ostur_viewer/schema.sql

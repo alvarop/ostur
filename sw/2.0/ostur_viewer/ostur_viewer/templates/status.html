@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block body %}
+<table class="pure-table pure-table-striped">
+	<thead>
+		<tr>
+			<th>Timestamp</th>
+			<th>Sensor</th>
+			<th>Temperature (% RH)</th>
+			<th>Humidity (C)</th>
+		</tr>
+	</thead>
+	<tbody>
+{% for sample in samples %}
+		<tr>
+			<td>{{ sample.timestamp }}</td>
+			<td>{{ sample.sensor_ch }}</td>
+			<td>{{ sample.temperature }}</td>
+			<td>{{ sample.humidity }}</td>
+		</tr>
+{% else %}
+<tr>
+	<td>:(</td>
+</tr>
+{% endfor %}
+</tbody>
+</table>
+<h3>
+{% if fridge_state %}
+Fridge ON
+{% else %}
+Fridge OFF
+{% endif %}
+</h3>
+
+{% endblock %}

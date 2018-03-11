@@ -11,6 +11,8 @@ name = "pypi"
 pyserial = "*"
 matplotlib = "*"
 numpy = "*"
+flask = "*"
+"38901a9" = {editable = true, path = "sw/2.0/ostur_viewer"}
 
 
 [dev-packages]
