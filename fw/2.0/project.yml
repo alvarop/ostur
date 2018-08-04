@@ -27,6 +27,6 @@ project.repositories:
 #
 repository.apache-mynewt-core:
     type: github
-    vers: 1-latest
-    user: alvarop
+    vers: 1.4.1
+    user: apache
     repo: mynewt-core

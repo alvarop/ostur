@@ -1,3 +1,5 @@
 
 syscfg.vals:
   USE_BLE: 1
+
+  TEMP_SETTING_C: 7.0
