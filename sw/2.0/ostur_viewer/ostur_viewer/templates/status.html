@@ -1,12 +1,27 @@
 {% extends "layout.html" %}
 {% block body %}
+
+<style type="text/css">
+td, tr {
+  text-align: center;
+  vertical-align: middle;
+}
+</style>
+
 <table class="pure-table pure-table-striped">
 	<thead>
 		<tr>
+			<th colspan="2"></th>
+			<th colspan="2">Latest</th>
+			<th colspan="2">Average (Last Hour)</th>
+		</tr>
+		<tr>
 			<th>Timestamp</th>
 			<th>Sensor</th>
-			<th>Temperature (% RH)</th>
-			<th>Humidity (C)</th>
+			<th>Temperature (C)</th>
+			<th>Humidity (% RH)</th>
+			<th>Temperature (C)</th>
+			<th>Humidity (% RH)</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -16,6 +31,8 @@
 			<td>{{ sample.sensor_ch }}</td>
 			<td>{{ sample.temperature }}</td>
 			<td>{{ sample.humidity }}</td>
+			<td>{{ sample.temperature_avg }}</td>
+			<td>{{ sample.humidity_avg }}</td>
 		</tr>
 {% else %}
 <tr>
