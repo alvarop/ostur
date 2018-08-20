@@ -42,6 +42,11 @@ td, tr {
 </tbody>
 </table>
 <h3>
+{% if last_door_open %}
+Door last opened: {{ last_door_open }} [Experimental]
+{% endif %}
+</h3>
+<h3>
 {% if fridge_state %}
 Fridge ON
 {% else %}

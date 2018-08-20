@@ -70,9 +70,32 @@ def close_db(error):
 
 def get_last_sample():
     db = get_db()
-    cur = db.execute("select * from samples order by timestamp DESC limit 10")
+    cur = db.execute("select * from samples order by timestamp DESC limit 1")
     rows = cur.fetchall()
     return rows[0]
+
+
+def get_last_door_open():
+    last_door_open_str = None
+    db = get_db()
+
+    # Experimental door-open detector
+    # if the main sensor's humidity goes about 80%, the door has likely opened
+    # This only works with low ambient humidity
+    # There are better ways to do it with temperature/humidity deltas,
+    # but this works for me now :P
+    cur = db.execute(
+        """select * from samples
+        where samples.sensor_ch == 0 and samples.humidity > 8000
+        order by timestamp DESC limit 1"""
+    )
+    rows = cur.fetchall()
+    if len(rows) > 0:
+        last_door_open_str = datetime.datetime.fromtimestamp(
+            rows[0]["timestamp"]
+        ).strftime("%Y-%m-%d %H:%M")
+
+    return last_door_open_str
 
 
 @app.route("/")
@@ -146,7 +169,14 @@ def summary():
 
     samples = sorted(samples, key=lambda k: k["sensor_ch"])
 
-    return render_template("status.html", samples=samples, fridge_state=fridge_state)
+    last_door_open = get_last_door_open()
+
+    return render_template(
+        "status.html",
+        samples=samples,
+        fridge_state=fridge_state,
+        last_door_open=last_door_open,
+    )
 
 
 @app.route("/all")
