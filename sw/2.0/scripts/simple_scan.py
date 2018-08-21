@@ -118,7 +118,19 @@ def save_sqlite_data(data):
     for key in data_columns:
         line.append(data[key])
     cur.execute(sql_insert, line)
-    con.commit()
+
+    # Add retries in case the database is locked
+    # Rpi zero is slow and the ostur_viewer hogs it when a request comes in
+    retries = 5
+    while retries > 0:
+        try:
+            con.commit()
+            break
+        except sqlite3.OperationalError:
+            print("Unable to commit. Retrying {}".format(retries))
+            retries -= 1;
+            continue
+
 
 
 def save_csv_data(data):
