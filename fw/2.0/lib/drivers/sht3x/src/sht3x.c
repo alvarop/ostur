@@ -1,7 +1,7 @@
 #include <stdint.h>
 #include <console/console.h>
 #include <assert.h>
-#include <i2c/i2c.h>
+#include <hal/hal_i2c.h>
 #include <sht3x/sht3x.h>
 #include <os/os_cputime.h>
 
@@ -29,6 +29,10 @@
 #define RESET_L 0xA2
 
 #define I2C_PORT (0)
+
+static struct hal_i2c_master_data i2c_data = {
+    .address = SHT3x_ADDR
+};
 
 int32_t sht3x_init(uint8_t addr) {
     int32_t rval = 0;
@@ -65,11 +69,27 @@ int32_t sht3x_status(uint8_t addr, int16_t *status) {
     uint8_t rBuff[2];
     uint8_t wBuff[2] = {RD_STATUS_H, RD_STATUS_L};
 
-    rval = i2c(I2C_PORT, addr, 2, wBuff, 2, rBuff, 10);
+    do {
+        i2c_data.len = sizeof(wBuff);
+        i2c_data.buffer = wBuff;
+        rval = hal_i2c_master_write(0, &i2c_data, 10, 1);
 
-    if((rval == I2C_OK) && (status != NULL)) {
-        *status = (rBuff[0] << 8) | rBuff[1];
-    }
+        if(rval != 0) {
+            break;
+        }
+
+        i2c_data.len = sizeof(rBuff);
+        i2c_data.buffer = rBuff;
+        rval = hal_i2c_master_read(0, &i2c_data, 10, 1);
+
+        if(rval != 0) {
+            break;
+        }
+
+        if(status != NULL) {
+            *status = (rBuff[0] << 8) | rBuff[1];
+        }
+    } while(0);
 
     return rval;
 }
@@ -77,8 +97,13 @@ int32_t sht3x_status(uint8_t addr, int16_t *status) {
 int32_t sht3x_reset(uint8_t addr) {
     int32_t rval = 0;
     uint8_t wBuff[2] = {RESET_H, RESET_L};
+    struct hal_i2c_master_data i2c_data = {
+        .address = SHT3x_ADDR
+    };
 
-    rval = i2c(I2C_PORT, addr, 2, wBuff, 0, NULL, 10);
+    i2c_data.len = sizeof(wBuff);
+    i2c_data.buffer = wBuff;
+    rval = hal_i2c_master_write(0, &i2c_data, 10, 1);
 
     return rval;
 }
@@ -86,6 +111,10 @@ int32_t sht3x_reset(uint8_t addr) {
 int32_t sht3x_heater(uint8_t addr, bool enable) {
     int32_t rval = 0;
     uint8_t wBuff[2];
+
+    struct hal_i2c_master_data i2c_data = {
+        .address = SHT3x_ADDR
+    };
 
     if (enable) {
         wBuff[0] = HEATER_ENABLE_H;
@@ -95,7 +124,9 @@ int32_t sht3x_heater(uint8_t addr, bool enable) {
         wBuff[1] = HEATER_DISABLE_L;
     }
 
-    rval = i2c(I2C_PORT, addr, 2, wBuff, 0, NULL, 10);
+    i2c_data.len = sizeof(wBuff);
+    i2c_data.buffer = wBuff;
+    rval = hal_i2c_master_write(0, &i2c_data, 10, 1);
 
     return rval;
 }
@@ -107,18 +138,23 @@ int32_t sht3x_read(uint8_t addr, int16_t *temperature, int16_t *humidity) {
 
     do {
         // Send read command
-        rval = i2c(I2C_PORT, addr, 2, wBuff, 0, NULL, 10);
-        if(rval != I2C_OK) {
+        i2c_data.len = sizeof(wBuff);
+        i2c_data.buffer = wBuff;
+        rval = hal_i2c_master_write(0, &i2c_data, 10, 1);
+
+        if(rval != 0) {
             break;
         }
 
         // Wait 15ms for sample
         os_cputime_delay_usecs(15000);
 
-
         // Read back measurements
-        rval = i2c(I2C_PORT, addr, 0, NULL, 6, rBuff, 10);
-        if(rval != I2C_OK) {
+        i2c_data.len = sizeof(rBuff);
+        i2c_data.buffer = rBuff;
+        rval = hal_i2c_master_read(0, &i2c_data, 10, 1);
+
+        if(rval != 0) {
             break;
         }
 
