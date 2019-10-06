@@ -1,0 +1,156 @@
+{% extends "layout.html" %}
+{% block head %}
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+      current_plot = '/json/day';
+
+      function load_plots(url) {
+        current_plot = url;
+        fetch(url)
+        .then(function(response) {
+          return response.json();
+        })
+        .then(function(plot) {
+          draw_plots(plot);
+        });
+      };
+
+      function draw_plots(plot) {
+        plots = [
+          {
+            title:"Temperature",
+            xdata: "timestamp",
+            x_label: "Time",
+            ydata: "temperature",
+            y_label: "Temperature (°C)",
+            div: "div-temperature",
+            type: "scatter"
+          },
+          {
+            title:"Humidity",
+            xdata: "timestamp",
+            x_label: "Time",
+            ydata: "humidity",
+            y_label: "Humidity (%RH)",
+            div: "div-humidity",
+            type: "scatter"
+          },
+          {
+            title:"Battery Level",
+            xdata: "timestamp",
+            x_label: "Time",
+            ydata: "battery",
+            y_label: "Voltage (V)",
+            div: "div-battery",
+            type: "scatter"
+          },
+          {
+            title:"Signal Strength",
+            xdata: "timestamp",
+            x_label: "Time",
+            ydata: "rssi",
+            y_label: "RSSI (dBm)",
+            div: "div-rssi",
+            type: "scatter"
+          },
+        ];
+
+
+        // Draw each plot here
+        plots.forEach(function(item){
+          var layout = {
+            title: {
+              text:item["title"]
+            },
+            xaxis: {
+              title: {
+                text:item["x_label"]
+              }
+            },
+            yaxis: {
+              title: {
+                text:item["y_label"]
+              }
+            }
+          };
+
+          var plot_items = [];
+
+          for (const [device, values] of Object.entries(plot["devices"])) {
+            plot_items.push(
+              { x:values[item["xdata"]],
+                y:values[item["ydata"]],
+                type:item["type"],
+                name:device}
+              );
+          }
+
+          // TODO - Also add html elements here for more flexibility
+          Plotly.purge(document.getElementById(item["div"]));
+          Plotly.plot(document.getElementById(item["div"]),
+            plot_items,
+            layout,
+            {responsive: true} );
+          });
+
+        document.getElementById("div-header").innerHTML = "Weather from <b>" + plot["start_date"] + "</b> to <b>" + plot["end_date"] +"</b>";
+      };
+
+      // Function to update data when settings change or page is loaded
+      function draw_ostur() {
+        load_plots(current_plot);
+      };
+
+      window.onload = function(){
+        draw_ostur();
+      };
+
+
+    </script>
+{% endblock %}
+
+{% block body %}
+  <div class="container">
+    <div class="columns">
+      <div class="column">
+        <button class="button" onclick="load_plots('/json/day')">Day</button>
+        <button class="button" onclick="load_plots('/json/week')">Week</button>
+        <button class="button" onclick="load_plots('/json/month')">Month</button>
+      </div>
+    </div>
+    <div class="columns is-desktop">
+      <div class="column">
+        <h3 class="subtitle is-3 " id="div-header">Sensors</h3>
+      </div>
+    </div>
+    <div class="columns is-desktop">
+      <div class="column">
+        <div class="notification has-text-centered">
+          <div id="div-temperature" ></div>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-desktop">
+      <div class="column">
+        <div class="notification has-text-centered">
+          <div id="div-humidity" ></div>
+        </div>
+      </div>
+    </div>
+    <div class="columns is-desktop">
+      <div class="column">
+        <div class="notification has-text-centered">
+          <div id="div-battery" ></div>
+        </div>
+      </div>
+     </div>
+    <div class="columns is-desktop">
+      <div class="column">
+        <div class="notification has-text-centered">
+          <div id="div-rssi" ></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}

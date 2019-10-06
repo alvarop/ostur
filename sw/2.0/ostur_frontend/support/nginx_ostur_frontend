@@ -1,0 +1,16 @@
+# nginx config for flask app
+# Copy to: /etc/nginx/sites-enabled/ostur_frontend
+server {
+        server_name ostur_frontend;
+        listen 8080;
+        root /var/flaskapp/ostur_frontend/static;
+
+        location / {
+                try_files $uri @ostur_frontend-flask;
+        }
+
+        location @ostur_frontend-flask {
+                include proxy_params;
+                proxy_pass http://unix:/var/flaskapp/ostur_frontend/ostur_frontend.sock;
+        }
+}

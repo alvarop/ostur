@@ -7,7 +7,7 @@ setup(
     name="ostur",
     version="0.1",
     description="Ostur python libraries",
-    url="https://github.com/alvarop/chaac",
+    url="https://github.com/alvarop/ostur",
     author="Alvaro Prieto",
     author_email="source@alvaroprieto.com",
     license="MIT",

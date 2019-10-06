@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% block body %}
+<script type="text/javascript">
+
+  function load_latest() {
+    fetch('/latest')
+    .then(function(response) {
+      return response.json();
+    })
+    .then(function(latest) {
+      for (const [device, values] of Object.entries(latest["devices"])) {
+        add_sensor(values);
+      }
+    });
+  };
+
+  function add_sensor(values) {
+    var sample_table = document.getElementById("sample_table");
+    var new_row = sample_table.insertRow();
+    new_row.insertCell(0).innerHTML = values["uid"];
+    new_row.insertCell(1).innerHTML = values["temperature"] + " C";
+    new_row.insertCell(2).innerHTML = values["humidity"] + " % RH";
+    new_row.insertCell(3).innerHTML = values["battery"] + " V";
+    new_row.insertCell(4).innerHTML = values["timestamp"];
+  };
+
+
+  // Function to update data when settings change or page is loaded
+  function draw_ostur() {
+    load_latest();
+  };
+
+  window.onload = function(){
+    draw_ostur();
+  };
+</script>
+<div class="container">
+  <div class="columns is-desktop">
+
+  <table class="table" id="sample_table">
+    <thead>
+      <tr>
+        <th>Sensor</th>
+        <th>Temperature</th>
+        <th>Humidity</th>
+        <th>Battery</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+  </table>
+  </div>
+</div>
+{% endblock %}
