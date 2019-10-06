@@ -1,0 +1,13 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+serial-library = {editable = true,path = "./../serial_packet"}
+pyserial = "*"
+
+[requires]
+python_version = "3.6"
