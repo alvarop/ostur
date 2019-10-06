@@ -71,6 +71,9 @@ static void ble_app_advertise() {
     beacon_data.flags = 0;
 
     fields = (struct ble_hs_adv_fields){ 0 };
+    fields.mfg_data_len = 1;
+    fields.mfg_data = (uint8_t[]){0x05};
+
     rc = ble_eddystone_set_adv_data_uid(&fields, &beacon_data, 0);
     assert(rc == 0);
 
