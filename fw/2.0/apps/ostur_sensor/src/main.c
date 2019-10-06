@@ -14,6 +14,9 @@
 #include <host/ble_hs.h>
 #endif
 
+// Magic value that identifies ble beacon as ostur packet
+#define OSTUR_MFG_MAGIC (0x57)
+
 #define OSTUR_TASK_PRI         (20)
 #define OSTUR_STACK_SIZE       (256)
 struct os_task ostur_task;
@@ -22,16 +25,15 @@ os_stack_t ostur_task_stack[OSTUR_STACK_SIZE];
 static volatile uint16_t timestamp;
 
 #if MYNEWT_VAL(USE_BLE)
-#define BEACON_MAGIC 0x0579
 
 typedef struct {
-    uint16_t magic;
     uint32_t device_id;
     uint16_t timestamp;
     int16_t temperature;
     int16_t humidity;
     uint16_t batt;
     uint16_t flags;
+    uint16_t reserved;
 } __attribute__((packed)) ble_beacon_t;
 
 static ble_beacon_t beacon_data;
@@ -72,7 +74,7 @@ static void ble_app_advertise() {
 
     fields = (struct ble_hs_adv_fields){ 0 };
     fields.mfg_data_len = 1;
-    fields.mfg_data = (uint8_t[]){0x05};
+    fields.mfg_data = (uint8_t[]){OSTUR_MFG_MAGIC};
 
     rc = ble_eddystone_set_adv_data_uid(&fields, &beacon_data, 0);
     assert(rc == 0);
@@ -102,7 +104,6 @@ void ostur_task_fn(void *arg) {
     console_printf("Ostur Sensor v1.0\n");
 
     #if MYNEWT_VAL(USE_BLE)
-        beacon_data.magic = BEACON_MAGIC;
         beacon_data.timestamp = 0;
     #endif
 
@@ -115,17 +116,21 @@ void ostur_task_fn(void *arg) {
         hal_gpio_write(LED2_PIN, 1);
         hal_gpio_write(LED1_PIN, 1);
         while(1){
+            // TODO - Add retries/reboot after a while
             __asm("NOP;");
         }
     }
 
+    // Wait a few seconds to start before sending first packet
     os_time_delay(OS_TICKS_PER_SEC * 5);
+
     while (1) {
         int32_t batt = 0;
         int32_t mv;
 
         hal_gpio_write(LED2_PIN, 1);
 
+        // Sample battery and average over BATT_ADC_SAMPLES samples
         simple_adc_init();
         simple_adc_init_ch(0, NRF_SAADC_INPUT_VDD);
         for(uint8_t sample = 0; sample < BATT_ADC_SAMPLES; sample++){
@@ -133,7 +138,7 @@ void ostur_task_fn(void *arg) {
             batt += mv;
         }
         simple_adc_uninit();
-        beacon_data.batt = (uint16_t)(batt/BATT_ADC_SAMPLES);
+        beacon_data.batt = (uint16_t)(batt / BATT_ADC_SAMPLES);
 
         rval = sht3x_read(SHT3x_ADDR, &beacon_data.temperature, &beacon_data.humidity);
         console_printf("t:%d h:%d\n", beacon_data.temperature, beacon_data.humidity);

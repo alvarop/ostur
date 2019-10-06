@@ -16,6 +16,8 @@
 struct os_task led_task;
 os_stack_t led_task_stack[LED_STACK_SIZE];
 
+// Magic value that identifies ble beacon as ostur packet
+#define OSTUR_MFG_MAGIC (0x57)
 
 static int ble_app_gap_event(struct ble_gap_event *event, void *arg);
 
@@ -82,7 +84,7 @@ static int ble_app_gap_event(struct ble_gap_event *event, void *arg) {
         if (fields.uuids16 != NULL &&
             fields.uuids16->value == 0xFEAA &&
             fields.mfg_data_len == 1 &&
-            fields.mfg_data[0] == 0x05) {
+            fields.mfg_data[0] == OSTUR_MFG_MAGIC) {
             memcpy(&packet.addr, event->disc.addr.val, sizeof(packet.addr));
             memcpy(&packet.data, &fields.svc_data_uuid16[4], sizeof(packet.data));
             packet.rssi = event->disc.rssi;
