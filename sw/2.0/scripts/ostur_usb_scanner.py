@@ -10,25 +10,11 @@ import serial
 import sys
 import time
 from datetime import datetime
-from ostur_packet import OsturPacket
-
-# from chaac.chaacdb import ChaacDB
+from ostur.packets import BLEOsturPacket
+from ostur.osturdb import OsturDB
 from serial_packet.serial_packet import decode_packet, encode_packet
 
-BLEOsturPacket = OsturPacket(
-    "BLEOsturPacket",
-    [
-        ("addr", "6p"),
-        ("magic", "H"),
-        ("uid", "I"),
-        ("sample", "H"),
-        ("temperature", "h"),
-        ("humidity", "h"),
-        ("battery", "H"),
-        ("flags", "H"),
-        ("rssi", "b"),
-    ],
-)
+
 
 
 parser = argparse.ArgumentParser()
@@ -41,10 +27,10 @@ parser.add_argument("--db", help="Sqlite db file")
 
 args = parser.parse_args()
 
-# if args.db:
-#     db = ChaacDB(args.db)
-# else:
-#     db = None
+if args.db:
+    db = OsturDB(args.db)
+else:
+    db = None
 
 stream = serial.Serial(args.port, baudrate=args.baud_rate, timeout=0.01)
 stream.flushInput()
@@ -78,8 +64,8 @@ def process_packet(packet):
     data = BLEOsturPacket.from_dict(data)
 
     print(data)
-    # if db is not None:
-    # db.add_record(data)
+    if db is not None:
+        db.add_record(data)
 
 
 buff = bytearray()

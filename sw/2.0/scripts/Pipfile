@@ -8,6 +8,7 @@ verify_ssl = true
 [packages]
 serial-library = {editable = true,path = "./../serial_packet"}
 pyserial = "*"
+ostur = {editable = true,path = "./../ostur"}
 
 [requires]
 python_version = "3.6"
