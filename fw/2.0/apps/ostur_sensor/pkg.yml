@@ -1,0 +1,22 @@
+pkg.name: apps/ostur_sensor
+pkg.type: app
+pkg.description: Ostur Cheese Cave Controller Sensor
+pkg.author: "Alvaro Prieto <source@alvaroprieto.com>"
+pkg.homepage: "https://github.com/alvarop/ostur"
+pkg.keywords:
+
+pkg.deps:
+    - "@apache-mynewt-core/kernel/os"
+    - "@apache-mynewt-core/hw/hal"
+    - "@apache-mynewt-core/sys/console/stub"
+    # - "@apache-mynewt-core/sys/console/full"
+    - "@apache-mynewt-core/sys/sysinit"
+    - "@apache-mynewt-core/sys/log/stub"
+    - "lib/drivers/simple_adc_nrf52"
+    - "lib/drivers/sht3x"
+
+pkg.deps.USE_BLE:
+    - "@apache-mynewt-core/sys/stats/stub"
+    - "@apache-mynewt-nimble/nimble/host/store/ram"
+    - "@apache-mynewt-nimble/nimble/transport"
+

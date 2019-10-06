@@ -1,0 +1,14 @@
+
+syscfg.defs:
+    USE_BLE:
+        description: 'Enable BLE'
+        value: 1
+
+    SAMPLE_RATE_S:
+        description: 'Time between temperature samples in seconds'
+        value: 60
+
+    BLE_CH_ADV_TIME_MS:
+        description: 'Advertising time per channel'
+        value: 300
+

@@ -1,0 +1,3 @@
+target.app: "@mcuboot/boot/mynewt"
+target.bsp: "hw/bsp/ostur_sensor_v1p0"
+target.build_profile: optimized
