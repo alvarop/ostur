@@ -11,11 +11,11 @@ If you just changed a few files and don't want to go through the whole pipenv pr
 ### Monitoring
 To monitor packets arriving run:
 
-`sudo tail -f /var/log/supervisor/chaac-logger-app-stdout---supervisor-KsDl4b.log`
+`sudo tail -f /var/log/supervisor/ostur-logger-app-stdout---supervisor-KsDl4b.log`
 
 Note that the last few characters, `KsDl4b` in this case, change everytime supervisor restarts. It's easy to just tab complete with whatever is there.
 
 To check for errors, just replace stdout for stderr in the command.
 
 ## Local Development
-Run `pipenv run python chaac_logger.py --port /dev/ttyUSB0 --baud_rate 115200 --db sqlite_db_filename.db`
+Run `pipenv run python ostur_logger.py --port /dev/ttyUSB0 --baud_rate 115200 --db sqlite_db_filename.db`
