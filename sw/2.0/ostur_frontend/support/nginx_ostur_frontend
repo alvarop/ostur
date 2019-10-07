@@ -2,7 +2,7 @@
 # Copy to: /etc/nginx/sites-enabled/ostur_frontend
 server {
         server_name ostur_frontend;
-        listen 8080;
+        listen 80;
         root /var/flaskapp/ostur_frontend/static;
 
         location / {
