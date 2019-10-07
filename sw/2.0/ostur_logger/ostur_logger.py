@@ -15,14 +15,10 @@ from ostur.osturdb import OsturDB
 from serial_packet.serial_packet import decode_packet, encode_packet
 
 
-
-
 parser = argparse.ArgumentParser()
 
 parser.add_argument("--baud_rate", default=115200, type=int, help="baud rate")
-
 parser.add_argument("--port", required=True, help="device to connect to")
-
 parser.add_argument("--db", help="Sqlite db file")
 
 args = parser.parse_args()
