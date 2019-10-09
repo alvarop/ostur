@@ -276,8 +276,9 @@ class OsturDB:
             SELECT * FROM day_samples
             WHERE timestamp >= {}
             AND timestamp < {}
+            AND uid == {}
             """.format(
-            int(start_time), int(end_time)
+            int(start_time), int(end_time), uid
         )
 
         self.cur.row_factory = self.__ostur_row_factory
