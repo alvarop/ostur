@@ -1,4 +1,4 @@
-update=Sat 29 Jun 2019 01:13:12 PM PDT
+update=Thu 10 Oct 2019 04:35:59 PM PDT
 version=1
 last_client=kicad
 [general]
@@ -26,7 +26,7 @@ ERC_TestSimilarLabels=1
 version=1
 PageLayoutDescrFile=
 LastNetListRead=sensor.net
-CopperLayerCount=2
+CopperLayerCount=4
 BoardThickness=1.6
 AllowMicroVias=0
 AllowBlindVias=0
@@ -42,12 +42,13 @@ TrackWidth1=0.1524
 TrackWidth2=0.1524
 TrackWidth3=0.2032
 TrackWidth4=0.254
-TrackWidth5=0.3048
-TrackWidth6=0.381
-TrackWidth7=0.508
-TrackWidth8=0.635
-TrackWidth9=1.016
-TrackWidth10=2.54
+TrackWidth5=0.29337
+TrackWidth6=0.3048
+TrackWidth7=0.381
+TrackWidth8=0.508
+TrackWidth9=0.635
+TrackWidth10=1.016
+TrackWidth11=2.54
 ViaDiameter1=0.508
 ViaDrill1=0.254
 ViaDiameter2=0.508
@@ -84,13 +85,13 @@ Name=F.Cu
 Type=0
 Enabled=1
 [pcbnew/Layer.In1.Cu]
-Name=In1.Cu
-Type=0
-Enabled=0
+Name=GND
+Type=1
+Enabled=1
 [pcbnew/Layer.In2.Cu]
-Name=In2.Cu
-Type=0
-Enabled=0
+Name=PWR
+Type=1
+Enabled=1
 [pcbnew/Layer.In3.Cu]
 Name=In3.Cu
 Type=0

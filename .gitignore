@@ -5,6 +5,8 @@
 *.sqlite
 
 gerbers/
+gerber/
+*.zip
 
 # Temporary files
 *.000
@@ -15,6 +17,8 @@ fp-lib-table
 *~
 _autosave-*
 *.tmp
+*-bak
+rescue-backup/
 
 # Netlist files (exported from Eeschema)
 *.net
