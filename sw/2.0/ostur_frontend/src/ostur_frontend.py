@@ -88,6 +88,11 @@ def get_json_str(start_date, end_date, table="day"):
             table, start_date=start_date, end_date=end_date, uid=device
         )
         data = {}
+
+        # Ignore devices with no samples in the current range
+        if len(rows) == 0:
+            continue
+
         col_names = rows[0]._asdict().keys()
 
         for name in col_names:
