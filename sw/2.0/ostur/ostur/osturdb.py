@@ -176,18 +176,7 @@ class OsturDB:
             self.devices[row[0]] = row[1]
 
     def __add_device(self, uid, name=None):
-        if name is None:
-            name = uid
-
-        query = """
-        REPLACE INTO devices (uid, name) VALUES ({}, {})
-        """.format(
-            uid, name
-        )
-
-        self.cur.execute(query)
-
-        self.devices[uid] = name
+        self.rename_device(uid, name, True)
 
         # Update downsampling time
         self.config["{}_week_start".format(uid)] = 0
@@ -197,6 +186,23 @@ class OsturDB:
 
     def __ostur_row_factory(self, cursor, row):
         return self.OsturRecord(*row)
+
+    def rename_device(self, uid, name=None, new=False):
+        if not new and uid not in self.devices:
+            raise KeyError("Unknown device!")
+
+        if name is None:
+            name = uid
+
+        query = """
+        REPLACE INTO devices (uid, name) VALUES (?, ?)
+        """
+
+        # Sanitize user input
+        # See https://bobby-tables.com/python
+        self.cur.execute(query, (uid, name))
+
+        self.devices[uid] = name
 
     def get_records(
         self, table, start_date=None, end_date=None, order=None, limit=None, uid=None
