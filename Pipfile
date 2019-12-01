@@ -1,19 +1,16 @@
 [[source]]
-
 url = "https://pypi.python.org/simple"
 verify_ssl = true
 name = "pypi"
 
-
 [packages]
-
 "02080bc" = {editable = true, path = "sw/2.0/lib/bglib"}
 pyserial = "*"
 matplotlib = "*"
 numpy = "*"
 flask = "*"
 "38901a9" = {editable = true, path = "sw/2.0/ostur_viewer"}
-
+"5db53ee" = {path = "./sw/2.0/lib/bglib", editable = true}
+"0483237" = {path = "./sw/2.0/ostur_viewer", editable = true}
 
 [dev-packages]
-

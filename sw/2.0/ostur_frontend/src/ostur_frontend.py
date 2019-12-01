@@ -126,6 +126,28 @@ def get_json_str(start_date, end_date, table="day"):
 
     return jsonify(plot)
 
+@app.route("/rename_device")
+def rename_device():
+    db = get_db()
+
+    uid = int(request.args.get('uid'))
+    new_name = request.args.get('name')
+
+    if uid is None or new_name is None:
+        return "ERR"
+    elif uid not in db.devices:
+        return "ERR 2"
+    else:
+        print("renaming {} to {}".format(uid, new_name))
+        db.rename_device(uid, new_name)
+        return "OK"
+
+@app.route("/json/devices")
+def get_devices():
+    db = get_db()
+
+    return jsonify(db.devices)
+
 
 @app.route("/json/day")
 def json_day_str():
