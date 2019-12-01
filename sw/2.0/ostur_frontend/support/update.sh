@@ -2,9 +2,11 @@
 
 echo "Updating files"
 sudo rsync --chown=www-data:www-data -a `git rev-parse --show-toplevel`/sw/2.0/ostur_frontend /var/flaskapp/
-sudo rsync --chown=www-data:www-data -a `git rev-parse --show-toplevel`/sw/2.0/ostur /var/flaskapp/
+sudo rsync --chown=www-data:www-data -a `git rev-parse --show-toplevel`/sw/2.0/ostur /var/
 
 cd `git rev-parse --show-toplevel`/sw/2.0/ostur_frontend
+
+pip3 install -e /var/ostur
 
 echo "Updating nginx config setup"
 sudo rm -f /etc/nginx/sites-enabled/default
