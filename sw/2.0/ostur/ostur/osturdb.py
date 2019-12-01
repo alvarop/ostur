@@ -212,17 +212,22 @@ class OsturDB:
 
         self.cur.row_factory = self.__ostur_row_factory
 
+        args = []
+
         query = "SELECT * FROM {}".format(self.tables[table])
 
         options = []
         if start_date is not None:
-            options.append("timestamp >= {}".format(int(start_date)))
+            options.append("timestamp >= ?")
+            args.append(int(start_date))
 
         if end_date is not None:
-            options.append("timestamp < {}".format(int(end_date)))
+            options.append("timestamp < ?")
+            args.append(int(end_date))
 
         if uid is not None:
-            options.append("uid == {}".format(uid))
+            options.append("uid == ?")
+            args.append(uid)
 
         if len(options) > 0:
             query += " WHERE " + " AND ".join(options)
@@ -231,9 +236,10 @@ class OsturDB:
             query += " ORDER BY timestamp DESC"
 
         if limit is not None:
-            query += " LIMIT {}".format(int(limit))
+            query += " LIMIT ?"
+            args.append(int(limit))
 
-        self.cur.execute(query)
+        self.cur.execute(query, args)
 
         return self.cur.fetchall()
 
@@ -280,15 +286,13 @@ class OsturDB:
 
         query = """
             SELECT * FROM day_samples
-            WHERE timestamp >= {}
-            AND timestamp < {}
-            AND uid == {}
-            """.format(
-            int(start_time), int(end_time), uid
-        )
-
+            WHERE timestamp >= ?
+            AND timestamp < ?
+            AND uid == ?
+            """
+        args = (int(start_time), int(end_time), uid)
         self.cur.row_factory = self.__ostur_row_factory
-        self.cur.execute(query)
+        self.cur.execute(query, args)
         rows = self.cur.fetchall()
 
         if len(rows) == 0:
