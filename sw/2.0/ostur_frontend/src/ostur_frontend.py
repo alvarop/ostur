@@ -39,11 +39,10 @@ def get_latest_sample():
 
     sample = {"hotsname": hostname, "devices": {}}
 
-    for device in db.devices:
-        # Convert the units
-        sample["devices"][device] = {}
+    for device, device_name in db.devices.items():
         rows = db.get_records("day", order="desc", limit=1, uid=device)
-        data = {}
+        data = {"name": device_name}
+        # Convert the units
         for key, val in rows[0]._asdict().items():
             if key == "timestamp":
                 data[key] = datetime.fromtimestamp(val).strftime("%Y-%m-%d %H:%M:%S")
@@ -52,7 +51,7 @@ def get_latest_sample():
             else:
                 data[key] = round(float(val), 2)
 
-        sample["devices"][device] = data
+        sample["devices"][device_name] = data
 
     # Past day
     now = datetime.fromtimestamp(int(time.time()))
@@ -68,8 +67,6 @@ def latest_json():
 
 @app.route("/")
 def summary():
-    sample = get_latest_sample()
-
     return render_template("status.html", hostname=hostname)
 
 
@@ -83,7 +80,7 @@ def get_json_str(start_date, end_date, table="day"):
 
     plot = {"hotsname": hostname, "devices": {}}
 
-    for device in db.devices:
+    for device, device_name in db.devices.items():
         rows = db.get_records(
             table, start_date=start_date, end_date=end_date, uid=device
         )
@@ -115,7 +112,7 @@ def get_json_str(start_date, end_date, table="day"):
                     else:
                         data[name].append(round(getattr(row, name), 3))
 
-        plot["devices"][device] = data
+        plot["devices"][device_name] = data
 
         plot["start_date"] = datetime.fromtimestamp(start_date).strftime(
             "%Y-%m-%d %H:%M:%S"
@@ -126,12 +123,13 @@ def get_json_str(start_date, end_date, table="day"):
 
     return jsonify(plot)
 
+
 @app.route("/rename_device")
 def rename_device():
     db = get_db()
 
-    uid = int(request.args.get('uid'))
-    new_name = request.args.get('name')
+    uid = int(request.args.get("uid"))
+    new_name = request.args.get("name")
 
     if uid is None or new_name is None:
         return "ERR"
@@ -141,6 +139,7 @@ def rename_device():
         print("renaming {} to {}".format(uid, new_name))
         db.rename_device(uid, new_name)
         return "OK"
+
 
 @app.route("/json/devices")
 def get_devices():

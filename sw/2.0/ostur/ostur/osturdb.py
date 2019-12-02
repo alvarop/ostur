@@ -197,10 +197,11 @@ class OsturDB:
         query = """
         REPLACE INTO devices (uid, name) VALUES (?, ?)
         """
+        args = (uid, name)
 
         # Sanitize user input
         # See https://bobby-tables.com/python
-        self.cur.execute(query, (uid, name))
+        self.cur.execute(query, args)
 
         self.devices[uid] = name
 
@@ -212,9 +213,8 @@ class OsturDB:
 
         self.cur.row_factory = self.__ostur_row_factory
 
-        args = []
-
         query = "SELECT * FROM {}".format(self.tables[table])
+        args = []
 
         options = []
         if start_date is not None:
@@ -291,6 +291,7 @@ class OsturDB:
             AND uid == ?
             """
         args = (int(start_time), int(end_time), uid)
+
         self.cur.row_factory = self.__ostur_row_factory
         self.cur.execute(query, args)
         rows = self.cur.fetchall()

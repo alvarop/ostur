@@ -17,7 +17,7 @@
   function add_sensor(values) {
     var sample_table = document.getElementById("sample_table");
     var new_row = sample_table.insertRow();
-    new_row.insertCell(0).innerHTML = values["uid"];
+    new_row.insertCell(0).innerHTML = values["name"];
     new_row.insertCell(1).innerHTML = values["temperature"] + " C";
     new_row.insertCell(2).innerHTML = values["humidity"] + " % RH";
     new_row.insertCell(3).innerHTML = values["battery"] + " V";
