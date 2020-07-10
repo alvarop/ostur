@@ -36,3 +36,4 @@ build/
 Pipfile.lock
 *.egg-info
 __pycache__/
+venv/
