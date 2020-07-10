@@ -10,7 +10,9 @@ BLEOsturPacket = OsturPacket(
         ("humidity", "h"),
         ("battery", "H"),
         ("flags", "H"),
-        ("reserved", "H"),
+        ("magic", "H"),
         ("rssi", "b"),
+        ("mfg_data_len", "b"),
+        ("mfg_data", "H"),
     ],
 )

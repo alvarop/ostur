@@ -15,7 +15,7 @@
 #endif
 
 // Magic value that identifies ble beacon as ostur packet
-#define OSTUR_MFG_MAGIC (0x57)
+#define OSTUR_MAGIC (0x5757)
 
 #define OSTUR_TASK_PRI         (20)
 #define OSTUR_STACK_SIZE       (256)
@@ -33,7 +33,7 @@ typedef struct {
     int16_t humidity;
     uint16_t batt;
     uint16_t flags;
-    uint16_t reserved;
+    uint16_t magic;
 } __attribute__((packed)) ble_beacon_t;
 
 static ble_beacon_t beacon_data;
@@ -71,11 +71,10 @@ static void ble_app_advertise() {
     beacon_data.device_id = NRF_FICR->DEVICEADDR[0];
     beacon_data.timestamp = timestamp;
     beacon_data.flags = 0;
+    beacon_data.magic = OSTUR_MAGIC;
 
     fields = (struct ble_hs_adv_fields){ 0 };
-    fields.mfg_data_len = 1;
-    fields.mfg_data = (uint8_t[]){OSTUR_MFG_MAGIC};
-
+    
     rc = ble_eddystone_set_adv_data_uid(&fields, &beacon_data, 0);
     assert(rc == 0);
 

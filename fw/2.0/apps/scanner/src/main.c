@@ -64,6 +64,9 @@ typedef struct {
     uint8_t addr[6];
     uint8_t data[16];
     int8_t rssi;
+    uint8_t mfg_data_len;
+    uint16_t mfg_data;
+
 } eddystone_packet_t;
 
 eddystone_packet_t packet;
@@ -82,12 +85,16 @@ static int ble_app_gap_event(struct ble_gap_event *event, void *arg) {
         }
 
         if (fields.uuids16 != NULL &&
-            fields.uuids16->value == 0xFEAA &&
-            fields.mfg_data_len == 1 &&
-            fields.mfg_data[0] == OSTUR_MFG_MAGIC) {
+            fields.uuids16->value == 0xFEAA) {
             memcpy(&packet.addr, event->disc.addr.val, sizeof(packet.addr));
             memcpy(&packet.data, &fields.svc_data_uuid16[4], sizeof(packet.data));
             packet.rssi = event->disc.rssi;
+            packet.mfg_data_len = fields.mfg_data_len;
+            if (packet.mfg_data_len == 0) {
+                packet.mfg_data = 0;
+            } else {
+                packet.mfg_data = (fields.mfg_data[1] << 8) | fields.mfg_data[0];
+            }
 
             packet_tx(sizeof(eddystone_packet_t), &packet);
         }

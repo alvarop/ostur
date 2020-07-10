@@ -39,6 +39,16 @@ def process_packet(packet):
 
     packet_dict = BLEOsturPacket.decode(packet)._asdict()
 
+    # Older fw transmits mfg data of size one and value 0x57
+    if packet_dict["mfg_data_len"] == 1 and packet_dict["mfg_data"] & 0xFF == 0x57:
+        pass
+    # Newer fw just uses the magic field with no mfg_data
+    elif packet_dict["mfg_data_len"] == 0 and packet_dict["magic"] == 0x5757:
+        pass
+    else:
+        # Not a valid packet
+        return
+
     # Don't process duplicate packets!
     if (
         last_packet is not None
