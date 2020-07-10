@@ -5,9 +5,15 @@
 #include <simple_adc/simple_adc.h>
 #include <nrfx_saadc.h>
 #include <bsp/bsp.h>
+#include <adc_nrf52/adc_nrf52.h>
 
 static struct adc_dev *adc;
-nrfx_saadc_config_t adc_config = NRFX_SAADC_DEFAULT_CONFIG;
+struct adc_dev_cfg adc_config = {
+    .resolution = (adc_resolution_t)ADC_RESOLUTION_12BIT,
+    .oversample = (adc_oversample_t)ADC_OVERSAMPLE_16X,
+    .calibrate = false
+};
+
 
 int32_t simple_adc_init(void) {
     int32_t rval = 0;
@@ -33,10 +39,12 @@ int32_t simple_adc_init_ch(uint8_t ch, nrf_saadc_input_t saadc_in) {
     } else {
 
         // Channel config pin is ch + 1
-        nrf_saadc_channel_config_t cc = \
-            NRFX_SAADC_DEFAULT_CHANNEL_CONFIG_SE(saadc_in);
-        cc.gain = NRF_SAADC_GAIN1_6;
-        cc.reference = NRF_SAADC_REFERENCE_INTERNAL;
+        struct adc_chan_cfg cc;
+        cc.gain = ADC_GAIN1_6;
+        cc.reference = ADC_REFERENCE_INTERNAL;
+        cc.acq_time = ADC_ACQTIME_20US;
+        cc.pin = saadc_in;
+        cc.differential = false;
 
         return adc_chan_config(adc, ch, &cc);
     }

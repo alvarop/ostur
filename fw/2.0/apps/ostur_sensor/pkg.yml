@@ -17,6 +17,7 @@ pkg.deps:
 
 pkg.deps.USE_BLE:
     - "@apache-mynewt-core/sys/stats/stub"
-    - "@apache-mynewt-nimble/nimble/host/store/ram"
+    - "@apache-mynewt-nimble/nimble/host/services/gap"
+    - "@apache-mynewt-nimble/nimble/host/util"
     - "@apache-mynewt-nimble/nimble/transport"
 
