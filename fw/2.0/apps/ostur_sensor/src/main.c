@@ -137,10 +137,18 @@ void ostur_task_fn(void *arg) {
             batt += mv;
         }
         simple_adc_uninit();
-        beacon_data.batt = (uint16_t)(batt / BATT_ADC_SAMPLES);
 
-        rval = sht3x_read(SHT3x_ADDR, &beacon_data.temperature, &beacon_data.humidity);
-        console_printf("t:%d h:%d\n", beacon_data.temperature, beacon_data.humidity);
+#if MYNEWT_VAL(USE_BLE)
+        beacon_data.batt = (uint16_t)(batt / BATT_ADC_SAMPLES);
+#endif
+        int16_t temperature, humidity;
+        rval = sht3x_read(SHT3x_ADDR, &temperature, &humidity);
+
+#if MYNEWT_VAL(USE_BLE)
+        beacon_data.temperature = temperature;
+        beacon_data.humidity = humidity;
+#endif
+        console_printf("t:%d h:%d\n", temperature, humidity);
 
 
 #if MYNEWT_VAL(USE_BLE)
