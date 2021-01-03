@@ -1,0 +1,6 @@
+# Example ostur InfluxDB config
+
+server_url: "http://10.10.10.10:8086"
+token: "super-secret-token-goes-here"
+org: "org-name"
+bucket: "bucket-name"
