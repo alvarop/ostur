@@ -13,6 +13,7 @@ If you just changed a few files and don't want to go through the whole pipenv pr
 ## Local Development
 
 ### Gunicorn
+`pip install -r requirements.txt`
 Run `export DATABASE=/path/to/ostur.db; pipenv run gunicorn --reload src:app`
 
 ### Flask Profiler
