@@ -19,6 +19,7 @@ _autosave-*
 *.tmp
 *-bak
 rescue-backup/
+fp-info-cache
 
 # Netlist files (exported from Eeschema)
 *.net
@@ -37,3 +38,8 @@ Pipfile.lock
 *.egg-info
 __pycache__/
 venv/
+
+dist/
+*.brief
+*.step
+*.xls

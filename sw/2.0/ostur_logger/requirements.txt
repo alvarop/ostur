@@ -1,0 +1,3 @@
+ostur==0.1
+pyserial==3.5
+serial-packet==0.1
